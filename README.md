@@ -3,7 +3,7 @@
 ## Use case
 #### Guest
 - **Signup**
-- **Xem món ăn/ thực phẩm**
+- **Xem nguyên liệu cần mua**
 - **Xem một vài công thức món ăn**
 - **Xem post/comment về các món ăn**
 #### User extends Guest
