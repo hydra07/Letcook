@@ -21,6 +21,7 @@
     - **Thêm sản phẩm**
     - **Xóa sản phẩm**
     - **Thanh toán**
+- **Quản lý Order**
     - **Xác nhận đơn hàng**
     - **Hủy đơn hàng**
     - **Tình trạng đơn hàng**
@@ -36,7 +37,7 @@
     + **Xóa công thức**
     + **Đánh giá công thức**
 - **Đăng ký premium**
-- **Chia sẻ món ăn của mình**
+<!-- - **Chia sẻ món ăn của mình** -->
 #### User-Premium extends User
 - **Quản lý giỏ hàng**
     + **Tự động thêm nguyên liệu cần thiết của công thức vào giở hàng**
