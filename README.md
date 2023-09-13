@@ -5,7 +5,7 @@
 - **Signup**
 - **Xem món ăn/ thực phẩm**
 - **Xem một vài công thức món ăn**
-- **Xem post/comment về các món ăn**
+<!-- - **Xem post/comment về các món ăn** -->
 #### User extends Guest
 - **Login**
 - **Quản lý tài khoản**
