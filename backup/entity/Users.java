@@ -2,7 +2,7 @@ package com.example.swp.entity;
 
 import java.util.List;
 
-import javax.management.Notification;
+// import javax.management.Notification;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +40,7 @@ public class Users {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    private List<Notifications> notifications;
 
     @OneToMany(mappedBy = "user")
     private List<Carts> carts;

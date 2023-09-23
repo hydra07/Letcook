@@ -23,7 +23,7 @@ public class RecipeUntensil {
 
     @ManyToOne
     @JoinColumn(name = "recipeUtensilUtensil")
-    private Untensil utensil;
+    private Utensils utensil;
 
     // Constructors
 }
