@@ -19,9 +19,9 @@ public class DBcontext {
 
     public DBcontext() {
         try {
-            String url = "jdbc:sqlserver://THANH\\XUANTHANH;databaseName=t1;;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
+            String url = "jdbc:sqlserver://HYDRA7\\HYDRA7;databaseName=t1;;encrypt=false;trustServerCertificate=false;loginTimeout=30;";
             String username = "sa";
-            String password = "1121212";
+            String password = "123";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
