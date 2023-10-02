@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(ProductDto productDto, MultipartFile imageProduct) {
+        String directory = "image-product";
         try {
             Product product = new Product();
             if (imageProduct == null) {
@@ -43,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
             } else {
                 String imageName = "img/image-product/" + imageProduct.getOriginalFilename();
                 product.setImage(imageName);
-                imageUpload.uploadImage(imageProduct);
+                imageUpload.uploadImage(imageProduct, directory);
                 System.out.println("Upload image success");
             }
 
@@ -64,13 +65,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(ProductDto productDto, MultipartFile imageProduct) {
+        String directory = "image-product";
         try {
             Product product = productRepository.getById(productDto.getId());
             System.out.println(product.getImage());
             // Check if there is a new image
             if (imageProduct != null) {
-                if (!imageUpload.checkExisted(imageProduct)) {
-                    imageUpload.uploadImage(imageProduct);
+                if (!imageUpload.checkExisted(imageProduct, directory)) {
+                    imageUpload.uploadImage(imageProduct ,directory);
                 }
                 String imageName = "img/image-product/" + imageProduct.getOriginalFilename();
                 product.setImage(imageName);

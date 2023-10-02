@@ -9,6 +9,7 @@
     <packaging>pom</packaging> <!-- Đây là phần cần chỉnh sửa -->
     <modules>
         <module>Library</module>
+        <module>Customer</module>
         <module>Admin</module>
     </modules>
     <properties>

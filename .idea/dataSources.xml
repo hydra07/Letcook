@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlserver://THANH\\XUANTHANH:1433;databaseName=ecom_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="sbcom" uuid="5b340b1b-8381-48c0-83d6-073c6aca7252">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://THANH\\XUANTHANH:1433;databaseName=sbcom</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
