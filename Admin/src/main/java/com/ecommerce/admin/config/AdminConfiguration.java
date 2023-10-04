@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class AdminConfiguration {
+    private final String[] REGISTER = {"/register", "/register-new"};
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -58,10 +59,13 @@ public class AdminConfiguration {
         http
                 .authorizeHttpRequests()
 //                .requestMatchers("/*", "/static/**").permitAll()
+
                 //neu muốn vào trang register thì thay dòng dưới bằng dòng này. dk 1 tk rồi thì
                 //đổi lại như dòng dưới
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+//                .requestMatchers("/admin/register").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(REGISTER).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -77,8 +81,8 @@ public class AdminConfiguration {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
-                .authenticationManager(authenticationManager)
-       ;
+
+                .authenticationManager(authenticationManager);
         return http.build();
     }
 

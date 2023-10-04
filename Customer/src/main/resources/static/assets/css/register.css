@@ -1,0 +1,55 @@
+/* Custom styles for the registration page */
+
+/* Background color and spacing */
+body {
+    background-color: #eee;
+}
+
+/* Card styling */
+#registration-card {
+    /*border-radius: 25px;*/
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Form field styling */
+.form-control {
+    border: 2px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+/* Alert message styling */
+.alert {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Register button styling */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Divider styling */
+.divider {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Add more custom styles as needed */

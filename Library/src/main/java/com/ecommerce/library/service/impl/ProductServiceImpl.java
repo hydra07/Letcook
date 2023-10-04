@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
             if (imageProduct == null) {
                 product.setImage(null);
             } else {
-                String imageName = "img/image-product/" + imageProduct.getOriginalFilename();
+                String imageName = "images/image-product/" + imageProduct.getOriginalFilename();
                 product.setImage(imageName);
                 imageUpload.uploadImage(imageProduct, directory);
                 System.out.println("Upload image success");

@@ -28,6 +28,9 @@ import java.util.stream.Collectors;
 @Configuration
 public class CustomerConfiguration {
 
+    final static String[] REGISTER = {"/register","/register-new"};
+    final static String[] PUBLIC = {"/","/index","/assets/**"};
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new CustomerServiceConfig();
@@ -66,8 +69,11 @@ public class CustomerConfiguration {
 
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
-                .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/letcook/**").hasAuthority("CUSTOMER")
+                .requestMatchers(PUBLIC).permitAll()
+                .requestMatchers(REGISTER).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -82,10 +88,8 @@ public class CustomerConfiguration {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
-                .authenticationManager(authenticationManager)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-        ;
+
+                .authenticationManager(authenticationManager);
         return http.build();
     }
 }

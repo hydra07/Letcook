@@ -36,3 +36,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### remove properties files ###
+/Admin/src/main/resources/application.properties
+/Customer/src/main/resources/application.properties
+/Library/src/main/resources/application.properties
