@@ -28,13 +28,12 @@ public class Customer {
     @Column(columnDefinition = "NVARCHAR(50)")
     private String username;
 
-    @Column(columnDefinition = "NVARCHAR(50)")
-    private String country;
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(columnDefinition = "NVARCHAR(100)")
-    private String address;
+//    @Column(columnDefinition = "NVARCHAR(100)")
+//    private String address;
 
     private String password;
 

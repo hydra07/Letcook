@@ -9,22 +9,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-public class Category {
+@Table(name = "measurements",uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class Measurement{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private long id;
+    @Column(name = "measurement_id")
+    private Long id;
+
     @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
+
     private boolean is_deleted;
-    private boolean is_activated;
 
-    public Category(String name){
+    public Measurement(String name){
         this.name = name;
-        this.is_deleted = true;
-        this.is_activated = false;
+        this.is_deleted = false;
     }
-
 
 }

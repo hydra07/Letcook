@@ -71,15 +71,15 @@
                         <td th:text="${product.category.name}"></td>
                         <td th:text="${product.costPrice}"></td>
                         <td th:text="${product.currentQuantity}"></td>
-                        <td>
+                        <div th:each="imgProduct : ${product.imgProducts}">
                             <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
-                                 th:src="@{'/' + ${product.image}}">
-                        </td>
+                                 th:src="@{'/' + ${imgProduct}}"/>
+                        </div>
                         <td><a th:href="@{/update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a>
                         </td>
                         <td>
                             <a th:if="${product.deleted} == true" th:href="@{/enable-product/{id}(id = ${product.id})}"
-                               class="btn btn-primary">Enable</a>
+     />                          class="btn btn-primary">Enable</a>
                             <a th:if="${product.deleted} == false" th:href="@{/delete-product/{id}(id = ${product.id})}"
                                class=" btn btn-danger">Delete</a>
                         </td>
@@ -102,22 +102,22 @@
                 <!--                </nav>-->
 
                 <!--Pagination  -->
-                <nav aria-label="...">
-                    <ul class="pagination">
-                        <li th:if="${currentPage != 0}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage - 1})}" class="page-link">Previous</a>
-                        </li>
-                        <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                            th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${i - 1})}" class="page-link">
-                                <span th:text="${i}"></span>
-                            </a>
-                        </li>
-                        <li th:if="${currentPage + 1 != totalPages}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage + 1})}" class="page-link">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+<!--                <nav aria-label="...">-->
+<!--                    <ul class="pagination">-->
+<!--                        <li th:if="${currentPage != 0}" class="page-item">-->
+<!--                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage1})}" class="page-link">Previous</a>-->
+<!--                        </li>-->
+<!--                        <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+<!--                            th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
+<!--                            <a th:href="@{/products/{pageNo}(pageNo=${i - 1})}" class="page-link">-->
+<!--                                <span th:text="${i}"></span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li th:if="${currentPage + 1 != totalPages}" class="page-item">-->
+<!--                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage + 1})}" class="page-link">Next</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </nav>-->
 
                 <!--Pagination  -->
             </div>
