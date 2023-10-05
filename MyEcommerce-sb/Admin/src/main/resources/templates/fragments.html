@@ -61,6 +61,7 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Custom Components:</h6>
         <a class="collapse-item active" href="categories.html" th:href="@{/categories}">Manage  Category</a>
+        <a class="collapse-item active" href="categories.html" th:href="@{/measurements}">Manage  Measurement</a>
         <a class="collapse-item active" th:href="@{/products/0}">Manage  Product</a>
       </div>
     </div>
@@ -326,7 +327,7 @@
           Activity Log
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+        <a class="dropdown-item" th:href="@{/logout}">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
           Logout
         </a>

@@ -3,8 +3,10 @@ package com.ecommerce.admin.controller;
 
 import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Category;
+import com.ecommerce.library.model.Measurement;
 import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
+import com.ecommerce.library.service.MeasurementService;
 import com.ecommerce.library.service.ProductService;
 import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private MeasurementService measurementService;
 
     @GetMapping("/products")
     public String products(Model model, Principal principal){
@@ -77,17 +82,19 @@ public class ProductController {
             return "redirect:/login";
         }
         List<Category> categories = categoryService.findAllByActivated();
+        List<Measurement> measurements = measurementService.findAllByActivated();
         model.addAttribute("categories", categories);
+        model.addAttribute("measurements", measurements);
         model.addAttribute("product", new ProductDto());
         return "add-product";
     }
 
     @PostMapping("/save-product")
     public String saveProduct(@ModelAttribute("product")ProductDto productDto,
-                              @RequestParam("imageProduct")MultipartFile imageProduct,
+                              @RequestParam("imageProduct")List<MultipartFile> imageProducts,
                               RedirectAttributes attributes){
         try {
-            productService.save(productDto ,imageProduct);
+            productService.save(productDto ,imageProducts);
             attributes.addFlashAttribute("success", "Add successfully!");
         }catch (Exception e){
             e.printStackTrace();
@@ -105,6 +112,7 @@ public class ProductController {
         List<Category> categories = categoryService.findAllByActivated();
         ProductDto productDto = productService.getById(id);
         model.addAttribute("categories", categories);
+        model.addAttribute("measurements", measurementService.findAllByActivated());
         model.addAttribute("productDto", productDto);
         return "update-product";
     }
@@ -113,11 +121,12 @@ public class ProductController {
     @PostMapping("/update-product/{id}")
     public String processUpdate(@PathVariable("id") Long id,
                                 @ModelAttribute("productDto") ProductDto productDto,
-                                @RequestParam("imageProduct")MultipartFile imageProduct,
+                                @RequestParam("imageProduct")List<MultipartFile> imageProducts,
                                 RedirectAttributes attributes
     ){
         try {
-            productService.update( productDto,imageProduct);
+            System.out.println("control :" + imageProducts.size());
+            productService.update( productDto,imageProducts);
             attributes.addFlashAttribute("success", "Update successfully!");
         }catch (Exception e){
             e.printStackTrace();

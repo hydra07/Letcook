@@ -4,7 +4,9 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -15,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
 public class AdminConfiguration {
 
     @Bean
@@ -28,6 +29,20 @@ public class AdminConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
 
 
     @Bean
@@ -42,7 +57,7 @@ public class AdminConfiguration {
 
         http
                 .authorizeHttpRequests()
-                //                .requestMatchers("/*", "/static/**").permitAll()
+                .requestMatchers("/*", "/static/**", "/images/**").permitAll()
                 //neu muốn vào trang register thì thay dòng dưới bằng dòng này. dk 1 tk rồi thì
                 //đổi lại như dòng dưới
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

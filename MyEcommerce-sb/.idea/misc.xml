@@ -10,6 +10,11 @@
         <option value="$PROJECT_DIR$/Customer/pom.xml" />
       </list>
     </option>
+    <option name="ignoredPathMasks">
+      <list>
+        <option value="D:\java\springboot\loda\MyEcommerce-sb\Customer\src\main\resources\application.properties" />
+      </list>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

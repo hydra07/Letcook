@@ -53,6 +53,18 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="product_categories">PRODUCT MEASUREMENT</label>
+                            <div class="col-md-4">
+                                <select id="product_measurements" th:field = "*{measurement}" name="product_categories" class="form-control">
+                                    <option th:value = "null">-SELECT-</option>
+                                    <option th:each = "measurement : ${measurements}"
+                                            th:value = "${measurement.id}"
+                                            th:text = "${measurement.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
 
                         <!-- Text input-->
                         <div class="form-group">
@@ -84,8 +96,10 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="image">PRODUCT IMAGE</label>
                                     <div class="col-md-4">
-                                        <img class = "my-product-image" style="height: 40px; width: 40px;" alt="" th:src="*{'data:image/jpeg;base64,' + {image}}">
-                                        <input id="image" name="imageProduct" class="input-file" type="file">
+                                        <!-- Display the image only if there are images in productDto.imgProducts -->
+                                        <img class="my-product-image" style="height: 40px; width: 40px;" alt="" th:if="${not #lists.isEmpty(productDto.imgProducts)}"
+                                             th:src="@{'/' + ${productDto.imgProducts.get(0)}}" />
+                                        <input id="image" name="imageProduct" class="input-file" type="file" multiple>
                                     </div>
                                 </div>
                             </div>

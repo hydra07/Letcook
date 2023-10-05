@@ -10,31 +10,70 @@ import java.nio.file.StandardCopyOption;
 
 @Component
 public class ImageUpload {
-    private final String UPLOAD_FOLDER = "D:\\java\\springboot\\loda\\MyEcommerce-sb\\Admin\\src\\main\\resources\\static\\img\\image-product";
+    private final String UPLOAD_FOLDER = "D:\\java\\springboot\\updateall\\MyEcommerce-sb\\Admin\\src\\main\\resources\\static\\images\\";
+    private final String UPLOAD_FOLDER_OTHER = "D:\\java\\springboot\\updateall\\MyEcommerce-sb\\Admin\\src\\main\\resources\\static\\";
 
-    public boolean uploadImage(MultipartFile imageProduct){
-        boolean isUpload = false;
+    public String uploadImage(MultipartFile imageProduct, String directory) {
+        String targetFileName = null;
         try {
-            Files.copy(imageProduct.getInputStream(), Paths.get(UPLOAD_FOLDER
-                    + File.separator + imageProduct.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+            String originalFileName = imageProduct.getOriginalFilename();
+            String baseName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-            isUpload = true;
+            targetFileName = originalFileName;
+            String targetFilePath = UPLOAD_FOLDER + directory + File.separator + targetFileName;
 
-        }catch (Exception e){
+            // Kiểm tra xem tệp đã tồn tại chưa
+            File targetFile = new File(targetFilePath);
+            int fileNumber = 1;
+
+            while (targetFile.exists()) {
+                // Nếu tệp đã tồn tại, thêm số đằng sau trước phần mở rộng (extension)
+                targetFileName = baseName + "_" + fileNumber + extension;
+                targetFilePath = UPLOAD_FOLDER + directory + File.separator + targetFileName;
+                targetFile = new File(targetFilePath);
+                fileNumber++;
+            }
+
+            // Sao chép tệp vào thư mục đích với tên tệp đã điều chỉnh
+            Files.copy(imageProduct.getInputStream(), Paths.get(targetFilePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return  isUpload;
+        return targetFileName;
     }
 
-    public boolean checkExisted(MultipartFile imageProduct){
+
+
+    public boolean checkExisted(MultipartFile imageProduct, String directory) {
         boolean isExisted = false;
         try {
-            File file = new File(UPLOAD_FOLDER + "\\" + imageProduct.getOriginalFilename());
+            File file = new File(UPLOAD_FOLDER + directory + "\\" + imageProduct.getOriginalFilename());
             isExisted = file.exists();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return isExisted;
     }
+
+    public void deleteImage(String imagePath) {
+        try {
+            File fileToDelete = new File(UPLOAD_FOLDER_OTHER  + imagePath);
+
+            if (fileToDelete.exists()) {
+                if (fileToDelete.delete()) {
+                    System.out.println("Deleted the file: " + imagePath);
+                } else {
+                    System.err.println("Failed to delete the file: " + imagePath);
+                }
+            } else {
+                System.err.println("File does not exist: " + imagePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error while deleting the file: " + imagePath);
+        }
     }
+
+}

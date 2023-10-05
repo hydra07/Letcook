@@ -1,10 +1,13 @@
 package com.ecommerce.library.service.impl;
 
 import com.ecommerce.library.dto.ProductDto;
+import com.ecommerce.library.model.ImgProduct;
 import com.ecommerce.library.model.Product;
+import com.ecommerce.library.repository.ImgProductRepository;
 import com.ecommerce.library.repository.ProductRepository;
 import com.ecommerce.library.service.ProductService;
 import com.ecommerce.library.utils.ImageUpload;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -25,6 +29,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageUpload imageUpload;
 
+    @Autowired
+    private ImgProductRepository imgProductRepository;
+
+
+    //ADMIN
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productRepository.findAll();
@@ -34,18 +43,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+
     @Override
-    public Product save(ProductDto productDto, MultipartFile imageProduct) {
+    public Product save(ProductDto productDto, List<MultipartFile> imageProducts) {
+        String directory = "image-product";
         try {
             Product product = new Product();
-            if (imageProduct == null) {
-                product.setImage(null);
-            } else {
-                String imageName = "img/image-product/" + imageProduct.getOriginalFilename();
-                product.setImage(imageName);
-                imageUpload.uploadImage(imageProduct);
-                System.out.println("Upload image success");
+
+            List<String> imageNames = new ArrayList<>();
+            List<ImgProduct> imgProducts = new ArrayList<>();
+            for (MultipartFile imageProduct : imageProducts) {
+                if (imageProduct != null && !imageProduct.isEmpty()) {
+                    String imageName = "images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
+                    imageNames.add(imageName);
+
+                    // Create an ImgProduct and set the imgPath
+                    ImgProduct imgProduct = new ImgProduct();
+                    imgProduct.setImgPath(imageName);
+                    imgProduct.setProduct(product);
+
+                    // Add the ImgProduct to the list of imgProducts
+                    imgProducts.add(imgProduct);
+
+                    System.out.println("Uploaded image: " + imageName);
+                }
             }
+
+            // Set the list of ImgProduct objects in the Product entity
+            product.setImgProducts(imgProducts);
 
             product.setName(productDto.getName());
             product.setDescription(productDto.getDescription());
@@ -54,7 +79,8 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
-            return  productRepository.save(product);
+
+            return productRepository.save(product);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,33 +88,61 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
+
     @Override
-    public Product update(ProductDto productDto, MultipartFile imageProduct) {
+    @Transactional
+    public Product update(ProductDto productDto, List<MultipartFile> imageProducts) {
         try {
             Product product = productRepository.getById(productDto.getId());
-            System.out.println(product.getImage());
-            // Check if there is a new image
-            if (imageProduct != null) {
-                if (!imageUpload.checkExisted(imageProduct)) {
-                    imageUpload.uploadImage(imageProduct);
+            System.out.println("size:" + imageProducts.size());
+            System.out.println("checkk:" + imageProducts.get(0).isEmpty());
+            System.out.println(imageProducts.get(0));
+            // Get the current list of ImgProducts
+            List<ImgProduct> currentImages = product.getImgProducts();
+            System.out.println("currentsize: "+currentImages.get(0).getImgPath());
+
+            if (imageProducts != null && !imageProducts.get(0).isEmpty()) {
+                // Delete the old images from the database and storage
+                imgProductRepository.deleteByProductId(productDto.getId());
+                for (ImgProduct imgProduct : currentImages) {
+                    imageUpload.deleteImage(imgProduct.getImgPath());
                 }
-                String imageName = "img/image-product/" + imageProduct.getOriginalFilename();
-                product.setImage(imageName);
-                System.out.println("Upload image success");
+
+                // Process and save new images
+                List<ImgProduct> newImages = new ArrayList<>();
+                String directory = "image-product";
+
+                for (MultipartFile imageProduct : imageProducts) {
+                    if (!imageProduct.isEmpty()) {
+                        String imageName = "images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
+
+                        // Create a new ImgProduct and set the imgPath
+                        ImgProduct newImgProduct = new ImgProduct();
+                        newImgProduct.setImgPath(imageName);
+                        newImgProduct.setProduct(product);
+
+                        // Add the new ImgProduct to the list of newImages
+                        newImages.add(newImgProduct);
+                        System.out.println("Uploaded image: " + imageName);
+                    }
+                }
+
+                // Set the new list of ImgProducts for the product
+                product.setImgProducts(newImages);
             }
 
-            // Update other product fields
+            // Update other product properties
             product.setName(productDto.getName());
             product.setDescription(productDto.getDescription());
-            product.setSalePrice(productDto.getSalePrice());
+            product.setCategory(productDto.getCategory());
             product.setCostPrice(productDto.getCostPrice());
             product.setCurrentQuantity(productDto.getCurrentQuantity());
-            product.setCategory(productDto.getCategory());
+            product.set_activated(true);
+            product.set_deleted(false);
 
             // Save the updated product
             return productRepository.save(product);
         } catch (Exception e) {
-            // Handle the exception appropriately, e.g., log it or rethrow it
             e.printStackTrace();
             throw new RuntimeException("Failed to update product");
         }
@@ -122,7 +176,9 @@ public class ProductServiceImpl implements ProductService {
         productDto.setSalePrice(product.getSalePrice());
         productDto.setCurrentQuantity(product.getCurrentQuantity());
         productDto.setCategory(product.getCategory());
-        productDto.setImage(product.getImage());
+        productDto.setImgProducts(product.getImgProducts().stream()
+                .map(ImgProduct::getImgPath)
+                .collect(Collectors.toList()));
         productDto.setActivated(product.is_activated());
         productDto.setDeleted(product.is_deleted());
         return productDto;
@@ -158,9 +214,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private List<ProductDto> transfer(List<Product> products){
+
+    private List<ProductDto> transfer(List<Product> products) {
         List<ProductDto> productDtoList = new ArrayList<>();
-        for(Product product : products){
+        for (Product product : products) {
             ProductDto productDto = new ProductDto();
             productDto.setId(product.getId());
             productDto.setName(product.getName());
@@ -169,7 +226,9 @@ public class ProductServiceImpl implements ProductService {
             productDto.setSalePrice(product.getSalePrice());
             productDto.setCurrentQuantity(product.getCurrentQuantity());
             productDto.setCategory(product.getCategory());
-            productDto.setImage(product.getImage());
+            productDto.setImgProducts(product.getImgProducts().stream()
+                    .map(ImgProduct::getImgPath)
+                    .collect(Collectors.toList()));
             productDto.setActivated(product.is_activated());
             productDto.setDeleted(product.is_deleted());
             productDtoList.add(productDto);
@@ -177,5 +236,29 @@ public class ProductServiceImpl implements ProductService {
         return productDtoList;
 
     }
+
+
+    //CUSTOMER
+    //get all products to display in shop page
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProduct();
+    }
+
+    @Override
+    public List<Product> listViewProducts() {
+        return productRepository.listViewProducts();
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
+    }
+
+    @Override
+    public List<Product> getRelatedProducts(Long categoryId) {
+        return productRepository.getRelatedProduct(categoryId);
+    }
+
 
 }
