@@ -166,6 +166,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void enableSelling(Long id) {
+        Product product = productRepository.getById(id);
+        product.set_selling(true);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void disableSelling(Long id) {
+        Product product = productRepository.getById(id);
+        product.set_selling(false);
+        productRepository.save(product);
+    }
+
+    @Override
     public ProductDto getById(Long id) {
         Product product = productRepository.getById(id);
         ProductDto productDto = new ProductDto();

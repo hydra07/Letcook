@@ -40,7 +40,6 @@
   </div>
 </div>
 <!-- End All Title Box -->
-section id="register-form">
 <section id="register-form">
   <div class="container">
     <div class="row justify-content-center">
@@ -75,7 +74,7 @@ section id="register-form">
               </div>
               <div class="form-group">
                 <input type="password" class="form-control" placeholder="Verify password" name="confirm" th:field="*{repeatPassword}" required>
-                <div class="alert alert-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{repeatPassword}"></div>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>
               </div>
               <div class="form-group">
                 <p>Do You Already Have An Account? <a th:href="@{/login}">Sign in now</a></p>

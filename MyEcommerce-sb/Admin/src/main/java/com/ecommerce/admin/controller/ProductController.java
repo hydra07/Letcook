@@ -145,7 +145,7 @@ public class ProductController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to enabled!");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
 
     @RequestMapping(value = "/delete-product/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
@@ -157,6 +157,31 @@ public class ProductController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to deleted");
         }
-        return "redirect:/products";
+        return "redirect:/products/0";
     }
+
+    @RequestMapping(value = "/enable-selling-product/{id}", method = {RequestMethod.PUT , RequestMethod.GET})
+    public String enabledSellingProduct(@PathVariable("id")Long id, RedirectAttributes attributes){
+        try {
+            productService.enableSelling(id);
+            attributes.addFlashAttribute("success", "Enabled successfully!");
+        }catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Failed to enabled!");
+        }
+        return "redirect:/products/0";
+    }
+
+    @RequestMapping(value = "/disable-selling-product/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String disabledSellingProduct(@PathVariable("id") Long id, RedirectAttributes attributes){
+        try {
+            productService.disableSelling(id);
+            attributes.addFlashAttribute("success", "Disabled successfully!");
+        }catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Failed to disable");
+        }
+        return "redirect:/products/0";
+    }
+
 }

@@ -61,7 +61,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Update</th>
+                        <th scope="col">Selling</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -73,15 +73,19 @@
                         <td th:text="${product.currentQuantity}"></td>
                         <td>
                             <!-- Display product images -->
-                            <div th:each="imgProduct : ${product.imgProducts}">
+                            <div>
                                 <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
-                                     th:src="@{'/' + ${imgProduct}}"/> <!-- Use imgPath property of ImgProduct -->
+                                     th:src="@{'/' + ${product.imgProducts.get(0)}}"/> <!-- Use imgPath property of ImgProduct -->
                             </div>
                         </td>
                         <td>
-                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>
+                            <a th:if="${product.selling}" th:href="@{'/disable-selling-product/' + ${product.id}}"
+                               class="btn btn-danger">Disable</a>
+                            <a th:unless="${product.selling}" th:href="@{'/enable-selling-product/' + ${product.id}}"
+                               class="btn btn-primary">Enable</a>
                         </td>
                         <td>
+                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>
                             <!-- Check if product is deleted -->
                             <a th:if="${product.deleted}" th:href="@{'/enable-product/' + ${product.id}}" class="btn btn-primary">Enable</a>
                             <a th:unless="${product.deleted}" th:href="@{'/delete-product/' + ${product.id}}" class="btn btn-danger">Delete</a>

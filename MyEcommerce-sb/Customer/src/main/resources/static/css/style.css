@@ -2620,7 +2620,10 @@
 
 
 
-
+.fixed-height-width{
+    width: 255 px;
+    height: 110px;
+}
 
 
 

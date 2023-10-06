@@ -36,7 +36,8 @@ public class ProductController {
     @GetMapping("find-product/{id}")
     public String findProductById(@PathVariable("id") Long id,Model model){
         Product product = productService.getProductById(id);
-        List<Product> relatedProducts = productService.getRelatedProducts(id);
+        List<Product> relatedProducts = productService.getRelatedProducts(product.getCategory().getId());
+        System.out.println("size:"+relatedProducts.size());
         model.addAttribute("product", product);
         model.addAttribute("relatedProducts", relatedProducts);
 
