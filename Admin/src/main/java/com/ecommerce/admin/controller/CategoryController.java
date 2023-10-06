@@ -20,7 +20,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String categories(Model model , Principal principal) {
+        public String categories(Model model , Principal principal) {
         if(principal == null){
             return "redirect:/login";
         }
