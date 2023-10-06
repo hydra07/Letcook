@@ -190,11 +190,14 @@ public class ProductServiceImpl implements ProductService {
         productDto.setSalePrice(product.getSalePrice());
         productDto.setCurrentQuantity(product.getCurrentQuantity());
         productDto.setCategory(product.getCategory());
+        productDto.setActivated(product.is_activated());
+        productDto.setDeleted(product.is_deleted());
         productDto.setImgProducts(product.getImgProducts().stream()
                 .map(ImgProduct::getImgPath)
                 .collect(Collectors.toList()));
-        productDto.setActivated(product.is_activated());
-        productDto.setDeleted(product.is_deleted());
+        productDto.setAmountToSell(product.getAmountToSell());
+        productDto.setSelling(product.is_selling());
+        productDto.setMeasurement(product.getMeasurement());
         return productDto;
     }
 
@@ -245,6 +248,11 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toList()));
             productDto.setActivated(product.is_activated());
             productDto.setDeleted(product.is_deleted());
+            productDto.setImgProducts(product.getImgProducts().stream()
+                    .map(ImgProduct::getImgPath)
+                    .collect(Collectors.toList()));
+            productDto.setAmountToSell(product.getAmountToSell());
+            productDto.setSelling(product.is_selling());
             productDtoList.add(productDto);
         }
         return productDtoList;

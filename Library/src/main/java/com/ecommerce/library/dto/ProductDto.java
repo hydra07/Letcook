@@ -24,4 +24,5 @@ public class ProductDto {
     private boolean activated;
     private boolean deleted;
     private boolean selling;
+    private double amountToSell;
 }
