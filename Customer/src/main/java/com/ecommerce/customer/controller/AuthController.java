@@ -1,9 +1,11 @@
 package com.ecommerce.customer.controller;
 
+import com.ecommerce.library.dto.CustomerDto;
+import com.ecommerce.library.model.Customer;
+import com.ecommerce.library.repository.CustomerRepository;
+import com.ecommerce.library.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,75 +14,63 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ecommerce.library.dto.CustomerDto;
-import com.ecommerce.library.model.Customer;
-import com.ecommerce.library.service.impl.CustomerServiceImpl;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
 @Controller
 public class AuthController {
     @Autowired
-    private CustomerServiceImpl customerService;
+    CustomerService customerService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String login(Model model, HttpServletRequest request){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/index";
-        }
-
-        model.addAttribute("title", "Login");
+    public String login(){
         return "login";
     }
 
     @GetMapping("/register")
-    public String register(Model model){
+    public String register(Model model) {
         model.addAttribute("title", "Register");
+        model.addAttribute("page", "Register");
         model.addAttribute("customerDto", new CustomerDto());
         return "register";
     }
 
-    @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("customerDto") CustomerDto customerDto,
-                           BindingResult result,
-                           Model model){
+    @PostMapping("/do-register")
+    public String registerCustomer(@Valid @ModelAttribute("customerDto") CustomerDto customerDto,
+                                   BindingResult result,
+                                   Model model) {
         try {
-
-            if(result.hasErrors()){
+            if (result.hasErrors()) {
                 model.addAttribute("customerDto", customerDto);
-                result.toString();
                 return "register";
             }
             String username = customerDto.getUsername();
             Customer customer = customerService.findByUsername(username);
-            if(customer != null){
+            if (customer != null) {
                 model.addAttribute("customerDto", customerDto);
-                System.out.println("user has been registered");
-                model.addAttribute("emailError", "Your email has been registered!");
+                model.addAttribute("error", "Email has been register!");
                 return "register";
             }
-            if(customerDto.getPassword().equals(customerDto.getRepeatPassword())){
+            //check phone is exist
+            Customer customerPhone = customerService.findByPhoneNumber(customerDto.getPhoneNumber());
+            if (customerPhone != null) {
+                model.addAttribute("customerDto", customerDto);
+                model.addAttribute("error", "Phone number has been register!");
+                return "register";
+            }
+            if (customerDto.getPassword().equals(customerDto.getRepeatPassword())) {
                 customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
                 customerService.save(customerDto);
-                System.out.println("success");
                 model.addAttribute("success", "Register successfully!");
+            } else {
+                model.addAttribute("error", "Password is incorrect");
                 model.addAttribute("customerDto", customerDto);
-            }else{
-                model.addAttribute("customerDto", customerDto);
-                model.addAttribute("passwordError", "Your password maybe wrong! Check again!");
-                System.out.println("password not same");
                 return "register";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("errors", "The server has been wrong!");
+            model.addAttribute("error", "Server is error, try again later!");
         }
         return "register";
     }
-
 }

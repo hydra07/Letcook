@@ -61,27 +61,34 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Update</th>
+                        <th scope="col">Selling</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="product : ${products}">
-                        <th scope="row" th:text="${product.name}"></th>
+                        <td th:text="${product.name}"></td>
                         <td th:text="${product.category.name}"></td>
                         <td th:text="${product.costPrice}"></td>
                         <td th:text="${product.currentQuantity}"></td>
                         <td>
-                            <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
-                                 th:src="@{'/' + ${product.image}}">
-                        </td>
-                        <td><a th:href="@{/update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a>
+                            <!-- Display product images -->
+                            <div>
+                                <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
+                                     th:src="@{'/' + ${product.imgProducts.get(0)}}"/> <!-- Use imgPath property of ImgProduct -->
+                            </div>
                         </td>
                         <td>
-                            <a th:if="${product.deleted} == true" th:href="@{/enable-product/{id}(id = ${product.id})}"
+                            <a th:if="${product.selling}" th:href="@{'/disable-selling-product/' + ${product.id}}"
+                               class="btn btn-danger">Disable</a>
+                            <a th:unless="${product.selling}" th:href="@{'/enable-selling-product/' + ${product.id}}"
                                class="btn btn-primary">Enable</a>
-                            <a th:if="${product.deleted} == false" th:href="@{/delete-product/{id}(id = ${product.id})}"
-                               class=" btn btn-danger">Delete</a>
+                        </td>
+                        <td>
+                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>
+                            <!-- Check if product is deleted -->
+                            <a th:if="${product.deleted}" th:href="@{'/enable-product/' + ${product.id}}" class="btn btn-primary">Enable</a>
+                            <a th:unless="${product.deleted}" th:href="@{'/delete-product/' + ${product.id}}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     </tbody>

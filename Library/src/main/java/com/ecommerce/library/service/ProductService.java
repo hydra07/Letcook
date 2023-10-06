@@ -10,15 +10,36 @@ import java.util.List;
 
 @Service
 public interface ProductService {
+
+    //ADMIN
     List<ProductDto> findAll();
-//    Product save(MultipartFile imageProduct, ProductDto productDto);
-    Product update(ProductDto productDto, MultipartFile imageProduct);
-    Product save(ProductDto productDto, MultipartFile imageProduct);
+
+    //    Product save(MultipartFile imageProduct, ProductDto productDto);
+    Product update(ProductDto productDto, List<MultipartFile> imageProducts);
+
+    Product save(ProductDto productDto, List<MultipartFile> imageProducts);
+
     void deleteById(Long id);
+
     void enableById(Long id);
+
+    void enableSelling(Long id);
+
+    void disableSelling(Long id);
+
     ProductDto getById(Long id);
+
     Page<ProductDto> pageProducts(int pageNo);
+
     Page<ProductDto> searchProducts(int pageNo, String keyword);
 
 
+    //CUSTOMER
+    List<Product> getAllProducts();
+
+    List<Product> listViewProducts();
+
+    Product getProductById(Long id);
+
+    List<Product> getRelatedProducts(Long categoryId);
 }

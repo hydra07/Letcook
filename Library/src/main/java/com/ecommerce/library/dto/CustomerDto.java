@@ -7,18 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class CustomerDto {
-    @Size(min = 3, max = 10, message = "Invalid first name!(3-10 characters)")
+
+    @Size(min = 3, max = 15, message = "First name should have 3-15 characters")
     private String firstName;
-    @Size(min = 3, max = 10, message = "Invalid first name!(3-10 characters)")
+    @Size(min = 3, max = 15, message = "Last name should have 3-15 characters")
     private String lastName;
-
     private String username;
-    @Size(min = 5, max = 15, message = "Invalid password !(5-15 characters)")
+    @Size(min = 5, max = 20, message = "Password should have 5-20 characters")
     private String password;
-
     private String repeatPassword;
     @Pattern(regexp = "^[0-9]{10}$", message = "Invalid phone number! (10 digits)")
     private String phoneNumber;

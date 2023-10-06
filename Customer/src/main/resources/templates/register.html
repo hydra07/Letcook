@@ -1,120 +1,114 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
 <head>
-  <meta charset="UTF-8">
-  <title>Register</title>
+  <div th:replace="~{fragments::head}"></div>
 
-  <link th:href="@{/assets/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css" />
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
-<!--  <link th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i}" rel="stylesheet"/>-->
-
-
-  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
-  <!-- Custom styles for this template-->
-  <link rel="stylesheet" th:href="@{/assets/css/register.css}">
 </head>
-
 <body>
+<!-- Start Main Top -->
+<!-- Start Main Top -->
+<div th:replace="~{fragments::main-top}">
+</div>
+<!-- End Main Top -->
 
-<section class="vh-100" style="background-color: #eee;">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
 
-      <div class="col-lg-12 col-xl-11">
-
-        <div class="card text-black" style="border-radius: 25px;">
-
-          <div class="card-body p-md-5">
-
-            <div class="row justify-content-center">
-
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                </div>
-                <div th:if = "${emailError}">
-                  <p class = "alert alert-danger" th:text = "${emailError}"></p>
-                </div>
-                <div th:if = "${errors}">
-                  <p class = "alert alert-danger" th:text = "${errors}"></p>
-                </div>
-                <div th:if = "${success}">
-                  <p class = "alert alert-success" th:text = "${success}"></p>
-                </div>
-                <div th:if = "${passwordError}">
-                  <p class = "alert alert-danger" th:text = "${passwordError}"></p>
-                </div>
-
-
-                <form th:action = "@{/register}" th:object = "${customerDto}" method="POST">
-                  <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <input type="text" class="form-control form-control-user" th:field = "*{firstName}" id="exampleFirstName"
-                             placeholder="First Name">
-                      <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}"
-                           th:errors = "*{firstName}"
-                      ></div>
-                    </div>
-
-                    <div class="col-sm-6">
-                      <input type="text" th:field = "*{lastName}" class="form-control form-control-user" id="exampleLastName"
-                             placeholder="Last Name">
-                      <div class="alert alert-danger" th:if = "${#fields.hasErrors('lastName')}"
-                           th:errors = "*{lastName}"
-                      ></div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <input type="email" th:field = "*{username}" class="form-control form-control-user" id="exampleInputEmail"
-                           placeholder="Email Username">
-                  </div>
-                  <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <input type="password" th:field = "*{password}" class="form-control form-control-user"
-                             id="exampleInputPassword" placeholder="Password">
-
-                      <div class="alert alert-danger" th:if = "${#fields.hasErrors('password')}"
-                           th:errors = "*{password}"
-                      ></div>
-                    </div>
-                    <div class="col-sm-6">
-                      <input type="password" th:field = "*{repeatPassword}" class="form-control form-control-user"
-                             id="exampleRepeatPassword" placeholder="Repeat Password">
-                    </div>
-                    <div class="form-group">
-                      <input type="tel" th:field="*{phoneNumber}" class="form-control form-control-user" id="examplePhoneNumber"
-                             placeholder="Phone Number">
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-user btn-block">
-                    Register Account
-                  </button>
-                  <hr>
-                </form>
-
-              </div>
-
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                <img th:src="@{/assets/img/logo2.jpg}" class="img-fluid" alt="Sample image">
-              </div>
-
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- Start All Title Box -->
+<div class="all-title-box">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>ABOUT US</h2>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">ABOUT US</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End All Title Box -->
+<section id="register-form">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2>Register</h2>
+          </div>
+          <div class="card-body">
+            <div th:if="${success}" class="text-center alert alert-success">
+              <p th:text="${success}"></p>
             </div>
+            <div th:if="${error}" class="text-center alert alert-danger">
+              <p th:text="${error}"></p>
+            </div>
+            <form th:action="@{/do-register}" method="post" th:object="${customerDto}">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="First Name" name="firstname" th:field="*{firstName}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Last Name" name="lastname" th:field="*{lastName}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="Username" name="username" th:field="*{username}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password" th:field="*{password}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Verify password" name="confirm" th:field="*{repeatPassword}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>
+              </div>
+              <div class="form-group">
+                <input type="tel" class="form-control" placeholder="Phone Number" name="confirm" th:field="*{phoneNumber}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+              </div>
+              <div class="form-group">
+                <p>Do You Already Have An Account? <a th:href="@{/login}">Sign in now</a></p>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Sign up">
+              </div>
+            </form>
+            <h3>Log In With Social Network</h3>
+            <ul class="list-inline icon-dang-nhap">
+              <li class="list-inline-item"><i class="fab fa-facebook-f"></i></li>
+              <li class="list-inline-item"><i class="fab fa-google"></i></li>
+              <li class="list-inline-item"><i class="fab fa-weibo"></i></li>
+            </ul>
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 </section>
 
-<script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
 
-<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-<!-- Core plugin JavaScript-->
-<script th:src="@{/assets/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Start copyright  -->
+<footer th:replace="~{fragments::footer}">
+</footer>
+
+
+<!-- ALL JS FILES -->
+<div th:replace="~{fragments::script}"></div>
 
 </body>
 

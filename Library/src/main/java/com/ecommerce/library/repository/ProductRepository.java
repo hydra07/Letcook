@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,9 +21,21 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> searchProducts(String keywords, Pageable pageable);
 
 
-//    @Query("select p from Product p where p.is_deleted = false and p.is_activated = true")
-//    List<Product> getAllProduct();
-//
+    @Query("select p from Product p where p.is_deleted = false and p.is_activated = true")
+    List<Product> getAllProduct();
+
+    @Query(value = "SELECT TOP 4 * FROM products WHERE is_deleted = 0 AND is_activated = 1 ORDER BY NEWID();", nativeQuery = true)
+    List<Product> listViewProducts();
+
+    /*
+    * @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
+       List<Product> getRelatedProduct(@Param("categoryId") Long categoryId);
+    * */
+    @Query(value = "SELECT * FROM products p WHERE p.category_id = ?1", nativeQuery = true)
+    List<Product> getRelatedProduct(Long categoryId);
+
+
+    //
 //    @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
 //    List<Product> findAllByNameOrDescription(String keyword);
 //

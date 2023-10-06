@@ -1,6 +1,6 @@
 package com.ecommerce.customer.config;
 
-import com.ecommerce.admin.config.AdminServiceConfig;
+
 import com.ecommerce.library.model.Customer;
 import com.ecommerce.library.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,6 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class CustomerConfiguration {
-
-    final static String[] REGISTER = {"/register","/register-new"};
-    final static String[] PUBLIC = {"/","/index","/assets/**"};
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -69,11 +66,9 @@ public class CustomerConfiguration {
 
         http
                 .authorizeHttpRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/letcook/**").hasAuthority("CUSTOMER")
-                .requestMatchers(PUBLIC).permitAll()
-                .requestMatchers(REGISTER).permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
+                .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers("/find-product/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -88,8 +83,10 @@ public class CustomerConfiguration {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
-
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+        ;
         return http.build();
     }
 }
