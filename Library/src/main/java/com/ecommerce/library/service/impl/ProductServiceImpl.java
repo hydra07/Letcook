@@ -79,6 +79,16 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
+            product.setAmountToSell(productDto.getAmountToSell());
+            product.set_selling(false);
+            product.setMeasurement(productDto.getMeasurement());
+            product.setCalories(productDto.getCalories());
+            product.setSugar(productDto.getSugar());
+            product.setFat(productDto.getFat());
+            product.setSodium(productDto.getSodium());
+            product.setCarbs(productDto.getCarbs());
+            product.setFiber(productDto.getFiber());
+            product.setAverageWeight(productDto.getAverageWeight());
 
             return productRepository.save(product);
         } catch (Exception e) {
@@ -139,7 +149,16 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
-
+            product.setAmountToSell(productDto.getAmountToSell());
+            product.set_selling(false);
+            product.setMeasurement(productDto.getMeasurement());
+            product.setCalories(productDto.getCalories());
+            product.setSugar(productDto.getSugar());
+            product.setFat(productDto.getFat());
+            product.setSodium(productDto.getSodium());
+            product.setCarbs(productDto.getCarbs());
+            product.setFiber(productDto.getFiber());
+            product.setAverageWeight(productDto.getAverageWeight());
             // Save the updated product
             return productRepository.save(product);
         } catch (Exception e) {
@@ -198,6 +217,12 @@ public class ProductServiceImpl implements ProductService {
         productDto.setAmountToSell(product.getAmountToSell());
         productDto.setSelling(product.is_selling());
         productDto.setMeasurement(product.getMeasurement());
+        productDto.setCalories(product.getCalories());
+        productDto.setSugar(product.getSugar());
+        productDto.setFat(product.getFat());
+        productDto.setSodium(product.getSodium());
+        productDto.setCarbs(product.getCarbs());
+        productDto.setFiber(product.getFiber());
         return productDto;
     }
 
@@ -253,6 +278,14 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toList()));
             productDto.setAmountToSell(product.getAmountToSell());
             productDto.setSelling(product.is_selling());
+            productDto.setMeasurement(product.getMeasurement());
+            productDto.setCalories(product.getCalories());
+            productDto.setSugar(product.getSugar());
+            productDto.setFat(product.getFat());
+            productDto.setSodium(product.getSodium());
+            productDto.setCarbs(product.getCarbs());
+            productDto.setFiber(product.getFiber());
+
             productDtoList.add(productDto);
         }
         return productDtoList;
