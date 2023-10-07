@@ -4,9 +4,11 @@ package com.ecommerce.admin.controller;
 import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Category;
 import com.ecommerce.library.model.Measurement;
+import com.ecommerce.library.model.Nutrition;
 import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.MeasurementService;
+import com.ecommerce.library.service.NutritionService;
 import com.ecommerce.library.service.ProductService;
 import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class ProductController {
 
     @Autowired
     private MeasurementService measurementService;
+
+
 
     @GetMapping("/products")
     public String products(Model model, Principal principal){
