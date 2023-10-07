@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+<head>
+  <div th:replace="~{fragments::head}"></div>
+
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<body>
+<!-- Start Main Top -->
+<!-- Start Main Top -->
+<div th:replace="~{fragments::main-top}">
+</div>
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- Start All Title Box -->
+<div class="all-title-box">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>ABOUT US</h2>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">ABOUT US</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End All Title Box -->
+<section id="register-form">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2>Register</h2>
+          </div>
+          <div class="card-body">
+            <div th:if="${success}" class="text-center alert alert-success">
+              <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="text-center alert alert-danger">
+              <p th:text="${error}"></p>
+            </div>
+            <form th:action="@{/do-register}" method="post" th:object="${customerDto}">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="First Name" name="firstname" th:field="*{firstName}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Last Name" name="lastname" th:field="*{lastName}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="Username" name="username" th:field="*{username}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password" th:field="*{password}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Verify password" name="confirm" th:field="*{repeatPassword}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>
+              </div>
+              <div class="form-group">
+                <input type="tel" class="form-control" placeholder="Phone Number" name="confirm" th:field="*{phoneNumber}" required>
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+              </div>
+              <div class="form-group">
+                <p>Do You Already Have An Account? <a th:href="@{/login}">Sign in now</a></p>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Sign up">
+              </div>
+            </form>
+            <h3>Log In With Social Network</h3>
+            <ul class="list-inline icon-dang-nhap">
+              <li class="list-inline-item"><i class="fab fa-facebook-f"></i></li>
+              <li class="list-inline-item"><i class="fab fa-google"></i></li>
+              <li class="list-inline-item"><i class="fab fa-weibo"></i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Start copyright  -->
+<footer th:replace="~{fragments::footer}">
+</footer>
+
+
+<!-- ALL JS FILES -->
+<div th:replace="~{fragments::script}"></div>
+
+</body>
+
+</html>
