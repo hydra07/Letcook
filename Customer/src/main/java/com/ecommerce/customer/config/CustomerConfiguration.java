@@ -67,7 +67,7 @@ public class CustomerConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
-                .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers("/customer/**" , "/cancel-order/**").hasAuthority("CUSTOMER")
                 .requestMatchers("/find-product/**").permitAll()
                 .and()
                 .formLogin()

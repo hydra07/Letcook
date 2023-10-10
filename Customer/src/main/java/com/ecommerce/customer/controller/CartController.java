@@ -35,7 +35,7 @@ public class CartController {
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
         ShoppingCart shoppingCart = customer.getShoppingCart();
-        if (shoppingCart == null) {
+        if (shoppingCart == null || shoppingCart.getTotalItems() == 0) {
             model.addAttribute("check", "No item in your cart");
         } else {
             session.setAttribute("totalItems", shoppingCart.getTotalItems());

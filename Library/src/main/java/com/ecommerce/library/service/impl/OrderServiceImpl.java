@@ -77,10 +77,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void cancelOrder(Long id) {
         Order order = orderRepository.getById(id);
+        System.out.println("Voduocnay");
         for (OrderDetail orderDetail : order.getOrderDetailList()) {
             //increase quantity of product
 //            orderDetail.getProduct().setCurrentQuantity(orderDetail.getProduct().getCurrentQuantity() + orderDetail.getQuantity());
+
               Product product = productRepository.getById(orderDetail.getProduct().getId());
+              System.out.println("sanpham:" + product.getName());
               product.setCurrentQuantity(product.getCurrentQuantity() + orderDetail.getQuantity());
               productRepository.save(product);
         }
