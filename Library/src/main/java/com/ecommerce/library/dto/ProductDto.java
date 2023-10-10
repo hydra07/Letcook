@@ -25,7 +25,6 @@ public class ProductDto {
     private List<String> imgProducts;
     private boolean activated;
     private boolean deleted;
-    private boolean selling;
     private double amountToSell;
     private double calories;
     private double sugar;

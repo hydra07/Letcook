@@ -22,9 +22,6 @@ public interface ProductService {
 
     void enableById(Long id);
 
-    void enableSelling(Long id);
-
-    void disableSelling(Long id);
 
     ProductDto getById(Long id);
 
@@ -41,4 +38,7 @@ public interface ProductService {
     Product getProductById(Long id);
 
     List<Product> getRelatedProducts(Long categoryId);
+
+
+    public List<Product> getProductsInCategory(Long categoryId);
 }

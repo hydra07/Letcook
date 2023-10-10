@@ -25,6 +25,11 @@ public class Order {
     private double shippingFee;
     private String orderStatus;
     private String notes;
+
+    @Column(columnDefinition = "NVARCHAR(100)")
+    private String shippingAddress;
+
+    private boolean isAccepted;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;

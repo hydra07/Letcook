@@ -18,7 +18,7 @@ public class Product {
     private Long id;
     @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
-    @Column(columnDefinition = "NVARCHAR(255)")
+    @Column(columnDefinition = "NVARCHAR(500)")
     private String description;
     private int currentQuantity;
     private double costPrice;
@@ -31,8 +31,6 @@ public class Product {
     private Category category;
     private boolean is_activated;
     private boolean is_deleted;
-    //co phai la nguyen lieu de ban khong
-    private boolean is_selling;
     //so luong moi lan ban
     @Column(nullable = true) // This column can be nullable
     private double amountToSell;

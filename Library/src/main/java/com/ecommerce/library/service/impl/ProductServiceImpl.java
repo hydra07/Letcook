@@ -80,7 +80,6 @@ public class ProductServiceImpl implements ProductService {
             product.set_activated(true);
             product.set_deleted(false);
             product.setAmountToSell(productDto.getAmountToSell());
-            product.set_selling(false);
             product.setMeasurement(productDto.getMeasurement());
             product.setCalories(productDto.getCalories());
             product.setSugar(productDto.getSugar());
@@ -150,7 +149,6 @@ public class ProductServiceImpl implements ProductService {
             product.set_activated(true);
             product.set_deleted(false);
             product.setAmountToSell(productDto.getAmountToSell());
-            product.set_selling(false);
             product.setMeasurement(productDto.getMeasurement());
             product.setCalories(productDto.getCalories());
             product.setSugar(productDto.getSugar());
@@ -184,19 +182,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    @Override
-    public void enableSelling(Long id) {
-        Product product = productRepository.getById(id);
-        product.set_selling(true);
-        productRepository.save(product);
-    }
-
-    @Override
-    public void disableSelling(Long id) {
-        Product product = productRepository.getById(id);
-        product.set_selling(false);
-        productRepository.save(product);
-    }
 
     @Override
     public ProductDto getById(Long id) {
@@ -215,7 +200,6 @@ public class ProductServiceImpl implements ProductService {
                 .map(ImgProduct::getImgPath)
                 .collect(Collectors.toList()));
         productDto.setAmountToSell(product.getAmountToSell());
-        productDto.setSelling(product.is_selling());
         productDto.setMeasurement(product.getMeasurement());
         productDto.setCalories(product.getCalories());
         productDto.setSugar(product.getSugar());
@@ -256,6 +240,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    public List<Product> getProductsInCategory(Long categoryId) {
+        return productRepository.getProductsInCategory(categoryId);
+    }
+
+
 
     private List<ProductDto> transfer(List<Product> products) {
         List<ProductDto> productDtoList = new ArrayList<>();
@@ -277,7 +267,6 @@ public class ProductServiceImpl implements ProductService {
                     .map(ImgProduct::getImgPath)
                     .collect(Collectors.toList()));
             productDto.setAmountToSell(product.getAmountToSell());
-            productDto.setSelling(product.is_selling());
             productDto.setMeasurement(product.getMeasurement());
             productDto.setCalories(product.getCalories());
             productDto.setSugar(product.getSugar());
