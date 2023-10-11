@@ -1,0 +1,75 @@
+/* Định dạng form chung */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Định dạng tiêu đề form */
+.recipe-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Định dạng mô tả form */
+.recipe-description {
+    margin-top: 10px;
+}
+
+/* Định dạng các thành phần */
+.list-group {
+    margin-top: 20px;
+}
+
+/* Định dạng nhãn label */
+.list-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Định dạng nút thêm */
+.btn-primary {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+/* Định dạng nút xoá */
+.btn-danger {
+    margin-top: 10px;
+}
+
+/* Định dạng nút gửi */
+.btn-submit {
+    margin-top: 20px;
+}
+
+/* Định dạng các thành phần ngang hàng */
+.list-group-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Định dạng các thành phần nguyên liệu và bước thực hiện */
+.ingredient-row,
+.step-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Định dạng input */
+.form-control {
+    flex: 1;
+}
+
+/* Định dạng tooltip */
+.tooltip {
+    opacity: 1 !important;
+}

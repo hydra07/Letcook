@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class CustomerConfiguration {
+    //public
+    public final String[]  PUBLIC = {"/assets/**"};
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -67,21 +69,29 @@ public class CustomerConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
+                .requestMatchers(PUBLIC).permitAll()
                 .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                 .requestMatchers("/find-product/**").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/do-login")
-                .defaultSuccessUrl("/index", true)
-                .permitAll()
+                //remember me
+                    .rememberMe()
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(1209600)//14 days
+                        .key("remember-me-key")
+                        .userDetailsService(userDetailsService())
                 .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
+                    .formLogin()
+                        .loginPage("/login")
+                        .loginProcessingUrl("/do-login")
+                        .defaultSuccessUrl("/index", true)
+                        .permitAll()
+                .and()
+                    .logout()
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()
