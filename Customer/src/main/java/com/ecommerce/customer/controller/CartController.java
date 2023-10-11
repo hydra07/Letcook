@@ -89,9 +89,7 @@ public class CartController {
                     cart = cartService.updateItemInCart(product, quantity, customer);
                 }
             }
-
-            model.addAttribute("shoppingCart", cart);
-            return "cart";
+            return "redirect:/cart";
         }
     }
 
@@ -106,7 +104,6 @@ public class CartController {
             Customer customer = customerService.findByUsername(usernme);
             Product product = productService.getProductById(productId);
             ShoppingCart cart = cartService.deleteItemFromCart(product, customer);
-            model.addAttribute("shoppingCart", cart);
             return "redirect:/cart";
         }
     }
