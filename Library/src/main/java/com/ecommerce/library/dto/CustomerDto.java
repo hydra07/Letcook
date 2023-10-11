@@ -21,4 +21,5 @@ public class CustomerDto {
     private String repeatPassword;
     @Pattern(regexp = "^[0-9]{10}$", message = "Invalid phone number! (10 digits)")
     private String phoneNumber;
+    private String address;
 }

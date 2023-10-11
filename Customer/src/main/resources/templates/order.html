@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+<head>
+    <div th:replace="~{fragments::head}"></div>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<!-- Start Main Top -->
+<div th:replace="~{fragments::main-top}">
+</div>
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- End Top Search -->
+
+<!-- Start All Title Box -->
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>ABOUT US</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Account</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Order Date</th>
+                            <th>Delivery Date</th>
+                            <th>Order Status</th>
+                            <th>Total Price</th>
+                            <th>Payment Method</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order: ${orders}">
+                            <td>
+                                <strong th:text="${order.orderDate}"></strong>
+                            </td>
+                            <td th:if="${order.deliveryDate != null}">
+                                <p th:text="${order.deliveryDate}"></p>
+                            </td>
+                            <td th:if="${order.deliveryDate == null}">
+                                <p>Waiting...</p>
+                            </td>
+                            <td>
+                                <p th:text="${order.orderStatus}"></p>
+                            </td>
+                            <td>
+                                <p style="color: red" th:text="${'$' + order.totalPrice}">$80.0</p>
+                            </td>
+                            <td>
+                                <span>Cash</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/cancel-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
+                           </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments::instagram-box}"></div>
+
+
+<!-- Start copyright  -->
+<footer th:replace="~{fragments::footer}"></footer>
+
+
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

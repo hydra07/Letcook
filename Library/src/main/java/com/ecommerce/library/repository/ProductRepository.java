@@ -24,6 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.is_deleted = false and p.is_activated = true")
     List<Product> getAllProduct();
 
+//    @Query
+//    List<Product> getSellProduct();
+
     @Query(value = "SELECT TOP 4 * FROM products WHERE is_deleted = 0 AND is_activated = 1 ORDER BY NEWID();", nativeQuery = true)
     List<Product> listViewProducts();
 
@@ -34,6 +37,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT * FROM products p WHERE p.category_id = ?1", nativeQuery = true)
     List<Product> getRelatedProduct(Long categoryId);
 
+    @Query(value = "select p from Product p inner join Category c on c.id = ?1 and p.category.id = ?1 where p.is_activated = true and p.is_deleted = false")
+    List<Product> getProductsInCategory(Long id);
 
     //
 //    @Query("select p from Product p where p.name like %?1% or p.description like %?1%")

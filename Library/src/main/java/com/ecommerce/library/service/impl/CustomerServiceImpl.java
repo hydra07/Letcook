@@ -48,4 +48,30 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setPhoneNumber(customer.getPhoneNumber());
         return customerDto;
     }
+
+    @Override
+    public CustomerDto getCustomer(String username) {
+        CustomerDto customerDto = new CustomerDto();
+        Customer customer = customerRepository.findByUsername(username);
+        customerDto.setFirstName(customer.getFirstName());
+        customerDto.setLastName(customer.getLastName());
+        customerDto.setUsername(customer.getUsername());
+        customerDto.setPassword(customer.getPassword());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setPhoneNumber(customer.getPhoneNumber());
+        System.out.println("layCustomer");
+        return customerDto;
+    }
+
+    @Override
+    public Customer update(CustomerDto dto) {
+        Customer customer = customerRepository.findByUsername(dto.getUsername());
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setAddress(dto.getAddress());
+        customer.setPhoneNumber(dto.getPhoneNumber());
+        return customerRepository.save(customer);
+    }
+
+
 }

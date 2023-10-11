@@ -61,7 +61,6 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Selling</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -78,12 +77,7 @@
                                      th:src="@{'/' + ${product.imgProducts.get(0)}}"/> <!-- Use imgPath property of ImgProduct -->
                             </div>
                         </td>
-                        <td>
-                            <a th:if="${product.selling}" th:href="@{'/disable-selling-product/' + ${product.id}}"
-                               class="btn btn-danger">Disable</a>
-                            <a th:unless="${product.selling}" th:href="@{'/enable-selling-product/' + ${product.id}}"
-                               class="btn btn-primary">Enable</a>
-                        </td>
+
                         <td>
                             <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>
                             <!-- Check if product is deleted -->

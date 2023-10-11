@@ -19,41 +19,116 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private CartItemRepository itemRepository;
 
     @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
+    private ShoppingCartRepository cartRepository;
+
     @Override
     public ShoppingCart addItemToCart(Product product, int quantity, Customer customer) {
         ShoppingCart cart = customer.getShoppingCart();
-        Set<CartItem> cartItems = cart.getCartItem();
-        CartItem cartItem = findCartItem(cartItems, product.getId());
-        if(cartItems == null){
-            cartItems = new HashSet<>();
-            if(cartItem == null){
-                cartItem = new CartItem();
-                cartItem.setProduct(product);
-                cartItem.setQuantity(quantity);
-                cartItem.setTotalPrice(product.getCostPrice() * quantity);
-                cartItem.setCart(cart);
-                cartItems.add(cartItem);
-                itemRepository.save(cartItem);
-            }
-        }else{
-            
+
+        if (cart == null) {
+            cart = new ShoppingCart();
         }
-        return null;
+        Set<CartItem> cartItems = cart.getCartItem();
+        if (cartItems == null) {
+            cartItems = new HashSet<>();
+        }
+
+        CartItem cartItem = findCartItem(cartItems, product.getId());
+        if (cartItem == null) {
+            cartItem = createNewCartItem(product, quantity, cart);
+            cartItems.add(cartItem);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            cartItem.setTotalPrice(cartItem.getTotalPrice() + (quantity * product.getCostPrice()));
+        }
+        itemRepository.save(cartItem);
+        cart.setCartItem(cartItems);
+
+        int totalItems = totalItems(cart.getCartItem());
+        double totalPrice = totalPrice(cart.getCartItem());
+
+        cart.setTotalPrices(totalPrice);
+        cart.setTotalItems(totalItems);
+        cart.setCustomer(customer);
+
+        return cartRepository.save(cart);
     }
+
+    @Override
+    public ShoppingCart updateItemInCart(Product product, int quantity,Customer customer) {
+        ShoppingCart cart = customer.getShoppingCart();
+        Set<CartItem> cartItems = cart.getCartItem();
+        CartItem item = findCartItem(cartItems, product.getId());
+
+        item.setQuantity(quantity);
+        item.setTotalPrice(quantity * product.getCostPrice());
+        itemRepository.save(item);
+
+        int totalItems = totalItems(cartItems);
+        double totalPrice = totalPrice(cartItems);
+
+        cart.setCartItem(cartItems);
+        cart.setTotalItems(totalItems);
+        cart.setTotalPrices(totalPrice);
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public ShoppingCart deleteItemFromCart(Product product, Customer customer) {
+        ShoppingCart cart = customer.getShoppingCart();
+        Set<CartItem> cartItems = cart.getCartItem();
+        CartItem item = findCartItem(cartItems, product.getId());
+        cartItems.remove(item);
+
+        itemRepository.delete(item);
+        int totalItems = totalItems(cartItems);
+        double totalPrice = totalPrice(cartItems);
+
+        cart.setCartItem(cartItems);
+        cart.setTotalItems(totalItems);
+        cart.setTotalPrices(totalPrice);
+
+        return cartRepository.save(cart);
+    }
+
+    private CartItem createNewCartItem(Product product, int quantity, ShoppingCart cart) {
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setTotalPrice(quantity * product.getCostPrice());
+        cartItem.setQuantity(quantity);
+        cartItem.setCart(cart);
+        return cartItem;
+    }
+
 
     //tim cai item theo id cua product
     private CartItem findCartItem(Set<CartItem> cartItems, Long productId) {
-        if(cartItems == null)
+        if (cartItems == null)
             return null;
 
         CartItem cartItem = null;
-        for(CartItem item : cartItems){
-            if(item.getProduct().getId() == productId){
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId() == productId) {
                 cartItem = item;
             }
         }
         return cartItem;
+    }
+
+    private int totalItems(Set<CartItem> cartItems) {
+        int totalItems = 0;
+        for (CartItem item : cartItems) {
+            totalItems += item.getQuantity();
+        }
+        return totalItems;
+    }
+
+    private double totalPrice(Set<CartItem> cartItems) {
+        double totalPrice = 0;
+        for (CartItem item : cartItems) {
+            totalPrice += item.getTotalPrice();
+        }
+        return totalPrice;
     }
 }
 

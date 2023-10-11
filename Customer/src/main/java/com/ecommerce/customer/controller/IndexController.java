@@ -12,20 +12,20 @@ import java.security.Principal;
 
 @Controller
 public class IndexController {
-    @GetMapping("/")
-    public String index(Model model, Principal principal) {
-        if (principal != null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth.getPrincipal() instanceof CustomerDto customerDto) {
-                model.addAttribute("customerDto", customerDto);
-            }  // Xử lý trường hợp không phải CustomerDto
-
-        } else {
-            model.addAttribute("customerDto", null);
-        }
-
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String index(Model model, Principal principal) {
+//        if (principal != null) {
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            if (auth.getPrincipal() instanceof CustomerDto customerDto) {
+//                model.addAttribute("customerDto", customerDto);
+//            }  // Xử lý trường hợp không phải CustomerDto
+//
+//        } else {
+//            model.addAttribute("customerDto", null);
+//        }
+//
+//        return "index";
+//    }
 
 
 }

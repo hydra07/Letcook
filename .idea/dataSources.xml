@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="letcookdb@HYDRA" uuid="ed1843d4-1257-402c-bbf2-dadc1165c33a">
+    <data-source source="LOCAL" name="t2" uuid="1d34b8d9-3134-434b-bda3-4931598efb37">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://HYDRA:1433;databaseName=letcookdb;</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://THANH\\XUANTHANH:1433;databaseName=t2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

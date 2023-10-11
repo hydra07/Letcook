@@ -8,4 +8,8 @@ public interface CustomerService{
     Customer findByUsername(String username);
 
     Customer findByPhoneNumber(String phoneNumber);
+
+    public CustomerDto getCustomer(String username);
+
+    public Customer update(CustomerDto dto);
 }

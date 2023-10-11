@@ -3,6 +3,7 @@ package com.ecommerce.library.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -17,7 +18,7 @@ public class Product {
     private Long id;
     @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
-    @Column(columnDefinition = "NVARCHAR(255)")
+    @Column(columnDefinition = "NVARCHAR(500)")
     private String description;
     private int currentQuantity;
     private double costPrice;
@@ -30,8 +31,6 @@ public class Product {
     private Category category;
     private boolean is_activated;
     private boolean is_deleted;
-    //co phai la nguyen lieu de ban khong
-    private boolean is_selling;
     //so luong moi lan ban
     @Column(nullable = true) // This column can be nullable
     private double amountToSell;
@@ -42,6 +41,19 @@ public class Product {
     @JoinColumn(name = "measurement_id", referencedColumnName = "measurement_id")
     private Measurement measurement;
 
-
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    @JoinTable(name = "product_nutrition", //Tạo ra một join Table tên là "address_person"
+//            joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "nutrition_id")
+//    )
+//    private Collection<Nutrition> nutritions;
+    private double calories;
+    private double sugar;
+    private double fat;
+    private double sodium;
+    private double carbs;
+    private double fiber;
 
 }

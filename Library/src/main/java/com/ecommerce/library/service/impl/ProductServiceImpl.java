@@ -79,6 +79,15 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
+            product.setAmountToSell(productDto.getAmountToSell());
+            product.setMeasurement(productDto.getMeasurement());
+            product.setCalories(productDto.getCalories());
+            product.setSugar(productDto.getSugar());
+            product.setFat(productDto.getFat());
+            product.setSodium(productDto.getSodium());
+            product.setCarbs(productDto.getCarbs());
+            product.setFiber(productDto.getFiber());
+            product.setAverageWeight(productDto.getAverageWeight());
 
             return productRepository.save(product);
         } catch (Exception e) {
@@ -139,7 +148,15 @@ public class ProductServiceImpl implements ProductService {
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
             product.set_deleted(false);
-
+            product.setAmountToSell(productDto.getAmountToSell());
+            product.setMeasurement(productDto.getMeasurement());
+            product.setCalories(productDto.getCalories());
+            product.setSugar(productDto.getSugar());
+            product.setFat(productDto.getFat());
+            product.setSodium(productDto.getSodium());
+            product.setCarbs(productDto.getCarbs());
+            product.setFiber(productDto.getFiber());
+            product.setAverageWeight(productDto.getAverageWeight());
             // Save the updated product
             return productRepository.save(product);
         } catch (Exception e) {
@@ -165,19 +182,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    @Override
-    public void enableSelling(Long id) {
-        Product product = productRepository.getById(id);
-        product.set_selling(true);
-        productRepository.save(product);
-    }
-
-    @Override
-    public void disableSelling(Long id) {
-        Product product = productRepository.getById(id);
-        product.set_selling(false);
-        productRepository.save(product);
-    }
 
     @Override
     public ProductDto getById(Long id) {
@@ -190,11 +194,19 @@ public class ProductServiceImpl implements ProductService {
         productDto.setSalePrice(product.getSalePrice());
         productDto.setCurrentQuantity(product.getCurrentQuantity());
         productDto.setCategory(product.getCategory());
+        productDto.setActivated(product.is_activated());
+        productDto.setDeleted(product.is_deleted());
         productDto.setImgProducts(product.getImgProducts().stream()
                 .map(ImgProduct::getImgPath)
                 .collect(Collectors.toList()));
-        productDto.setActivated(product.is_activated());
-        productDto.setDeleted(product.is_deleted());
+        productDto.setAmountToSell(product.getAmountToSell());
+        productDto.setMeasurement(product.getMeasurement());
+        productDto.setCalories(product.getCalories());
+        productDto.setSugar(product.getSugar());
+        productDto.setFat(product.getFat());
+        productDto.setSodium(product.getSodium());
+        productDto.setCarbs(product.getCarbs());
+        productDto.setFiber(product.getFiber());
         return productDto;
     }
 
@@ -228,6 +240,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @Override
+    public List<Product> getProductsInCategory(Long categoryId) {
+        return productRepository.getProductsInCategory(categoryId);
+    }
+
+
 
     private List<ProductDto> transfer(List<Product> products) {
         List<ProductDto> productDtoList = new ArrayList<>();
@@ -245,6 +263,18 @@ public class ProductServiceImpl implements ProductService {
                     .collect(Collectors.toList()));
             productDto.setActivated(product.is_activated());
             productDto.setDeleted(product.is_deleted());
+            productDto.setImgProducts(product.getImgProducts().stream()
+                    .map(ImgProduct::getImgPath)
+                    .collect(Collectors.toList()));
+            productDto.setAmountToSell(product.getAmountToSell());
+            productDto.setMeasurement(product.getMeasurement());
+            productDto.setCalories(product.getCalories());
+            productDto.setSugar(product.getSugar());
+            productDto.setFat(product.getFat());
+            productDto.setSodium(product.getSodium());
+            productDto.setCarbs(product.getCarbs());
+            productDto.setFiber(product.getFiber());
+
             productDtoList.add(productDto);
         }
         return productDtoList;

@@ -70,7 +70,7 @@ public class CustomerConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
                 .requestMatchers(PUBLIC).permitAll()
-                .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers("/customer/**" , "/cancel-order/**").hasAuthority("CUSTOMER")
                 .requestMatchers("/find-product/**").permitAll()
                 .and()
                 //remember me

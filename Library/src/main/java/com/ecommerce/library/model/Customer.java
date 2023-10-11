@@ -28,8 +28,6 @@ public class Customer {
     @Column(columnDefinition = "NVARCHAR(50)")
     private String username;
 
-    @Column(columnDefinition = "NVARCHAR(50)")
-    private String country;
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -41,8 +39,6 @@ public class Customer {
 
     private String image;
 
-    @Column(name = "city",columnDefinition = "NVARCHAR(50)")
-    private String city;
 
     @OneToOne(mappedBy = "customer")
     private ShoppingCart shoppingCart;
