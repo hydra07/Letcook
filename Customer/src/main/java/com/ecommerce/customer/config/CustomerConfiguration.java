@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class CustomerConfiguration {
     //public
-    public final String[]  PUBLIC = {"/assets/**"};
+    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**"};
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -68,10 +68,8 @@ public class CustomerConfiguration {
 
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/*", "/js/**", "/css/**", "/images/**", "/webfonts/**").permitAll()
                 .requestMatchers(PUBLIC).permitAll()
                 .requestMatchers("/customer/**" , "/cancel-order/**").hasAuthority("CUSTOMER")
-                .requestMatchers("/find-product/**").permitAll()
                 .and()
                 //remember me
                     .rememberMe()
