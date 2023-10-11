@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+###remove application.properties from git
+/src/main/resources/application.properties
