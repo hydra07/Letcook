@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    />
+    <title>Form Công Thức Nấu Ăn</title>
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/assets/css/recipe.css}" type="text/css">
+
+</head>
+<body>
+<div class="container">
+    <h1>Recipe Form</h1>
+    <form action="/addRecipe" method="post" th:object="${recipe}">
+        <!-- Common fields -->
+        <div class="form-group">
+            <label for="recipeName">Recipe Name:</label>
+            <input type="text" class="form-control" id="recipeName" name="recipeName" th:field="*{recipeName}">
+        </div>
+        <!-- Add more common fields here -->
+
+        <!-- Ingredients -->
+        <div class="form-group" th:each="ingredient, index : *{ingredients}">
+            <div th:replace="recipe :: ingredientRow">
+                <input type="text" class="form-control" name="ingredients[__${index.index}__]" th:value="${ingredient}">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" th:onclick="'|#'" th:attr="data-recipe='${recipe}'" th:utext="'Add Ingredient'" onclick="addIngredient(this)">Add Ingredient</button>
+
+        <!-- Steps -->
+        <div class="form-group" th:each="step, index : *{steps}">
+            <div th:replace="recipe :: stepRow">
+                <input type="text" class="form-control" name="steps[__${index.index}__].description" th:value="${step.description}">
+                <!-- Add input for images here -->
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" th:onclick="'|#'" th:attr="data-recipe='${recipe}'" th:utext="'Add Step'" onclick="addStep(this)">Add Step</button>
+
+        <!-- Add images input here -->
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/assets/js/recipe.js}"></script>
+</body>
+</html>
