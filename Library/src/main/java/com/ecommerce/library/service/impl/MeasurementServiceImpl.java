@@ -3,6 +3,7 @@ package com.ecommerce.library.service.impl;
 import com.ecommerce.library.model.Measurement;
 import com.ecommerce.library.repository.MeasurementRepository;
 import com.ecommerce.library.service.MeasurementService;
+import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,15 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public List<Measurement> findAllByActivated() {
         return measurementRepository.findAllByActivated();
+    }
+
+    @Override
+    public JSONArray findAllByActivatedJson() {
+        JSONArray jsonArray = new JSONArray();
+        List<Measurement> measurementList = measurementRepository.findAllByActivated();
+        for(Measurement measurement : measurementList){
+            jsonArray.add(measurement.getName());
+        }
+        return jsonArray;
     }
 }

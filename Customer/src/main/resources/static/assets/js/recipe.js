@@ -1,88 +1,72 @@
-let ingredientCount = 1; // Biến đếm nguyên liệu
-let stepCount = 1; // Biến đếm bước nấu ăn
+$(document).ready(function () {
+    let stepCount = 1;
+    let ingredientCount = 1;
 
-$('#addIngredient').click(function () {
-    ingredientCount++;
+    // Xử lý sự kiện khi nút "Thêm Nguyên liệu" được bấm
+    $("#addIngredient").click(function () {
+        ingredientCount++;
+        // Tạo mới dòng nguyên liệu và thêm nó vào div chứa nguyên liệu
+        const newIngredientRow = `
+            <div class="ingredient-row form-group">
+                <label>Nguyên liệu ${ingredientCount}:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="ingredient${ingredientCount}"
+                    placeholder="Nguyên liệu ${ingredientCount}"
+                    required
+                />
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Xoá Nguyên liệu"
+                    onclick="removeIngredient(this)"
+                >
+                    Xoá
+                </button>
+            </div>
+        `;
+        $(".list-group").append(newIngredientRow);
+        $("#ingredientCount").val(ingredientCount);
+    });
 
-    const ingredientRow = $('<div>').addClass('ingredient-row form-group');
-    ingredientRow.append(
-        $('<label>')
-            .attr('for', 'ingredient' + ingredientCount)
-            .text('Nguyên liệu ' + ingredientCount + ':'),
-    );
-    ingredientRow.append(
-        $('<input>')
-            .attr('type', 'text')
-            .addClass('form-control')
-            .attr('id', 'ingredient' + ingredientCount)
-            .attr('placeholder', 'Nguyên liệu ' + ingredientCount)
-            .attr('required', true),
-    );
-    ingredientRow.append(
-        $('<button>')
-            .attr('type', 'button')
-            .addClass('btn btn-danger')
-            .text('Xoá')
-            .data('bs-toggle', 'tooltip')
-            .data('bs-placement', 'top')
-            .attr('title', 'Xoá Nguyên liệu')
-            .click(function () {
-                ingredientRow.remove();
-            }),
-    );
-
-    $('#ingredient').append(ingredientRow);
+    // Xử lý sự kiện khi nút "Thêm Bước" được bấm
+    $("#addStep").click(function () {
+        stepCount++;
+        // Tạo mới dòng bước thực hiện và thêm nó vào div chứa bước
+        const newStepRow = `
+            <div class="step-row form-group">
+                <label for="step">Bước ${stepCount}:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="step${stepCount}"
+                    placeholder="Bước ${stepCount}"
+                    required
+                />
+                <input
+                    type="file"
+                    multiple
+                    class="form-control-file"
+                    id="step${stepCount}Image"
+                    accept="image/*"
+                    required
+                />
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Xoá Bước"
+                    onclick="removeStep(this)"
+                >
+                    Xoá
+                </button>
+            </div>
+        `;
+        $(".list-group").append(newStepRow);
+        $("#stepCount").val(stepCount);
+    });
 });
-
-$('#addStep').click(function () {
-    stepCount++;
-
-    const stepRow = $('<div>').addClass('step-row form-group');
-    stepRow.append(
-        $('<label>')
-            .attr('for', 'step' + stepCount)
-            .text('Bước ' + stepCount + ':'),
-    );
-    stepRow.append(
-        $('<input>')
-            .attr('type', 'text')
-            .addClass('form-control')
-            .attr('id', 'step' + stepCount)
-            .attr('placeholder', 'Bước ' + stepCount)
-            .attr('required', true),
-    );
-
-    // Thêm trường chọn tệp hình ảnh
-    stepRow.append(
-        $('<input>')
-            .attr('type', 'file')
-            .addClass('form-control-file')
-            .attr('id', 'step' + stepCount + 'Image')
-            .attr('accept', 'image/*')
-            .attr('multiple', true) // Cho phép chọn nhiều tệp hình ảnh
-            .attr('required', true),
-    );
-
-    stepRow.append(
-        $('<button>')
-            .attr('type', 'button')
-            .addClass('btn btn-danger')
-            .text('Xoá')
-            .data('bs-toggle', 'tooltip')
-            .data('bs-placement', 'top')
-            .attr('title', 'Xoá Bước')
-            .click(function () {
-                stepRow.remove();
-            }),
-    );
-
-    $('#step').append(stepRow);
-});
-
-function removeIngredient(button) {
-    $(button).parent('.ingredient-row').remove();
-}
-
-function removeStep(button) {
-    $(button).parent('.step-row').remove();
-}

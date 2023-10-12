@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class CustomerConfiguration {
     //public
-    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**"};
+    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**","/api/**"};
 
     @Bean
     public UserDetailsService userDetailsService() {

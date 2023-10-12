@@ -10,8 +10,10 @@ import java.nio.file.StandardCopyOption;
 
 @Component
 public class ImageUpload {
-    private final String UPLOAD_FOLDER = "D:\\FPT\\FALL_2023\\SWP\\final project\\Letcook\\Admin\\src\\main\\resources\\static\\images\\";
-    private final String UPLOAD_FOLDER_OTHER = "D:\\FPT\\FALL_2023\\SWP\\final project\\Letcook\\Admin\\src\\main\\resources\\static\\";
+//    private final String UPLOAD_FOLDER = "D:\\FPT\\FALL_2023\\SWP\\final project\\Letcook\\Admin\\src\\main\\resources\\static\\images\\";
+//    private final String UPLOAD_FOLDER_OTHER = "D:\\FPT\\FALL_2023\\SWP\\final project\\Letcook\\Admin\\src\\main\\resources\\static\\";
+    private final String UPLOAD_FOLDER = "E:\\Letcook\\Admin\\src\\main\\resources\\static\\images\\";
+    private final String UPLOAD_FOLDER_OTHER = "E:\\Letcook\\Admin\\src\\main\\resources\\static\\";
 
     public String uploadImage(MultipartFile imageProduct, String directory) {
         String targetFileName = null;
