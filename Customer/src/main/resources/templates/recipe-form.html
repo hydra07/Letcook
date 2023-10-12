@@ -10,10 +10,17 @@
     <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/assets/css/recipe.css}" type="text/css">
 
+
 </head>
+
 <body>
+<!--<style>-->
+<!--    body {-->
+<!--        background-image: url('/static/images/recipe-background.png');-->
+<!--    }-->
+<!--</style>-->
 <div class="container">
-    <form th:action="@{/add-recipe}" method="post" >
+    <form th:action="@{/add-recipe}" method="post" enctype="multipart/form-data">
         <div class="list-group">
             <label for="recipeName">Tên món ăn</label>
             <input
@@ -22,6 +29,7 @@
                     id="recipeName"
                     placeholder="Tên món ăn"
                     required
+                    name="recipeName"
             />
             <label for="recipeDescription">Mô tả</label>
             <input
@@ -30,16 +38,18 @@
                     id="recipeDescription"
                     placeholder="Mô tả"
                     required
+                    name="recipeDescription"
             />
             <div class="list-group-horizontal">
                 <div class="form-group">
                     <label for="portion">Khẩu phần</label>
                     <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             id="portion"
                             placeholder="Khẩu phần"
                             required
+                            name="portion"
                     />
                 </div>
                 <div class="form-group">
@@ -48,8 +58,9 @@
                             type="text"
                             class="form-control"
                             id="cookingTime"
-                            placeholder="Thời gian nấu"
+                            placeholder="Thời gian nấu(Phút)"
                             required
+                            name="cookingTime"
                     />
                 </div>
             </div>
@@ -58,26 +69,26 @@
         <!-- nguyên liệu -->
         <div class="list-group" id="ingredient">
             <!-- Dòng nguyên liệu ban đầu -->
-            <div class="ingredient-row form-group">
-                <label for="ingredient1">Nguyên liệu 1:</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="ingredient1"
-                        placeholder="Nguyên liệu 1"
-                        required
-                />
-                <button
-                        type="button"
-                        class="btn btn-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Xoá Nguyên liệu"
-                        onclick="removeIngredient(this)"
-                >
-                    Xoá
-                </button>
-            </div>
+            <!--            <div class="ingredient-row form-group">-->
+            <!--                <label for="ingredient1">Nguyên liệu 1:</label>-->
+            <!--                <input-->
+            <!--                        type="text"-->
+            <!--                        class="form-control"-->
+            <!--                        id="ingredient1"-->
+            <!--                        placeholder="Nguyên liệu 1"-->
+            <!--                        required-->
+            <!--                />-->
+            <!--                <button-->
+            <!--                        type="button"-->
+            <!--                        class="btn btn-danger"-->
+            <!--                        data-bs-toggle="tooltip"-->
+            <!--                        data-bs-placement="top"-->
+            <!--                        title="Xoá Nguyên liệu"-->
+            <!--                        onclick="removeIngredient(this)"-->
+            <!--                >-->
+            <!--                    Xoá-->
+            <!--                </button>-->
+            <!--            </div>-->
         </div>
 
         <button
@@ -88,40 +99,44 @@
                 data-bs-placement="top"
                 title="Thêm Nguyên liệu"
         >
-            Thêm
+            Thêm Nguyên Liệu
         </button>
+
+        <button id="removeLastIngredient" class="btn btn-danger">Xoá Nguyên liệu</button>
+
 
         <!-- bước thực hiện -->
         <div class="list-group" id="step">
             <!-- Dòng bước thực hiện ban đầu -->
-            <div class="step-row form-group">
-                <label for="step1">Bước 1:</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="step1"
-                        placeholder="Bước 1"
-                        required
-                />
-                <input
-                        type="file"
-                        multiple
-                        class="form-control-file"
-                        id="step1Image"
-                        accept="image/*"
-                        required
-                />
-                <button
-                        type="button"
-                        class="btn btn-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Xoá Bước"
-                        onclick="removeStep(this)"
-                >
-                    Xoá
-                </button>
-            </div>
+            <!--            <div class="step-row form-group">-->
+            <!--                <label for="step1">Bước 1:</label>-->
+            <!--                <input-->
+            <!--                        type="text"-->
+            <!--                        class="form-control"-->
+            <!--                        id="step1"-->
+            <!--                        placeholder="Bước 1"-->
+            <!--                        required-->
+            <!--                        name = "step1"-->
+            <!--                />-->
+            <!--                <input-->
+            <!--                        type="file"-->
+            <!--                        multiple-->
+            <!--                        class="form-control-file"-->
+            <!--                        id="step1Image"-->
+            <!--                        accept="image/*"-->
+            <!--                        required-->
+            <!--                />-->
+            <!--&lt;!&ndash;                <button&ndash;&gt;-->
+            <!--&lt;!&ndash;                        type="button"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        class="btn btn-danger"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        data-bs-toggle="tooltip"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        data-bs-placement="top"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        title="Xoá Bước"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        onclick="removeStep(this)"&ndash;&gt;-->
+            <!--&lt;!&ndash;                >&ndash;&gt;-->
+            <!--&lt;!&ndash;                    Xoá&ndash;&gt;-->
+            <!--&lt;!&ndash;                </button>&ndash;&gt;-->
+            <!--            </div>-->
         </div>
 
         <button
@@ -132,18 +147,25 @@
                 data-bs-placement="top"
                 title="Thêm Bước"
         >
-            Thêm
+            Thêm Bước
         </button>
 
-        <button
-                type="submit"
-                class="btn btn-primary"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Gửi"
-        >
-            Gửi
-        </button>
+        <button id="removeLastStep" class="btn btn-danger">Xoá Bước</button>
+
+        <input type="hidden" id="ingredientCount" name="ingredientCount" value="0">
+        <input type="hidden" id="stepCount" name="stepCount" value="1">
+
+        <div class="list-group">
+            <button
+                    type="submit"
+                    class="btn btn-primary"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Gửi"
+            >
+                Gửi
+            </button>
+        </div>
     </form>
 </div>
 <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
