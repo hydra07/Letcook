@@ -99,4 +99,17 @@ public class OrderController {
         return "redirect:/order";
     }
 
+    @RequestMapping(value = "/accept-order/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String acceptOrder(Principal principal,@PathVariable("id") Long id, RedirectAttributes attributes)  {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        orderService.acceptOrder(id);
+        String username = principal.getName();
+//        Customer customer = customerService.findByUsername(username);
+//        List<Order> orderList = customer.getOrders();
+        attributes.addFlashAttribute("success", "Cancel order successfully!");
+        return "redirect:/order";
+    }
+
 }
