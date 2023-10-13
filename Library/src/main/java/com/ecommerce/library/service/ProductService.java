@@ -41,4 +41,7 @@ public interface ProductService {
 
 
     public List<Product> getProductsInCategory(Long categoryId);
+
+    List<ProductDto> findAllByActivated();
+
 }
