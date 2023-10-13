@@ -76,6 +76,7 @@ public class ProductController {
         model.addAttribute("size", products.getSize());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("keyword", keyword);
         return "result-products";
     }
 
