@@ -70,4 +70,12 @@ public class ProductController {
     }
 
 
+    @GetMapping("/process-selection")
+    public String processSelection(@RequestParam(name = "selectedValue") String selectedValue) {
+        // Xử lý giá trị đã chọn ở đây
+        System.out.println("Selected value: " + selectedValue);
+        // Redirect hoặc trả về trang web khác
+        return "redirect:/another-page";
+    }
+
 }
