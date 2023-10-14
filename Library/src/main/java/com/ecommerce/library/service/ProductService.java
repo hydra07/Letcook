@@ -2,6 +2,7 @@ package com.ecommerce.library.service;
 
 import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Product;
+import net.minidev.json.JSONArray;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,4 +42,11 @@ public interface ProductService {
 
 
     public List<Product> getProductsInCategory(Long categoryId);
+
+//    List<Product> findProductByFuzzyName(String keyword);
+    List<Product> searchProductsList(String keyword);
+
+    JSONArray getAllProductsJson();
+
+    JSONArray getSuggestProducts(String query);
 }

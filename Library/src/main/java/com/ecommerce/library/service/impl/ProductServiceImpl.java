@@ -8,6 +8,7 @@ import com.ecommerce.library.repository.ProductRepository;
 import com.ecommerce.library.service.ProductService;
 import com.ecommerce.library.utils.ImageUpload;
 import jakarta.transaction.Transactional;
+import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -304,5 +305,29 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getRelatedProduct(categoryId);
     }
 
+    @Override
+    public List<Product> searchProductsList(String keyword) {
+        return productRepository.searchProductsList(keyword);
+    }
+
+    @Override
+    public JSONArray getAllProductsJson() {
+        List<Product> products = productRepository.getAllProduct();
+        JSONArray jsonArray = new JSONArray();
+        for (Product product : products) {
+            jsonArray.add(product.getName());
+        }
+        return jsonArray;
+    }
+
+    @Override
+    public JSONArray getSuggestProducts(String query) {
+        List<Product> products = productRepository.searchProductsList(query);
+        JSONArray jsonArray = new JSONArray();
+        for (Product product : products) {
+            jsonArray.add(product.getName());
+        }
+        return jsonArray;
+    }
 
 }

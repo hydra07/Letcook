@@ -214,3 +214,85 @@
 	
 	
 }(jQuery));
+
+// function showSuggestions(){
+// 	let query = $("#searchInput").val();
+// 	$.get("/api/suggest-products?query=" + query, function (data) {
+// 		var suggestionList = document.getElementById("suggestionList");
+// 		suggestionList.innerHTML = "";
+// 		data.forEach(function (suggestion) {
+// 			var suggestionItem = document.createElement("div");
+// 			suggestionItem.innerHTML = suggestion;
+// 			suggestionList.appendChild(suggestionItem);
+// 		});
+// 	});
+//
+// }
+// let previousQuery = null;
+function displaySuggestions(suggestions) {
+	let suggestionList = document.getElementById("searchSuggestions");
+
+	suggestionList.innerHTML = "";
+
+	if (Array.isArray(suggestions)) {
+		suggestions.forEach((suggestion,index) => {
+			let item = document.createElement("div");
+			let divId = "suggestionItem" + index;
+
+			item.textContent = suggestion;
+			item.id = divId;
+			item.className = "list-group-item";
+			item.addEventListener("click", () => {
+				document.getElementById("searchInput").value = suggestion;
+				suggestionList.innerHTML = "";
+			});
+
+			suggestionList.appendChild(item);
+		});
+	}
+}
+// Hàm lấy gợi ý từ API
+
+
+async function fetchSuggestions() {
+
+	let query = document.getElementById("searchInput").value;
+	let url = '/shop/api/suggest-products?query=' + query;
+
+	let response = await fetch(url);
+	let suggestions = await response.json();
+	// console.log(suggestions);
+	if (query.length > 2) {
+		displaySuggestions(suggestions);
+		console.log(suggestions);
+	}
+
+	if (query.length == 0){
+		for (let i = 0; i < suggestions.length; i++) {
+			console.log("suggestionItem" + i);
+			document.getElementById("suggestionItem" + i).remove();
+		}
+	}
+
+
+}
+
+// Hiển thị gợi ý
+
+//
+// // Lắng nghe sự kiện gõ vào ô input
+// const input = document.getElementById("searchInput");
+// input.addEventListener("input", () => {
+//
+// 	let query = input.value;
+//
+// 	if(query.length > 2) {
+// 		fetchSuggestions(query);
+// 	// }else if(query.length == 0) {
+// 	// 	document.getElementById("searchSuggestions")?.remove();
+// 	}else {
+// 		document.getElementById("searchSuggestions").remove();
+// 	}
+//
+// });
+
