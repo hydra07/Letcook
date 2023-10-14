@@ -30,6 +30,8 @@ public interface ProductService {
     Page<ProductDto> searchProducts(int pageNo, String keyword);
 
 
+
+
     //CUSTOMER
     List<Product> getAllProducts();
 
@@ -43,5 +45,7 @@ public interface ProductService {
     public List<Product> getProductsInCategory(Long categoryId);
 
     List<ProductDto> findAllByActivated();
+
+    List<Product> searchProducts(String keyword);
 
 }

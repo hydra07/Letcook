@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class ProductController {
     @GetMapping("products")
     public String products(Model model){
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<Product> products = productService.getAllProducts();
+            List<Product> products = productService.getAllProducts();
         List<Product> listViewProducts = productService.listViewProducts();
         System.out.println("sizee:"+listViewProducts.get(0).getName());
         model.addAttribute("categories", categoryDtoList);
@@ -56,6 +57,20 @@ public class ProductController {
         model.addAttribute("products", products);
         return "products-in-category";
     }
+
+    @GetMapping("/search-product")
+    public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
+        List<CategoryDto> categoryDtos = categoryService.getCategoryAndProduct();
+        List<Product> products = productService.searchProducts(keyword);
+        List<Product> listViewProducts = productService.listViewProducts();
+        model.addAttribute("listViewProducts", listViewProducts);
+        model.addAttribute("categories", categoryDtos);
+        model.addAttribute("title", "Search Products");
+        model.addAttribute("page", "Result Search");
+        model.addAttribute("products", products);
+        return "products";
+    }
+
 
 
 

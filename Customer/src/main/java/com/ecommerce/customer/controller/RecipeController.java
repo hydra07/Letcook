@@ -34,6 +34,8 @@ public class RecipeController {
 
         for(int i = 1; i <= ingredientCount; i++) {
             System.out.println(request.getParameter("ingredient" + i));
+            System.out.println(request.getParameter("amount" + i));
+            System.out.println(request.getParameter("measurements" + i));
         }
 
         for(int i = 1; i <= stepCount; i++) {

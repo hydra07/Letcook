@@ -240,6 +240,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+
     @Override
     public List<Product> getProductsInCategory(Long categoryId) {
         return productRepository.getProductsInCategory(categoryId);
@@ -311,5 +312,11 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }
+
+    @Override
+    public List<Product> searchProducts(String keyword) {
+        return productRepository.findAllByNameOrDescription(keyword);
+    }
+
 
 }

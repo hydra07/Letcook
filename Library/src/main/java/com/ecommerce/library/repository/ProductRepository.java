@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p")
     Page<Product> pageProduct(Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.description LIKE %?1% OR p.name LIKE %?1%")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
     Page<Product> searchProducts(String keywords, Pageable pageable);
 
 
@@ -43,9 +43,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT p FROM Product p inner join Category c on p.category.id =  c.id WHERE p.is_deleted = false AND p.is_activated = true  and  c.is_activated = true and c.is_deleted = false")
     List<Product> findAllByActivated();
-    //
-//    @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
-//    List<Product> findAllByNameOrDescription(String keyword);
+
+
+    @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
+    List<Product> findAllByNameOrDescription(String keyword);
 //
 //
 //    @Query("select p from Product p inner join Category c ON c.id = p.category.id" +
