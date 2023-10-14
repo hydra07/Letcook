@@ -1,3 +1,17 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/*form input {*/
+/*    border: none;*/
+/*    !* Optionally, you can remove other styles like outline and box-shadow *!*/
+/*    outline: none;*/
+/*}*/
+
 /* Định dạng form chung */
 .container {
     max-width: 800px;
@@ -7,6 +21,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /*background: linear-gradient(to right, #56ab2f, #a8e063);*/
 }
 
 /* Định dạng tiêu đề form */
@@ -37,6 +52,13 @@
     margin-top: 10px;
     margin-right: 10px;
 }
+
+.btn {
+    border-radius: 10px;
+    /*background: linear-gradient(to right, #997404, #000000);*/
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
 
 /* Định dạng nút xoá */
 .btn-danger {
