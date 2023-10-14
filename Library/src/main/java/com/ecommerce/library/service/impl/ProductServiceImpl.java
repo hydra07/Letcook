@@ -330,4 +330,11 @@ public class ProductServiceImpl implements ProductService {
         return jsonArray;
     }
 
+    @Override
+    public List<ProductDto> findAllByActivated() {
+        List<Product> products =  productRepository.findAllByActivated();
+        List<ProductDto> productDtoList = transfer(products);
+        return productDtoList;
+    }
+
 }
