@@ -19,7 +19,11 @@ $.ajax({
 // Sau đó, sử dụng danh sách lưu trữ cục bộ để điền vào dropdown khi thêm hàng mới
 function createMeasurementDropdown(ingredientCount) {
     const select = $('<select>')
+<<<<<<< HEAD
         .attr('name', 'measurements'+ingredientCount)
+=======
+        .attr('name', 'measurements' + ingredientCount)
+>>>>>>> 88e7c4e14f699c1f53dc1bfe9abc1f2b3fb0a4e8
         .addClass('form-control')
         .attr('required', true);
 

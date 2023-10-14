@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlserver://THANH\\XUANTHANH:1433;databaseName=t2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="letcookdb@HYDRA" uuid="10d7fa35-6678-4b5e-ad8e-de2513f57fde">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://HYDRA:1433;databaseName=letcookdb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

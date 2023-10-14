@@ -15,7 +15,8 @@ public class ImgStep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String imgPath;
 
     @ManyToOne
     @JoinColumn(name="step_id")
