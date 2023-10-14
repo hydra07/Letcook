@@ -15,6 +15,7 @@ import java.util.List;
 public class Step {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "step_id")
     private Long id;
 
     private String description;

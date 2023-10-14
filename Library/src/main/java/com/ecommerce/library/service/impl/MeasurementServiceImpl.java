@@ -63,6 +63,11 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
+    public Measurement findByName(String name) {
+        return measurementRepository.findByName(name);
+    }
+
+    @Override
     public JSONArray findAllByActivatedJson() {
         JSONArray jsonArray = new JSONArray();
         List<Measurement> measurementList = measurementRepository.findAllByActivated();

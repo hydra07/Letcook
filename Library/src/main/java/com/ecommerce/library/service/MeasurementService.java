@@ -15,6 +15,8 @@ public interface MeasurementService {
     void enableById(long id);
     List<Measurement> findAllByActivated();
 
+    Measurement findByName(String name);
+
     JSONArray findAllByActivatedJson();
 
 }

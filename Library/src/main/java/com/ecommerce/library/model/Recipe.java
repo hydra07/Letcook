@@ -17,6 +17,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_id")
     private Long id;
 
     private String name;
@@ -35,4 +36,10 @@ public class Recipe {
 
     //corfirm by admin
     private Boolean isConfirm;
+
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
+        ingredient.setRecipe(this);
+    }
 }
