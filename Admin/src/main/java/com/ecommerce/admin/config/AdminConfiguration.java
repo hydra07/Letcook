@@ -57,7 +57,7 @@ public class AdminConfiguration {
 
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/*", "/static/**", "/images/**").permitAll()
+//                .requestMatchers("/*", "/static/**", "/images/**").permitAll()
                 //neu muốn vào trang register thì thay dòng dưới bằng dòng này. dk 1 tk rồi thì
                 //đổi lại như dòng dưới
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

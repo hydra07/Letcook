@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}">
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <form class="form-horizontal" th:action="@{/check-recipe/{id}(id = ${recipeDto.id})}" method="post"
+                      th:object="${recipeDto}"
+                      enctype="multipart/form-data">
+                    <fieldset>
+                        <!-- Form Name -->
+                        <legend>CHECK RECIPE</legend>
+
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-5">
+                                <!-- Text input for Recipe Name -->
+                                <div class="form-group">
+                                    <label class="control-label" for="product_name">RECIPE NAME</label>
+                                    <input id="product_name" th:field="*{recipeName}" name="product_name"
+                                           class="form-control" required="" type="text">
+                                </div>
+
+                                <!-- Text input for Recipe Description -->
+                                <div class="form-group">
+                                    <label class="control-label" for="description">RECIPE DESCRIPTION</label>
+                                    <input id="description" th:field="*{recipeDescription}" name="description"
+                                           class="form-control" required="" type="text">
+                                </div>
+
+                                <!-- Text input for Recipe Portion -->
+                                <div class="form-group">
+                                    <label class="control-label" for="available_quantity">RECIPE PORTION</label>
+                                    <input id="available_quantity" th:field="*{portion}" name="available_quantity"
+                                           class="form-control" required="" type="text">
+                                </div>
+
+                                <!-- Text input for Cooking Time -->
+                                <div class="form-group">
+                                    <label class="control-label" for="price">COOKING TIME</label>
+                                    <input id="price" name="price" th:field="*{cookingTime}" class="form-control"
+                                           required="" type="text">
+                                </div>
+                                <div class="form-group" th:each="ingredient, ingredientStat : ${recipeDto.ingredients}">
+                                    <div class="row">
+                                        <!-- Left Column -->
+                                        <div class="col-md-3">
+                                            <!-- Label for Ingredient Name -->
+                                            <label class="control-label"
+                                                   th:text="${'Ingredient ' + (ingredientStat.index + 1)}"></label>
+                                            <input th:field="${recipeDto.ingredients[__${ingredientStat.index}__].name}"
+                                                   class="form-control" required="required" type="text">
+                                        </div>
+
+                                        <!-- Middle Column -->
+                                        <div class="col-md-3">
+                                            <!-- Label for Ingredient Amount (if applicable) -->
+                                            <label class="control-label" th:text="${'Amount'}"></label>
+                                            <input th:field="${recipeDto.ingredients[__${ingredientStat.index}__].amount}"
+                                                   class="form-control" required="required" type="text">
+                                        </div>
+
+                                        <!-- Right Column -->
+                                        <div class="col-md-3">
+                                            <!-- Label for Ingredient Measurement -->
+                                            <label class="control-label">Measurement</label>
+                                            <select th:field="${recipeDto.ingredients[__${ingredientStat.index}__].measurement}"
+                                                    name="measurements" class="form-control">
+                                                <option th:value="null">-SELECT-</option>
+                                                <option th:each="measurement : ${measurements}"
+                                                        th:value="${measurement.id}"
+                                                        th:text="${measurement.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <!-- Label for Ingredient Amount (if applicable) -->
+                                            <label class="control-label" th:text="${'Product Id'}"></label>
+                                            <input type="number" name="productId" class="form-control" required>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-7">
+                                <div class="row" th:each="step, stepStat: ${recipeDto.steps}">
+                                    <!-- Label for Step -->
+                                    <label class="control-label"
+                                           th:text="${'Step ' + (stepStat.index + 1)}"></label>
+                                    <textarea th:field="${recipeDto.steps[__${stepStat.index}__].description}"
+                                              class="form-control" required="required"></textarea>
+                                    <div class="row mt-3">
+                                        <th:block th:each="image: ${step.getImages()}">
+                                            <div class="col-md-6">
+                                                <img th:src="@{'/' + ${image.getImgPath()}}" class="rounded"  style="width: 200px">
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Buttons -->
+                        <button type="submit" name="action" value="accept" class="btn btn-primary">Accept</button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments::footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments::scroll}">
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+</body>
+
+</html>

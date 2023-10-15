@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+
+<head>
+    <div th:replace="~{fragments::head}"></div>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<!-- Start Main Top -->
+<div th:replace="~{fragments::main-top}">
+</div>
+<!-- End Main Top -->
+
+
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- End Top Search -->
+
+<!-- Start All Title Box -->
+<style>
+    body {
+        background-color: #f8f6f2;
+    }
+</style>
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Recipe Detail</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+                    <li class="breadcrumb-item active"> Recipe Detail</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+
+<!-- Start Shop Detail  -->
+<div class="shop-detail-box-main d-flex justify-content-center align-items-center">
+    <div class="container rounded">
+        <div class="row">
+
+            <div class="col-xl-8 col-lg-8 col-md-6">
+                <div class="row rounded">
+                    <img class="rounded" th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                         style="width:680px ; height: 482px">
+                </div>
+
+                <div class="row mt-2 rounded d-block">
+                    <h1 th:text="${recipe.name}"></h1>
+                    <div class="media p-3">
+                        <img src="images/img-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle"
+                             style="width:60px;">
+                        <div class="media-body align-self-center">
+                            <h3>Tên tác giả: <strong
+                                    th:text="${recipe.customer.firstName + ' ' + recipe.customer.lastName}">John
+                                Doe</strong></h3>
+                            <p th:text="'@letcook_' + ${recipe.customer.firstName}">@letcook_john</p>
+                            <button class="btn btn-warning">Follow</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2 rounded">
+                    <div class="col-sm-6">
+                        <h2>Nguyên liệu</h2>
+                    </div>
+                </div>
+                <div class="row" th:each="ingredient: ${recipe.ingredients}">
+
+                    <div class="col-sm-5">
+                        <h5 th:text="${ingredient.name}">Tàu ky lá</h5>
+                    </div>
+                    <div class="col-sm-5">
+                        <p th:text="'Số lượng '+ ${ingredient.amount} + ' ' + ${ingredient.measurement.name}">Số lượng:
+                            1 cây</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <form th:action="@{/add-to-cart}" method="post">
+                            <input type="hidden" th:value="${ingredient.product.id}" name="id" class="form-control">
+                            <button type="submit" class="btn rounded-circle">+</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mt-2 rounded">
+                    <div class="col-sm-12" th:each="step, stepStat: ${recipe.steps}">
+                        <h4 th:text="'Bước ' + ${stepStat.index + 1}"></h4>
+                        <p th:text="${step.description}">Mô tả bước nấu ăn</p>
+                        <img class="img-fluid mr-2"
+                             style="width: 150px;" th:src="@{'/' + ${stepImg.getImgPath()}}" a
+                             lt="Ảnh bước nấu ăn"
+                             th:each="stepImg: ${step.getImages()}">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="row rounded shadow">
+                    <div class="col-lg-12">
+                        <button class="btn btn-block btn-custom "><i class="fas fa-save mr-2"></i>Lưu món</button>
+                    </div>
+                    <div class="col-lg-12">
+                        <button class="btn btn-block btn-custom "><i class="fas fa-camera mr-2"></i>Gửi cooksnap</button>
+                    </div>
+                    <div class="col-lg-12 pb-3">
+                        <button class="btn btn-block btn-custom "><i class="fas fa-flag mr-2"></i>Báo cáo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Cart -->
+
+<!-- Start Feed  -->
+<div th:replace="~{fragments::instagram-box}"></div>
+
+
+<!-- End Feed  -->
+
+
+<!-- Start Footer  -->
+<footer th:replace="~{fragments::footer}">
+
+</footer>
+
+
+<!-- ALL JS FILES -->
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

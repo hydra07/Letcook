@@ -24,11 +24,11 @@ public class ProductController {
     CategoryService categoryService;
 
     @GetMapping("products")
-    public String products(Model model){
+    public String products(Model model) {
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-            List<Product> products = productService.getAllProducts();
+        List<Product> products = productService.getAllProducts();
         List<Product> listViewProducts = productService.listViewProducts();
-        System.out.println("sizee:"+listViewProducts.get(0).getName());
+        System.out.println("sizee:" + listViewProducts.get(0).getName());
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("products", products);
         model.addAttribute(("viewProducts"), listViewProducts);
@@ -37,10 +37,10 @@ public class ProductController {
     }
 
     @GetMapping("find-product/{id}")
-    public String findProductById(@PathVariable("id") Long id,Model model){
+    public String findProductById(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
         List<Product> relatedProducts = productService.getRelatedProducts(product.getCategory().getId());
-        System.out.println("size:"+relatedProducts.size());
+        System.out.println("size:" + relatedProducts.size());
         model.addAttribute("product", product);
         model.addAttribute("relatedProducts", relatedProducts);
 
@@ -48,11 +48,11 @@ public class ProductController {
     }
 
     @GetMapping("/products-in-category/{id}")
-    public String getProductsInCategory(@PathVariable("id") Long categoryId ,Model model){
+    public String getProductsInCategory(@PathVariable("id") Long categoryId, Model model) {
         Optional<Category> category = categoryService.findById(categoryId);
         List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<Product> products = productService.getProductsInCategory(categoryId);
-        model.addAttribute("category",category);
+        model.addAttribute("category", category);
         model.addAttribute("categories", categories);
         model.addAttribute("products", products);
         return "products-in-category";
@@ -68,10 +68,8 @@ public class ProductController {
         model.addAttribute("title", "Search Products");
         model.addAttribute("page", "Result Search");
         model.addAttribute("products", products);
-        return "products";
+        return "shop";
     }
-
-
 
 
 }

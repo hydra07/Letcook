@@ -51,4 +51,6 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Collection<Role> roles;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Recipe> recipes;
 }

@@ -23,10 +23,13 @@ public class Ingredient {
 
     private Double amount;
 
-    @OneToOne
-    @JoinColumn(name="measurement_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "measurement_id", referencedColumnName = "measurement_id")
     private Measurement measurement;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name="recipe_id")
