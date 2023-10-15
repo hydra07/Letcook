@@ -34,12 +34,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     * @Query("SELECT p FROM Product p WHERE p.category.id = :categoryId")
        List<Product> getRelatedProduct(@Param("categoryId") Long categoryId);
     * */
-    @Query(value = "SELECT * FROM products p WHERE p.category_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM products p WHERE p.category_id = ?1 and is_activated = 1 and is_deleted = 0", nativeQuery = true)
     List<Product> getRelatedProduct(Long categoryId);
 
     @Query(value = "select p from Product p inner join Category c on c.id = ?1 and p.category.id = ?1 where p.is_activated = true and p.is_deleted = false")
     List<Product> getProductsInCategory(Long id);
 
+
+    @Query(value = "SELECT p FROM Product p inner join Category c on p.category.id =  c.id WHERE p.is_deleted = false AND p.is_activated = true  and  c.is_activated = true and c.is_deleted = false")
+    List<Product> findAllByActivated();
     //
 //    @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
 //    List<Product> findAllByNameOrDescription(String keyword);

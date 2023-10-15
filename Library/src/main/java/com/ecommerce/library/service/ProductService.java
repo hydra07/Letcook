@@ -43,10 +43,12 @@ public interface ProductService {
 
     public List<Product> getProductsInCategory(Long categoryId);
 
-//    List<Product> findProductByFuzzyName(String keyword);
+
     List<Product> searchProductsList(String keyword);
 
     JSONArray getAllProductsJson();
 
     JSONArray getSuggestProducts(String query);
+
+    List<ProductDto> findAllByActivated();
 }
