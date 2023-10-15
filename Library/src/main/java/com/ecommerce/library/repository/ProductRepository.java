@@ -47,7 +47,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
     List<Product> findAllByNameOrDescription(String keyword);
-//
+
+    //
 //
 //    @Query("select p from Product p inner join Category c ON c.id = p.category.id" +
 //            " where p.category.name = ?1 and p.is_activated = true and p.is_deleted = false")
@@ -78,5 +79,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //
 //
     @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
-    List<Product>searchProductsList(String keyword);
+    List<Product> searchProductsList(String keyword);
 }

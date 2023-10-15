@@ -2,168 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Công Thức Nấu Ăn</title>
+    <!-- Thêm animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css"/>
+    <!-- Thêm Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/assets/vendor/boxicons/fonts/boxicons.ttf}">
     <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/assets/css/recipe.css}" type="text/css">
-
-
 </head>
-
 <body>
-<!--<style>-->
-<!--    body {-->
-<!--        background-image: url('/static/images/recipe-background.png');-->
-<!--    }-->
-<!--</style>-->
 <div class="container">
     <form th:action="@{/add-recipe}" method="post" enctype="multipart/form-data">
+        <!-- Recipe Name and Description section -->
         <div class="list-group">
             <label for="recipeName">Tên món ăn</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="recipeName"
-                    placeholder="Tên món ăn"
-                    required
-                    name="recipeName"
-            />
+            <input type="text" class="form-control" id="recipeName" placeholder="Tên món ăn" required name="recipeName" />
             <label for="recipeDescription">Mô tả</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="recipeDescription"
-                    placeholder="Mô tả"
-                    required
-                    name="recipeDescription"
-            />
+            <textarea class="form-control" id="recipeDescription" placeholder="Mô tả" required name="recipeDescription"></textarea>
+            <!-- Portion and Cooking Time section -->
             <div class="list-group-horizontal">
                 <div class="form-group">
                     <label for="portion">Khẩu phần</label>
-                    <input
-                            type="number"
-                            class="form-control"
-                            id="portion"
-                            placeholder="Khẩu phần"
-                            required
-                            name="portion"
-                    />
+                    <input type="number" class="form-control" id="portion" placeholder="Khẩu phần" required name="portion" />
                 </div>
                 <div class="form-group">
                     <label for="cookingTime">Thời gian nấu</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="cookingTime"
-                            placeholder="Thời gian nấu(Phút)"
-                            required
-                            name="cookingTime"
-                    />
+                    <input type="text" class="form-control" id="cookingTime" placeholder="Thời gian nấu(Phút)" required name="cookingTime" />
                 </div>
             </div>
         </div>
-
-        <!-- nguyên liệu -->
+        <!-- Ingredient section -->
         <div class="list-group" id="ingredient">
-            <!-- Dòng nguyên liệu ban đầu -->
-            <!--            <div class="ingredient-row form-group">-->
-            <!--                <label for="ingredient1">Nguyên liệu 1:</label>-->
-            <!--                <input-->
-            <!--                        type="text"-->
-            <!--                        class="form-control"-->
-            <!--                        id="ingredient1"-->
-            <!--                        placeholder="Nguyên liệu 1"-->
-            <!--                        required-->
-            <!--                />-->
-            <!--                <button-->
-            <!--                        type="button"-->
-            <!--                        class="btn btn-danger"-->
-            <!--                        data-bs-toggle="tooltip"-->
-            <!--                        data-bs-placement="top"-->
-            <!--                        title="Xoá Nguyên liệu"-->
-            <!--                        onclick="removeIngredient(this)"-->
-            <!--                >-->
-            <!--                    Xoá-->
-            <!--                </button>-->
-            <!--            </div>-->
+            <!-- Ingredients will be added dynamically -->
         </div>
-
-        <button
-                type="button"
-                class="btn btn-primary"
-                id="addIngredient"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Thêm Nguyên liệu"
-        >
-            Thêm Nguyên Liệu
+        <button type="button" class="btn btn-primary" id="addIngredient" data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm Nguyên liệu">
+            <i class="bx bxs-add-to-queue"></i> Thêm Nguyên Liệu
         </button>
-
-        <button id="removeLastIngredient" class="btn btn-danger">Xoá Nguyên liệu</button>
-
-
-        <!-- bước thực hiện -->
+        <button id="removeLastIngredient" class="btn btn-danger">
+            <i class="bx bxs-trash"></i> Xoá Nguyên liệu
+        </button>
+        <!-- Recipe Step section -->
         <div class="list-group" id="step">
-            <!-- Dòng bước thực hiện ban đầu -->
-            <!--            <div class="step-row form-group">-->
-            <!--                <label for="step1">Bước 1:</label>-->
-            <!--                <input-->
-            <!--                        type="text"-->
-            <!--                        class="form-control"-->
-            <!--                        id="step1"-->
-            <!--                        placeholder="Bước 1"-->
-            <!--                        required-->
-            <!--                        name = "step1"-->
-            <!--                />-->
-            <!--                <input-->
-            <!--                        type="file"-->
-            <!--                        multiple-->
-            <!--                        class="form-control-file"-->
-            <!--                        id="step1Image"-->
-            <!--                        accept="image/*"-->
-            <!--                        required-->
-            <!--                />-->
-            <!--&lt;!&ndash;                <button&ndash;&gt;-->
-            <!--&lt;!&ndash;                        type="button"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        class="btn btn-danger"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        data-bs-toggle="tooltip"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        data-bs-placement="top"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        title="Xoá Bước"&ndash;&gt;-->
-            <!--&lt;!&ndash;                        onclick="removeStep(this)"&ndash;&gt;-->
-            <!--&lt;!&ndash;                >&ndash;&gt;-->
-            <!--&lt;!&ndash;                    Xoá&ndash;&gt;-->
-            <!--&lt;!&ndash;                </button>&ndash;&gt;-->
-            <!--            </div>-->
+            <!-- Steps will be added dynamically -->
         </div>
-
-        <button
-                type="button"
-                class="btn btn-primary"
-                id="addStep"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Thêm Bước"
-        >
-            Thêm Bước
+        <button type="button" class="btn btn-primary" id="addStep" data-bs-toggle="tooltip" data-bs-placement="top" title="Thêm Bước">
+            <i class="bx bxs-add-to-queue"></i> Thêm Bước
         </button>
-
-        <button id="removeLastStep" class="btn btn-danger">Xoá Bước</button>
-
+        <button id="removeLastStep" class="btn btn-danger">
+            <i class="bx bxs-trash"></i> Xoá Bước
+        </button>
+        <!-- Hidden input fields for ingredient and step counts -->
         <input type="hidden" id="ingredientCount" name="ingredientCount" value="0">
         <input type="hidden" id="stepCount" name="stepCount" value="1">
-
+        <!-- Submit button section -->
         <div class="list-group">
-            <button
-                    type="submit"
-                    class="btn btn-primary"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Gửi"
-            >
-                Gửi
+            <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi">
+                <i class="bx bxs-send"></i> Gửi
             </button>
         </div>
     </form>
