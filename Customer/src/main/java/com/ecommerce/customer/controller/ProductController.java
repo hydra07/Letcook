@@ -11,10 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-<<<<<<< HEAD
-=======
+
 import org.springframework.web.bind.annotation.PostMapping;
->>>>>>> master
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -34,11 +33,7 @@ public class ProductController {
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         List<Product> products = productService.getAllProducts();
         List<Product> listViewProducts = productService.listViewProducts();
-<<<<<<< HEAD
-        System.out.println("sizee:" + listViewProducts.get(0).getName());
-=======
-        System.out.println("size:"+listViewProducts.get(0).getName());
->>>>>>> master
+        System.out.println("sizee:"+listViewProducts.get(0).getName());
         model.addAttribute("categories", categoryDtoList);
         model.addAttribute("products", products);
         model.addAttribute(("viewProducts"), listViewProducts);

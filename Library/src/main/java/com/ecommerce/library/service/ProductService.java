@@ -46,6 +46,9 @@ public interface ProductService {
     public List<Product> getProductsInCategory(Long categoryId);
 
 
+
+    List<Product> searchProducts(String keyword);
+
     List<Product> searchProductsList(String keyword);
 
     JSONArray getAllProductsJson();
@@ -53,4 +56,5 @@ public interface ProductService {
     JSONArray getSuggestProducts(String query);
 
     List<ProductDto> findAllByActivated();
+
 }
