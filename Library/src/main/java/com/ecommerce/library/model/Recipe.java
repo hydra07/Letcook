@@ -20,8 +20,10 @@ public class Recipe {
     @Column(name = "recipe_id")
     private Long id;
 
+    @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
 
+    @Column(columnDefinition = "NVARCHAR(200)")
     private String description;
 
     private Integer portion;
@@ -35,8 +37,14 @@ public class Recipe {
     private List<Ingredient> ingredients;
 
     //corfirm by admin
-    private Boolean isConfirm;
+    private boolean is_confirmed;
 
+    @Column(nullable = false)
+    private boolean is_checked;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);

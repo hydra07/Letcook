@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+<head th:replace="~{fragments::head}">
+
+
+</head>
+
+<body>
+<div th:replace="~{fragments::main-top}"></div>
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- End Top Search -->
+
+<!-- Start Slider -->
+<div id="slides-shop" class="cover-slides">
+    <ul class="slides-container">
+        <li class="text-center">
+            <img src="images/Fish 01 - Fish Tacos.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br>Let's cook community</strong></h1>
+                        <p class="m-b-40">Discover Delicious Recipes! <br> Enjoy a wide variety of culinary delights.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img src="images/Crab 02 - Crab Toast.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Let's cook community</strong></h1>
+                        <p class="m-b-40">Explore New Cooking Ideas! <br> Find inspiration for your next meal.</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img src="images/Shrimp 01 - Shrimp Monterey.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Let's cook community</strong></h1>
+                        <p class="m-b-40">Join Our Culinary Community! <br> Share your recipes and cooking tips.</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="slides-navigation">
+        <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+<!-- End Slider -->
+<div class="shop-box-inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                <div class="right-product-box">
+                    <div class="product-item-filter row">
+                        <div class="col-12 col-sm-8 text-center text-sm-left">
+                            <div class="toolbar-sorter-right">
+                                <span>Sort by </span>
+                                <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+                                    <option data-display="Select">Nothing</option>
+                                    <option value="2">Lastest</option>
+                                    <option value="3">Most Viewed</option>
+                                </select>
+                            </div>
+                            <p>Showing all results</p>
+                        </div>
+<!--                        <div class="col-12 col-sm-4 text-center text-sm-right">-->
+<!--                            <ul class="nav nav-tabs ml-auto">-->
+<!--                                <li>-->
+<!--                                    <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i-->
+<!--                                            class="fa fa-th"></i> </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a class="nav-link" href="#list-view" data-toggle="tab"> <i-->
+<!--                                            class="fa fa-list-ul"></i> </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+
+                    <div class="product-categorie-box">
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="recipe: ${recipes}">
+                                        <div class="products-single fix">
+                                            <div class="box-img-hover">
+                                                <a th:href="@{/find-recipe/{id}(id = ${recipe.id})}">
+                                                    <img th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                                                         class="img-fluid" alt="Image">
+                                                </a>
+                                            </div>
+                                            <div class="why-text">
+                                                <h4 th:text="${recipe.name}"></h4>
+                                                 <p>Thời gian nấu:  <span th:text="${recipe.cookingTime}"></span> phút</p>
+                                                 <p>Khẩu phẩn: <span class="mr-2" th:text="${recipe.portion}"></span>người</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                            <div role="tabpanel" class="tab-pane fade" id="list-view">-->
+                            <!--                                <div class="list-view-box">-->
+                            <!--                                    <div class="row" th:each="product: ${viewProducts}">-->
+                            <!--                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">-->
+                            <!--                                            <div class="products-single fix">-->
+                            <!--                                                <div class="box-img-hover">-->
+                            <!--                                                    <img th:src="@{'/' + ${product.imgProducts.get(0).getImgPath()}}"-->
+                            <!--                                                         class="img-fluid" alt="Image">-->
+
+                            <!--                                                </div>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                        <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">-->
+                            <!--                                            <div class="why-text full-width">-->
+                            <!--                                                <h4 th:text="${product.name}"></h4>-->
+                            <!--                                                <h5 th:text="'$' + ${product.costPrice}"></h5>-->
+                            <!--                                                <p th:text="${product.description}"> Soft-shell crabs don't need-->
+                            <!--                                                    much adornment; a squirt of citrus and-->
+                            <!--                                                    some freshly ground black pepper offset the funky sea flavor-->
+                            <!--                                                    beautifully.-->
+                            <!--                                                    But a little garlic and something green and sprightly (here, a-->
+                            <!--                                                    combination of arugula and chives) can make them even better.</p>-->
+                            <!--                                                <a class="btn hvr-hover" href="#">Add to Cart</a>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                <div class="product-categori">
+                    <div class="filter-sidebar-left">
+                        <div class="title-left">
+                            <h3>Recipe Categories</h3>
+                        </div>
+                        <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
+                             data-children=".sub-men">
+                            <a href="#" class="list-group-item list-group-item-action">Chay
+                                <small class="text-muted" th:text="${veganQuantity}"></small>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">Ít calo
+                                <small class="text-muted" th:text="${lowCaloQuantity}"></small>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">Nấu nhanh
+                                <small class="text-muted" th:text="${quickQuantity}"></small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="filter-price-left">
+                        <div class="title-left">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Start Feed  -->
+<div th:replace="~{fragments::instagram-box}">
+</div>
+
+<!-- End Feed  -->
+
+
+<!-- Start Footer  -->
+<footer th:replace="~{fragments::footer}">
+
+</footer>
+
+
+<!-- ALL JS FILES -->
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>
