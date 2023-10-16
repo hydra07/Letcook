@@ -30,14 +30,14 @@
             <!--            <img th:src="/img/image-product/fish.jpg" alt="">-->
 
             <div class="container-fluid">
-                <div class="input-group" style="width: 30%; margin-bottom: 20px;">
-                    <form th:action="@{/search-result/0}" method="get">
-                        <input type="text" class="form-control rounded" placeholder="Search" name="keyword"
-                               aria-label="Search"
-                               aria-describedby="search-addon"/>
-                        <button type="submit" class="btn btn-outline-primary">search</button>
-                    </form>
-                </div>
+                <!--        <div class="input-group" style="width: 30%; margin-bottom: 20px;">-->
+                <!--          <form th:action="@{/search-result/0}" method="get">-->
+                <!--            <input type="text" class="form-control rounded" placeholder="Search" name="keyword"-->
+                <!--                   aria-label="Search"-->
+                <!--                   aria-describedby="search-addon"/>-->
+                <!--            <button type="submit" class="btn btn-outline-primary">search</button>-->
+                <!--          </form>-->
+                <!--        </div>-->
                 <!--                <div class="input-group" style="width: 30%; margin-bottom: 20px;">-->
                 <!--                    <form th:action = "@{/search-products/0}" method = "get">-->
                 <!--                        <input type="text" class="form-control rounded" placeholder="Search" name = "keyword" aria-label="Search"-->
@@ -45,7 +45,7 @@
                 <!--                        <button type="submit" class="btn btn-outline-primary">search</button>-->
                 <!--                    </form>-->
                 <!--                </div>-->
-                <a th:href="@{/add-product}" class="btn btn-primary">Add Product</a>
+                <!--        <a th:href="@{/add-product}" class="btn btn-primary">Add Product</a>-->
                 <p th:if="${size == 0} ">No Products</p>
                 <div th:if="${success}" class="text-center alert alert-success">
                     <p th:text="${success}"></p>
@@ -56,52 +56,44 @@
                 <table class="table table-bordered" th:if="${size > 0}">
                     <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Image</th>
+                        <th scope="col">Recipe Name</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Portion</th>
+                        <th scope="col">Cooking Time</th>
+                        <th scope="col">Is Confirmed</th>
+                        <th scope="col">Is Checked</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="product : ${products}">
-                        <td th:text="${product.id}"></td>
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.category.name}"></td>
-                        <td th:text="${product.costPrice}"></td>
-                        <td th:text="${product.currentQuantity}"></td>
-                        <td>
-                            <!-- Display product images -->
-                            <div>
-                                <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
-                                     th:src="@{'/' + ${product.imgProducts.get(0)}}"/> <!-- Use imgPath property of ImgProduct -->
-                            </div>
-                        </td>
+                    <tr th:each="recipe : ${recipes}">
+                        <td th:text="${recipe.recipeName}"></td>
+                        <td th:text="${recipe.customer.firstName}"></td>
+                        <td th:text="${recipe.portion}"></td>
+                        <td th:text="${recipe.cookingTime}"></td>
+                        <td th:text="${recipe.confirmed}"></td>
+                        <td th:text="${recipe.checked}"></td>
 
                         <td>
-                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>
-                            <!-- Check if product is deleted -->
-                            <a th:if="${product.deleted}" th:href="@{'/enable-product/' + ${product.id}}" class="btn btn-primary">Enable</a>
-                            <a th:unless="${product.deleted}" th:href="@{'/delete-product/' + ${product.id}}" class="btn btn-danger">Delete</a>
+                            <a th:href="@{'/check-recipe/' + ${recipe.id}}" class="btn btn-primary">Check</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <!--Pagination  -->
                 <nav aria-label="...">
                     <ul class="pagination">
                         <li th:if="${currentPage != 0}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage - 1})}" class="page-link">Previous</a>
+                            <a th:href="@{/recipes/{pageNo}(pageNo=${currentPage - 1})}" class="page-link">Previous</a>
                         </li>
                         <li th:each="i : ${#numbers.sequence(1, totalPages)}"
                             th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${i - 1})}" class="page-link">
+                            <a th:href="@{/recipes/{pageNo}(pageNo=${i - 1})}" class="page-link">
                                 <span th:text="${i}"></span>
                             </a>
                         </li>
                         <li th:if="${currentPage + 1 != totalPages}" class="page-item">
-                            <a th:href="@{/products/{pageNo}(pageNo=${currentPage + 1})}" class="page-link">Next</a>
+                            <a th:href="@{/recipes/{pageNo}(pageNo=${currentPage + 1})}" class="page-link">Next</a>
                         </li>
                     </ul>
                 </nav>

@@ -18,6 +18,7 @@ public class Step {
     @Column(name = "step_id")
     private Long id;
 
+    @Column(columnDefinition = "NVARCHAR(200)")
     private String description;
 
     @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
