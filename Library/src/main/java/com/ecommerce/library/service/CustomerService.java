@@ -12,6 +12,4 @@ public interface CustomerService{
     public CustomerDto getCustomer(String username);
 
     public Customer update(CustomerDto dto);
-
-    public Customer updateAvatar(String username, String avatar);
 }

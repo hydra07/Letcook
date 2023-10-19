@@ -73,12 +73,5 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
-    @Override
-    public Customer updateAvatar(String username, String avatar) {
-        Customer customer = customerRepository.findByUsername(username);
-        customer.setImage(avatar);
-        return customerRepository.save(customer);
-    }
-
 
 }

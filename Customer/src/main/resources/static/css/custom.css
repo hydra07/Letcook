@@ -25,27 +25,3 @@
     background-color: #f5f5f5; /* Màu nền khi di chuột vào */
     font-weight: bold; /* Bôi đậm mục tiêu khi di chuột vào */
 }
-
-.custom-file-input {
-    display: none; /* ẩn input file đi */
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #007bff;
-    color: #fff;
-    border-radius: 5px;
-
-    /* CSS style cho nút */
-}
-
-/*.custom-file,*/
-/*.add-image {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-
- {
-    /*margin-right: 10px;*/
-}
