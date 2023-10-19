@@ -30,4 +30,5 @@ public interface RecipeService {
 
     Recipe reject(RecipeDto recipeDto);
 
+    List<Recipe> findAllByCustomer(String username);
 }
