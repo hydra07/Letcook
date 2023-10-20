@@ -53,11 +53,10 @@
                  alt="Profile picture"/>
                 <form th:action="@{/update-avatar}" method="post" enctype="multipart/form-data" class="add-image">
                     <div class="custom-file">
-                        <input type="file" id="image" name ="image" class="custom-file-input">
-
-                        <label for="image" class="btn btn-primary">Add Image</label>
+                        <input type="file" id="image" name="image" class="custom-file-input">
+                        <label for="image" style="cursor: pointer">Choose file</label>
                     </div>
-                    <input type="submit" value="Upload" class="btn btn-primary">
+                    <input type="submit" value="Save" class="btn btn-primary">
                 </form>
 <!--            <input type="file" name="image" id="image" class="form-control">-->
 
@@ -84,7 +83,7 @@
                     <div class="account-box">
                         <div class="service-box">
                             <div class="service-icon">
-                                <a href="#"> <i class="fa fa-gift"></i> </a>
+                                <a th:href="@{/order}"> <i class="fa fa-gift"></i> </a>
                             </div>
                             <div class="service-desc">
                                 <h4>Your Orders</h4>
@@ -97,7 +96,7 @@
                     <div class="account-box">
                         <div class="service-box">
                             <div class="service-icon">
-                                <a href="#"><i class="fa fa-lock"></i> </a>
+                                <a th:href="@{/account}"><i class="fa fa-lock"></i> </a>
                             </div>
                             <div class="service-desc">
                                 <h4>Login &amp; security</h4>
@@ -110,11 +109,11 @@
                     <div class="account-box">
                         <div class="service-box">
                             <div class="service-icon">
-                                <a href="#"> <i class="fa fa-location-arrow"></i> </a>
+                                <a th:href="@{/my-recipe}"> <i class="fa fa-location-arrow"></i> </a>
                             </div>
                             <div class="service-desc">
-                                <h4>Your Addresses</h4>
-                                <p>Edit addresses for orders and gifts</p>
+                                <h4>Your Recipe</h4>
+                                <p>View your recipe, saved list</p>
                             </div>
                         </div>
                     </div>

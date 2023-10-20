@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+
+<head>
+    <div th:replace="~{fragments::head}"></div>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<!-- Start Main Top -->
+<div th:replace="~{fragments::main-top}">
+</div>
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header th:replace="~{fragments::main-header}"></header>
+<!-- End Main Top -->
+
+<!-- Start Top Search -->
+<div th:replace="~{fragments::top-search}">
+</div>
+<!-- End Top Search -->
+
+<!-- Start All Title Box -->
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Cart</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="home.html">My Recipe</a></li>
+                    <li class="breadcrumb-item active">Cart</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+
+<!-- Start Cart  -->
+<div class="container">
+    <h2>Công thức</h2>
+    <br>
+    <!-- Nav pills -->
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#savedRecipes">Đã lưu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#myRecipes">Công thức của tôi</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#cooksnap">Cooksnap</a>
+        </li>
+        <li class="nav-item ml-5">
+            <a class="btn btn-warning bg-warning" th:href="@{/recipe-form}"><i class="fas fa-plus-circle"></i> Add a
+                recipe</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="savedRecipes" class="container tab-pane active"><br>
+            <h3>Công thức đã lưu</h3>
+            <div class="row">
+                <!-- <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="recipe: ${myRecipes}"> -->
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="savedRecipe : ${savedRecipes}">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <a th:href="@{/find-recipe/{id}(id = ${savedRecipe.id})}">
+                                <img th:src="@{'/' + ${savedRecipe.steps.get(1).images.get(0).getImgPath()}}"
+                                     class="img-fluid" alt="Image">
+                            </a>
+                        </div>
+                        <div class="why-text">
+                            <h4 th:text="${savedRecipe.name}"></h4>
+                            <p>Thời gian nấu: <span th:text="${savedRecipe.cookingTime}"></span> phút</p>
+                            <p>Khẩu phẩn: <span class="mr-2" th:text="${savedRecipe.portion}"></span>người</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myRecipes" class="container tab-pane fade"><br>
+            <h3>Công thức của bạn</h3>
+            <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="recipe: ${myRecipes}">
+                        <div class="products-single fix">
+                            <div class="box-img-hover">
+                                <a th:href="@{/find-recipe/{id}(id = ${recipe.id})}">
+                                    <img th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                                         class="img-fluid" alt="Image">
+                                </a>
+                            </div>
+                            <div class="why-text">
+                                <h4 th:text="${recipe.name}"></h4>
+                                 <p>Thời gian nấu: <span th:text="${recipe.cookingTime}"></span> phút</p>
+                                 <p>Khẩu phẩn: <span class="mr-2" th:text="${recipe.portion}"></span>người</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="cooksnap" class="container tab-pane fade"><br>
+            <h3>Menu 2</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+                totam rem aperiam.</p>
+        </div>
+    </div>
+</div>
+<!-- End Cart -->
+
+<!-- Start Feed  -->
+<!-- Start Feed  -->
+<div th:replace="~{fragments::instagram-box}"></div>
+
+<!-- End Feed  -->
+
+
+<!-- Start Footer  -->
+<footer th:replace="~{fragments::footer}">
+</footer>
+
+<div th:replace="~{fragments::script}"></div>
+
+</body>
+
+</html>

@@ -13,7 +13,9 @@
     <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/assets/css/recipe.css}" type="text/css">
 </head>
-<body>
+<body th:style="'background-image:url(' + @{../shop/images/background2.jpg} + '); '">
+<!--<body th:style="'background-image:url(' + @{../shop/images/background.jpg} + '); background-repeat: no-repeat, repeat; background-size: cover;'">-->
+
 <div class="container">
     <form th:action="@{/add-recipe}" method="post" enctype="multipart/form-data">
         <!-- Recipe Name and Description section -->
