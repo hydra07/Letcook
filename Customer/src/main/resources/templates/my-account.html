@@ -53,7 +53,7 @@
                  alt="Profile picture"/>
                 <form th:action="@{/update-avatar}" method="post" enctype="multipart/form-data" class="add-image">
                     <div class="custom-file">
-                        <input type="file" id="image" class="custom-file-input">
+                        <input type="file" id="image" name ="image" class="custom-file-input">
 
                         <label for="image" class="btn btn-primary">Add Image</label>
                     </div>
