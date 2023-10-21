@@ -5,6 +5,8 @@ import com.ecommerce.library.model.Order;
 import com.ecommerce.library.model.ShoppingCart;
 import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.OrderService;
+import com.ecommerce.library.service.VNPayService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,9 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    VNPayService vnPayService;
 
     @GetMapping("/check-out")
     public String checkout(Model model, Principal principal) {
@@ -60,7 +65,9 @@ public class OrderController {
     public String saveOrder(Principal principal,
                             @RequestParam("province") String province,
                             @RequestParam("district") String district,
-                            @RequestParam("ward") String ward) {
+                            @RequestParam("ward") String ward,
+                            @RequestParam("paymentMethod") String paymentMethod,
+                            HttpServletRequest request) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -69,7 +76,15 @@ public class OrderController {
         ShoppingCart cart = customer.getShoppingCart();
         String shippingAddress = province + ", " + district + ", " + ward + "," + customer.getAddress();
         System.out.println("diachi:" + shippingAddress);
-        orderService.saveOrder(cart, shippingAddress);
+        if (paymentMethod.equals("BANKING")) {
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/shop";
+            System.out.println("baseUrl: " + baseUrl);
+            String orderInfo = "Thanh toan don hang-" + customer.getName();
+            String vnpayUrl = vnPayService.createOrder((int) cart.getTotalPrices(), orderInfo, baseUrl);
+            orderService.saveOrder(cart, shippingAddress, paymentMethod);
+            return "redirect:" + vnpayUrl;
+        }
+        orderService.saveOrder(cart, shippingAddress, paymentMethod);
         return "redirect:/order";
     }
 
@@ -87,7 +102,7 @@ public class OrderController {
 //    }
 
     @RequestMapping(value = "/cancel-order/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String cancelOrder(Principal principal,@PathVariable("id") Long id, RedirectAttributes attributes)  {
+    public String cancelOrder(Principal principal, @PathVariable("id") Long id, RedirectAttributes attributes) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -100,7 +115,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/accept-order/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String acceptOrder(Principal principal,@PathVariable("id") Long id, RedirectAttributes attributes)  {
+    public String acceptOrder(Principal principal, @PathVariable("id") Long id, RedirectAttributes attributes) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -109,6 +124,12 @@ public class OrderController {
 //        Customer customer = customerService.findByUsername(username);
 //        List<Order> orderList = customer.getOrders();
         attributes.addFlashAttribute("success", "Cancel order successfully!");
+        return "redirect:/order";
+    }
+
+    @GetMapping("/vnPayPayment")
+    public String completeOrder(){
+
         return "redirect:/order";
     }
 

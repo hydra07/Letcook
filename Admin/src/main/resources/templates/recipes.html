@@ -46,7 +46,7 @@
                 <!--                    </form>-->
                 <!--                </div>-->
                 <!--        <a th:href="@{/add-product}" class="btn btn-primary">Add Product</a>-->
-                <p th:if="${size == 0} ">No Products</p>
+                <p th:if="${size == 0} ">No Recipe</p>
                 <div th:if="${success}" class="text-center alert alert-success">
                     <p th:text="${success}"></p>
                 </div>
@@ -106,7 +106,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <footer th:replace="~{fragments::footer}">
+        <!--        <footer th:replace="~{fragments::footer}">-->
         </footer>
         <!-- End of Footer -->
 

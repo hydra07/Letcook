@@ -90,7 +90,7 @@
                         <p th:text="'Số lượng '+ ${ingredient.amount} + ' ' + ${ingredient.measurement.name}">Số lượng:
                             1 cây</p>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2"  th:if="${ingredient.product._activated}">
                         <form th:action="@{/add-to-cart}" method="post">
                             <input type="hidden" th:value="${ingredient.product.id}" name="id" class="form-control">
                             <button type="submit" class="btn bg-secondary rounded-circle" style="width: 24px; height: 24px; font-size: 12px; padding: 0;">+</button>
@@ -103,7 +103,7 @@
                         <h4 th:text="'Bước ' + ${stepStat.index + 1}"></h4>
                         <p th:text="${step.description}">Mô tả bước nấu ăn</p>
                         <img class="img-fluid mr-2"
-                             style="width: 150px;" th:src="@{'/' + ${stepImg.getImgPath()}}" a
+                             style="width: 150px; height: 85px" th:src="@{'/' + ${stepImg.getImgPath()}}" a
                              lt="Ảnh bước nấu ăn"
                              th:each="stepImg: ${step.getImages()}">
                     </div>

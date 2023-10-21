@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <!--            <img th:src="/img/image-product/fish.jpg" alt="">-->
+
+            <div class="container-fluid">
+                <!--                <div class="input-group" style="width: 30%; margin-bottom: 20px;">-->
+                <!--                    <form th:action = "@{/search-products/0}" method = "get">-->
+                <!--                        <input type="text" class="form-control rounded" placeholder="Search" name = "keyword" aria-label="Search"-->
+                <!--                               aria-describedby="search-addon" />-->
+                <!--                        <button type="submit" class="btn btn-outline-primary">search</button>-->
+                <!--                    </form>-->
+                <!--                </div>-->
+                <div class="alert alert-warning" th:if="${size == 0} ">No Order</div>
+                <div th:if="${success}" class="text-center alert alert-success">
+                    <p th:text="${success}"></p>
+                </div>
+                <div th:if="${error}" class="text-center alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+                <table class="table table-bordered" th:if="${size > 0}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Delivery Date</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Payment Method</th>
+                        <th scope="col">Shipping address</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.id}"></td>
+                        <td th:text="${order.deliveryDate}"></td>
+                        <td th:text="${order.orderDate}"></td>
+                        <td th:text="${order.totalPrice}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                        <td th:text="${order.customer.name}"></td>
+                        <td th:text="${order.paymentMethod}"></td>
+                        <td th:text="${order.shippingAddress}"></td>
+                        <td>
+                            <a th:if="${!order.accepted && order.orderStatus == 'PENDING'}" class="btn btn-primary" th:href="@{/accept-order/{id}(id = ${order.id})}"> Accept</a>
+                            <a th:if="${order.orderStatus == 'CANCELED'}" class="btn btn-danger" th:href="@{/resolve-order/{id}(id = ${order.id})}"> Resolve</a>
+
+                            <!--                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>-->
+                            <!--                            &lt;!&ndash; Check if product is deleted &ndash;&gt;-->
+                            <!--                            <a th:if="${product.deleted}" th:href="@{'/enable-product/' + ${product.id}}" class="btn btn-primary">Enable</a>-->
+                            <!--                            <a th:unless="${product.deleted}" th:href="@{'/delete-product/' + ${product.id}}" class="btn btn-danger">Delete</a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments::footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments::scroll}">
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>
