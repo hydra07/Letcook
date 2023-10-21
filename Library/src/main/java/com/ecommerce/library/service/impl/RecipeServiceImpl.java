@@ -92,7 +92,7 @@ public class RecipeServiceImpl implements RecipeService {
         for (int i = 0; i < recipeDto.getIngredients().size(); i++) {
             recipe.getIngredients().get(i).setProduct(recipeDto.getIngredients().get(i).getProduct());
         }
-        recipe.setSteps(recipeDto.getSteps());
+//        recipe.setSteps(recipeDto.getSteps());
 //        recipe.setCustomer(recipeDto.getCustomer());
         recipe.set_checked(true);
         return recipeRepository.save(recipe);
@@ -107,7 +107,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.set_confirmed(false);
         recipe.setCookingTime(recipeDto.getCookingTime());
         recipe.setIngredients(recipeDto.getIngredients());
-        recipe.setSteps(recipeDto.getSteps());
+//        recipe.setSteps(recipeDto.getSteps());
         recipe.setCustomer(recipeDto.getCustomer());
         recipe.set_checked(true);
         return recipeRepository.save(recipe);
@@ -117,6 +117,7 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> findAllByCustomer(String username) {
         return null;
     }
+
 
     private Page toPage(List<RecipeDto> list, Pageable pageable) {
         if (pageable.getOffset() >= list.size()) {

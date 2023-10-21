@@ -22,4 +22,8 @@ public class CustomerDto {
     @Pattern(regexp = "^[0-9]{10}$", message = "Invalid phone number! (10 digits)")
     private String phoneNumber;
     private String address;
+
+    private String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

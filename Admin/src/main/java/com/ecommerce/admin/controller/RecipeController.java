@@ -30,17 +30,17 @@ public class RecipeController {
 
     @Autowired
     ProductService productService;
-    @GetMapping("/recipes")
-    public String recipes(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
-        List<Recipe> recipes = recipeService.findAll();
-        model.addAttribute("title", "Recipes");
-        model.addAttribute("recipes" , recipes);
-        model.addAttribute("size", recipes.size());
-        return "recipes";
-    }
+//    @GetMapping("/recipes")
+//    public String recipes(Model model, Principal principal) {
+//        if (principal == null) {
+//            return "redirect:/login";
+//        }
+//        List<Recipe> recipes = recipeService.findAll();
+//        model.addAttribute("title", "Recipes");
+//        model.addAttribute("recipes" , recipes);
+//        model.addAttribute("size", recipes.size());
+//        return "recipes";
+//    }
 
     @GetMapping("/recipes/{pageNo}")
     public String productsPage(@PathVariable("pageNo") int pageNo, Model model, Principal principal){
@@ -104,7 +104,7 @@ public class RecipeController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to update!");
         }
-        return "redirect:/recipes";
+        return "redirect:/recipes/0";
     }
 
     @RequestMapping(value = "/check-recipe/{id}", method = RequestMethod.POST, params = "action=reject")
@@ -120,6 +120,6 @@ public class RecipeController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to Reject!");
         }
-        return "redirect:/recipes";
+        return "redirect:/recipes/0";
     }
 }

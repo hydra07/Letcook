@@ -1,6 +1,7 @@
 package com.ecommerce.customer.controller;
 
 
+import com.ecommerce.library.service.OrderService;
 import com.ecommerce.library.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @Controller
 public class VNPayController {
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private VNPayService vnPayService;
@@ -30,14 +33,19 @@ public class VNPayController {
     public String submidOrder(@RequestParam("amount") int orderTotal,
                               @RequestParam("orderInfo") String orderInfo,
                               HttpServletRequest request){
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/shop";
+        System.out.println("baseUrl: " + baseUrl);
+        double total = 250000.0;
         String vnpayUrl = vnPayService.createOrder(orderTotal, orderInfo, baseUrl);
+        System.out.println("vnpayUrl: " + vnpayUrl);
 
         return "redirect:" + vnpayUrl;
+//        return "redirect:/order";
     }
 
 
-    @GetMapping("/vnPayPayment")
+
+    @GetMapping("/vnpay-payment")
     @ResponseBody
     public ResponseEntity<Object> GetMapping(HttpServletRequest request) {
         int paymentStatus = vnPayService.orderReturn(request);
@@ -52,6 +60,7 @@ public class VNPayController {
         res.put("totalPrice", totalPrice);
         res.put("paymentTime", paymentTime);
         res.put("transactionId", transactionId);
+        System.out.println("okk");
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

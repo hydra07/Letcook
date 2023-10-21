@@ -23,7 +23,7 @@ public class Recipe {
     @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
 
-    @Column(columnDefinition = "NVARCHAR(200)")
+    @Column(columnDefinition = "NVARCHAR(500)")
     private String description;
 
     private Integer portion;
