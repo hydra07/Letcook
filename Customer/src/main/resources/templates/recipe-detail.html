@@ -71,7 +71,11 @@
                                     th:text="${recipe.customer.firstName + ' ' + recipe.customer.lastName}">John
                                 Doe</strong></h3>
                             <p th:text="'@letcook_' + ${recipe.customer.firstName}">@letcook_john</p>
-                            <button class="btn btn-warning">Follow</button>
+                            <a th:href="@{/follow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${session.customerUsername == null}">Follow</a>
+                            <th:block th:if="${session.customerUsername != null}">
+                            <a th:href="@{/follow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${session.customerUsername != recipe.customer.username && !isFollowed}">Follow</a>
+                            <a th:href="@{/unFollow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${isFollowed}">UnFollow</a>
+                            </th:block>
                         </div>
                     </div>
                 </div>

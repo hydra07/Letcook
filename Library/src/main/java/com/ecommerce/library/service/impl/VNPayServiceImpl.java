@@ -17,6 +17,7 @@ public class VNPayServiceImpl implements VNPayService {
 
     @Override
     public String createOrder(int total, String orderInfor, String urlReturn) {
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
@@ -34,6 +35,9 @@ public class VNPayServiceImpl implements VNPayService {
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", orderInfor);
         vnp_Params.put("vnp_OrderType", orderType);
+
+//        vnp_Params.put("vnp_PaymentMethod", paymentMethod);
+//        vnp_Params.put("vnp_Address", address);
 
         String locate = "vn";
         vnp_Params.put("vnp_Locale", locate);

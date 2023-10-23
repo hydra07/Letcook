@@ -64,4 +64,7 @@ public class Customer {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private List<Recipe> favoriteRecipes;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
 }

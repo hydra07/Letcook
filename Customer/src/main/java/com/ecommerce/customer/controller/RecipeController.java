@@ -1,10 +1,7 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.model.*;
-import com.ecommerce.library.service.CustomerService;
-import com.ecommerce.library.service.IngredientService;
-import com.ecommerce.library.service.MeasurementService;
-import com.ecommerce.library.service.RecipeService;
+import com.ecommerce.library.service.*;
 import com.ecommerce.library.utils.ImageUpload;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.id.IncrementGenerator;
@@ -29,6 +26,8 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
+    @Autowired
+    private FollowService followService;
 
     @Autowired
     private MeasurementService measurementService;
@@ -43,10 +42,15 @@ public class RecipeController {
     public String recipeDetail(@PathVariable("id") Long id, Model model, Principal principal){
         Recipe recipe = recipeService.getRecipeById(id);
         model.addAttribute("recipe",recipe);
-
         boolean isFavorite = false;
+        boolean isFollowed = false;
+
         if(principal != null){
             isFavorite = customerService.isFavorite(id,principal.getName());
+            Customer customer = customerService.findByUsername(principal.getName());
+            Customer following = recipe.getCustomer();
+            isFollowed = followService.isFollowing(customer.getId(),following.getId());
+            model.addAttribute("isFollowed", isFollowed);
         }
         double calories = 0;
         double sugar = 0;
@@ -54,6 +58,7 @@ public class RecipeController {
         double sodium = 0;
         double carbs = 0;
         double fiber = 0;
+
         for(Ingredient ingredient  : recipe.getIngredients()){
             Map<String, Double> nutritions =  ingredientService.getNutrition(ingredient);
             calories += nutritions.get("calories");
@@ -180,7 +185,7 @@ public class RecipeController {
             e.printStackTrace();
         }
 
-        return "index";
+        return "redirect:/my-recipe";
     }
 
     @PostMapping("/add-to-favorite")
