@@ -1,10 +1,7 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.dto.ProductDto;
-import com.ecommerce.library.model.Category;
-import com.ecommerce.library.model.Customer;
-import com.ecommerce.library.model.Product;
-import com.ecommerce.library.model.ShoppingCart;
+import com.ecommerce.library.model.*;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.ProductService;
@@ -37,7 +34,16 @@ public class HomeController {
         if (principal != null) {
             Customer customer = customerService.findByUsername(principal.getName());
             session.setAttribute("username", customer.getFirstName() + " " + customer.getLastName());
+            session.setAttribute("customerUsername", customer.getUsername());
             ShoppingCart shoppingCart = customer.getShoppingCart();
+            List<Notification> notifications = customer.getNotifications();
+            if (notifications == null || notifications.size() == 0) {
+                session.setAttribute("checkNotify", "No notification");
+                session.removeAttribute("notifications");
+            } else {
+                session.setAttribute("notifications", notifications);
+                session.removeAttribute("checkNotify");
+            }
             if (shoppingCart != null) {
                 session.setAttribute("totalItems", shoppingCart.getTotalItems());
             }

@@ -1,6 +1,10 @@
 package com.ecommerce.admin.controller;
 
+import com.ecommerce.library.enums.NotificationType;
+import com.ecommerce.library.model.Customer;
 import com.ecommerce.library.model.Order;
+import com.ecommerce.library.service.CustomerService;
+import com.ecommerce.library.service.NotificationService;
 import com.ecommerce.library.service.OrderService;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,11 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    private CustomerService customerService;
     @GetMapping("/orders")
     public String getOrder(Model model, Principal principal){
         if(principal == null){
@@ -37,7 +46,14 @@ public class OrderController {
         if(principal == null){
             return "redirect:/login";
         }
+        Order order = orderService.getOrderById(id);
+        Customer customer = order.getCustomer();
+        NotificationType cancelOrder = NotificationType.CANCEL_ORDER;
+        String message = "Your cancel request has been accepted by admin";
+        String url = "/order";
         orderService.deleteOrder(id);
+        notificationService.createNotification(cancelOrder.getTitle(), customer, cancelOrder.getType(), message, url);
+
         return "redirect:/orders";
     }
 
@@ -46,9 +62,15 @@ public class OrderController {
         if (principal == null) {
             return "redirect:/login";
         }
+        Order order = orderService.getOrderById(id);
+        Customer customer = order.getCustomer();
+        NotificationType acceptOrder = NotificationType.ACCEPT_ORDER;
+        String message = "Your order has been accepted and will be delivered soon";
+        String url = "/order";
         orderService.acceptOrder(id);
         String username = principal.getName();
-//        Customer customer = customerService.findByUsername(username);
+        notificationService.createNotification(acceptOrder.getTitle(), customer, acceptOrder.getType(), message, url);
+
 //        List<Order> orderList = customer.getOrders();
         attributes.addFlashAttribute("success", "Accept order successfully!");
         return "redirect:/orders";

@@ -7,6 +7,7 @@ import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.OrderService;
 import com.ecommerce.library.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +68,7 @@ public class OrderController {
                             @RequestParam("district") String district,
                             @RequestParam("ward") String ward,
                             @RequestParam("paymentMethod") String paymentMethod,
-                            HttpServletRequest request) {
+                            HttpServletRequest request, HttpSession session) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -81,7 +82,8 @@ public class OrderController {
             System.out.println("baseUrl: " + baseUrl);
             String orderInfo = "Thanh toan don hang-" + customer.getName();
             String vnpayUrl = vnPayService.createOrder((int) cart.getTotalPrices(), orderInfo, baseUrl);
-            orderService.saveOrder(cart, shippingAddress, paymentMethod);
+            session.setAttribute("shippingAddress", shippingAddress);
+//            orderService.saveOrder(cart, shippingAddress, paymentMethod);
             return "redirect:" + vnpayUrl;
         }
         orderService.saveOrder(cart, shippingAddress, paymentMethod);
@@ -128,9 +130,26 @@ public class OrderController {
     }
 
     @GetMapping("/vnPayPayment")
-    public String completeOrder(){
+    public String completeOrder(HttpServletRequest request, Principal principal,HttpSession session){
+        int paymentStatus = vnPayService.orderReturn(request);
+        String orderInfo = request.getParameter("vnp_OrderInfo");
+        String paymentTime = request.getParameter("vnp_PayDate");
+        String transactionId = request.getParameter("vnp_TransactionNo");
+        String totalPrice = request.getParameter("vnp_Amount");
+//        String paymentMethod = request.getParameter("vnp_PaymentMethod");
+//        String shippingAddress = request.getParameter("vnp_Address");
+        String[] lists = orderInfo.split("-");
+        String username = principal.getName();
+        Customer customer = customerService.findByUsername(username);
+        ShoppingCart cart = customer.getShoppingCart();
+        if (paymentStatus == 1) {
+            String shippingAddress = (String) session.getAttribute("shippingAddress");
+            orderService.saveOrder(cart, shippingAddress, "BANKING");
+            session.removeAttribute("shippingAddress");
+            return "redirect:/order";
+        }
 
-        return "redirect:/order";
+        return "redirect:/check-out";
     }
 
 }

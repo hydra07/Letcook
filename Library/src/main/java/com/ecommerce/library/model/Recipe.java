@@ -42,6 +42,8 @@ public class Recipe {
     @Column(nullable = false)
     private boolean is_checked;
 
+
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
