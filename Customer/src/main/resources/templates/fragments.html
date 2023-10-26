@@ -113,8 +113,6 @@
             <ul class="dropdown-menu">
               <li><a th:href="@{/products}">Shop Detail</a></li>
 <!--              <li><a href="product-detail.html">Product Detail</a></li>-->
-              <li><a href="cart.html">Cart</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
               <li><a th:href="@{/profile}">Profile</a></li>
               <li><a th:href="@{/account}">My Account</a></li>
               <li><a th:href="@{/order}">Order</a></li>
@@ -167,21 +165,23 @@
             </div>
             <div th:if="${session.notifications != null && session.notifications.size() > 0}">
             <a class="dropdown-item" th:href="@{/handle-notification/{id}(id = ${notification.id})}" th:each="notification : ${session.notifications}">
-              <div class="media" style="width: 350px;">
+              <div class="media" style="width: 450px;">
                 <img class="mr-3 align-self-center" th:src="@{/images/new-recipe.png}" style="width: 50px;"
                      alt="Generic placeholder image" th:if="${notification.type == 'NEW'}">
                 <img class="mr-3 align-self-center" th:src="@{/images/approve.png}" style="width: 50px;"
                      alt="Generic placeholder image" th:if="${notification.type == 'ACCEPT'}">
+                <img class="mr-3 align-self-center" th:src="@{/images/reject.png}" style="width: 50px;"
+                     alt="Generic placeholder image" th:if="${notification.type == 'REJECT'}">
                 <img class="mr-3 align-self-center" th:src="@{/images/accept.png}" style="width: 50px;"
                      alt="Generic placeholder image" th:if="${notification.type == 'ACCEPT_ORDER'}">
                 <img class="mr-3 align-self-center" th:src="@{/images/cancel.png}" style="width: 50px;"
                      alt="Generic placeholder image" th:if="${notification.type == 'CANCEL_ORDER'}">
-                <div class="media-body">
+                <div class="media-body"  style="max-width: 450px; overflow: auto;">
                   <div class="d-flex justify-content-between">
                     <strong class="align-self-center" style="font-size: 1.3rem" th:text="${notification.title}"></strong>
                     <small class="align-self-center" th:text="${notification.createAt}">21/10/2023</small>
                   </div>
-                  <p th:text="${notification.message}"></p>
+                  <span class="align-self-center text-break" th:text="${notification.message}"></span>
                 </div>
 
               </div>

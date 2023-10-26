@@ -104,7 +104,7 @@
                                         <div class="products-single fix">
                                             <div class="box-img-hover">
                                                 <a th:href="@{/find-recipe/{id}(id = ${recipe.id})}">
-                                                    <img th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                                                    <img th:src="@{'/' + ${recipe.image}}"
                                                          class="img-fluid" alt="Image" style="width: 255px; height: 140px">
                                                 </a>
                                             </div>

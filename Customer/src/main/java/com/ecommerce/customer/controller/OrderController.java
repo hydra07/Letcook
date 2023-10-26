@@ -58,6 +58,7 @@ public class OrderController {
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
         List<Order> orderList = customer.getOrders();
+        orderList.sort((n1, n2) -> n2.getId().compareTo(n1.getId()));
         model.addAttribute("orders", orderList);
         return "order";
     }

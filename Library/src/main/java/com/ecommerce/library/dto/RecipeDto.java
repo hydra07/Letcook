@@ -24,6 +24,6 @@ public class RecipeDto {
     private boolean confirmed;
     private Customer customer;
     private boolean checked;
-
+    private String image;
 }
 

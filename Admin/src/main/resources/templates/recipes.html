@@ -58,6 +58,7 @@
                     <tr>
                         <th scope="col">Recipe Name</th>
                         <th scope="col">Customer Name</th>
+                        <th scope="col">Recipe img</th>
                         <th scope="col">Portion</th>
                         <th scope="col">Cooking Time</th>
                         <th scope="col">Is Confirmed</th>
@@ -69,6 +70,7 @@
                     <tr th:each="recipe : ${recipes}">
                         <td th:text="${recipe.recipeName}"></td>
                         <td th:text="${recipe.customer.firstName}"></td>
+                        <td><img style="width: 80px; height: 60px" th:src="@{'/' + ${recipe.image}}"></td>
                         <td th:text="${recipe.portion}"></td>
                         <td th:text="${recipe.cookingTime}"></td>
                         <td th:text="${recipe.confirmed}"></td>

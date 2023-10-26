@@ -18,5 +18,11 @@ public interface OrderService {
 
     List<Order> findAll();
 
+    int numOfOrderToday();
 
+    Double[] revenueByMonths();
+
+    List<Order> getUnCheckedOrder();
+
+    int numOfOrderByStatus(String status);
 }

@@ -114,7 +114,7 @@ public class RecipeController {
                 NotificationType newRecipe = NotificationType.NEW;
                 String newRecipeMessage = "New recipe from " + recipe.getCustomer().getName() + " has been created";
                 String newRecipeUrl = "/find-recipe/" + recipe.getId();
-                notificationService.createNotification(newRecipe.getType(), follow, newRecipe.getTitle(), newRecipeMessage, newRecipeUrl);
+                notificationService.createNotification(newRecipe.getTitle(), follow, newRecipe.getType(), newRecipeMessage, newRecipeUrl);
             }
 
             attributes.addFlashAttribute("success", "Update successfully!");
@@ -128,7 +128,8 @@ public class RecipeController {
     @RequestMapping(value = "/check-recipe/{id}", method = RequestMethod.POST, params = "action=reject")
     public String rejectRecipe(@PathVariable("id") Long id,
                                @ModelAttribute("recipeDto") RecipeDto recipeDto,
-                               @RequestParam("recipeId") List<Long> recipeIds,
+
+                               @RequestParam("rejectReason") String rejectReason,
                                RedirectAttributes attributes) {
         try {
             recipeService.reject(recipeDto);
@@ -136,9 +137,9 @@ public class RecipeController {
             Recipe recipe = recipeService.reject(recipeDto);
             Customer customer = recipe.getCustomer();
             NotificationType accept = NotificationType.REJECT;
-            String message = "Your recipe" + recipe.getName() + "has been rejected";
+            String message = "Your recipe" + recipe.getName() + " has been rejected with reason: "+rejectReason;
             String url = "/my-recipe";
-            notificationService.createNotification(accept.getType(), customer, accept.getTitle(), message, url);
+            notificationService.createNotification(accept.getTitle(), customer, accept.getType(), message, url);
 
         } catch (Exception e) {
             e.printStackTrace();

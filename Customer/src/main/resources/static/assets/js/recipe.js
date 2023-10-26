@@ -112,7 +112,7 @@ $('#addStep').click(function () {
             .attr('id', 'step' + stepCount + 'Image')
             .attr('accept', 'image/*')
             .attr('multiple', true) // Cho phép chọn nhiều tệp hình ảnh
-            .attr('required', true)
+            .attr('required', false)
             .attr('name' , 'step' + stepCount + 'Image'),
     );
 

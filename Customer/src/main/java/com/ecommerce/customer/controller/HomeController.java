@@ -37,6 +37,7 @@ public class HomeController {
             session.setAttribute("customerUsername", customer.getUsername());
             ShoppingCart shoppingCart = customer.getShoppingCart();
             List<Notification> notifications = customer.getNotifications();
+            notifications.sort((n1, n2) -> n2.getId().compareTo(n1.getId()));
             if (notifications == null || notifications.size() == 0) {
                 session.setAttribute("checkNotify", "No notification");
                 session.removeAttribute("notifications");

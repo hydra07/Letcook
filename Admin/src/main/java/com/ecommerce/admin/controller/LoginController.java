@@ -3,6 +3,8 @@ package com.ecommerce.admin.controller;
 import com.ecommerce.library.dto.AdminDto;
 import com.ecommerce.library.model.Admin;
 import com.ecommerce.library.service.AdminService;
+import com.ecommerce.library.service.OrderService;
+import com.ecommerce.library.service.RecipeService;
 import com.ecommerce.library.service.impl.AdminServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,10 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginController {
@@ -27,7 +26,13 @@ public class LoginController {
     private AdminServiceImpl adminService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RecipeService recipeService;
 
     @GetMapping("/login")
     public String loginForm(Model model, HttpServletRequest request) {
@@ -37,18 +42,48 @@ public class LoginController {
             return "redirect:/index";
         }
 
+
         model.addAttribute("title", "Login");
         return "login";
     }
 
 
-    @RequestMapping("/index")
+    @RequestMapping(value = {"/index","/"}, method = RequestMethod.GET)
     public String home(Model model){
         model.addAttribute("title", "Home Page");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof  AnonymousAuthenticationToken){
             return "redirect:/login";
         }
+
+        int unCheckedRecipe = recipeService.numOfUncheckedRecipe();
+        int unCheckedOrder = orderService.numOfOrderByStatus("PENDING");
+        int todayOrder = orderService.numOfOrderToday();
+        int todayRecipe = orderService.numOfOrderToday();
+
+        //pie chart
+        int unSuccessfulOrder = orderService.numOfOrderByStatus("UNSUCCESSFUL");
+        int successfulOrder = orderService.numOfOrderByStatus("SHIPPING");
+        int[] orderStatus = {unSuccessfulOrder, successfulOrder};
+
+        //Area chart
+        Long[] recipeByMonths = recipeService.numOfRecipeByMonths();
+
+        //Bar chart
+        Double[] revenueByMonths = orderService.revenueByMonths();
+
+        model.addAttribute("recipeByMonths" , recipeByMonths);
+        model.addAttribute("revenueByMonths", revenueByMonths);
+
+        model.addAttribute("unCheckedRecipe", unCheckedRecipe);
+        model.addAttribute("unCheckedOrder", unCheckedOrder);
+        model.addAttribute("todayOrder", todayOrder);
+        model.addAttribute("todayRecipe", todayRecipe);
+        model.addAttribute("orderStatus", orderStatus);
+
+        System.out.println();
+        System.out.println("recipe" + recipeByMonths);
+
         return "index";
     }
 

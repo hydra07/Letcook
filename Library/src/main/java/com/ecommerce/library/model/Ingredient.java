@@ -19,6 +19,7 @@ public class Ingredient {
     @Column(name = "ingredient_id")
     private Long id;
 
+    @Column(columnDefinition = "NVARCHAR(50)")
     private String name;
 
     private Double amount;
