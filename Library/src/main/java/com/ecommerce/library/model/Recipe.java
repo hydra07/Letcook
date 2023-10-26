@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,7 +21,7 @@ public class Recipe {
     @Column(name = "recipe_id")
     private Long id;
 
-    @Column(columnDefinition = "NVARCHAR(50)")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String name;
 
     @Column(columnDefinition = "NVARCHAR(500)")
@@ -52,4 +53,8 @@ public class Recipe {
         this.ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
+
+    private Date createAt;
+
+    private String image;
 }

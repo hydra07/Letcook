@@ -57,7 +57,7 @@
 
             <div class="col-xl-8 col-lg-8 col-md-6">
                 <div class="row rounded">
-                    <img class="rounded" th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                    <img class="rounded" th:src="@{'/' + ${recipe.image}}"
                          style="width:680px ; height: 482px">
                 </div>
 
@@ -106,10 +106,10 @@
                     <div class="col-sm-12" th:each="step, stepStat: ${recipe.steps}">
                         <h4 th:text="'Bước ' + ${stepStat.index + 1}"></h4>
                         <p th:text="${step.description}">Mô tả bước nấu ăn</p>
-                        <img class="img-fluid mr-2"
+                        <img class="img-fluid mr-2" th:if="${step.getImages() != null} && step.getImages().size() > 0"
                              style="width: 150px; height: 85px" th:src="@{'/' + ${stepImg.getImgPath()}}" a
                              lt="Ảnh bước nấu ăn"
-                             th:each="stepImg: ${step.getImages()}">
+                             th:each="stepImg: ${step.getImages()}" >
                     </div>
                 </div>
 

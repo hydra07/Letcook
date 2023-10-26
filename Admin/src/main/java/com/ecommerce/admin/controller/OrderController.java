@@ -51,9 +51,9 @@ public class OrderController {
         NotificationType cancelOrder = NotificationType.CANCEL_ORDER;
         String message = "Your cancel request has been accepted by admin";
         String url = "/order";
-        orderService.deleteOrder(id);
+        order.setOrderStatus("UNSUCCESSFUL");
+//        orderService.deleteOrder(id);
         notificationService.createNotification(cancelOrder.getTitle(), customer, cancelOrder.getType(), message, url);
-
         return "redirect:/orders";
     }
 

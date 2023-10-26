@@ -6,10 +6,8 @@ import com.ecommerce.library.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -98,10 +96,10 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetail orderDetail : order.getOrderDetailList()) {
             //increase quantity of product
 //            orderDetail.getProduct().setCurrentQuantity(orderDetail.getProduct().getCurrentQuantity() + orderDetail.getQuantity());
-              Product product = productRepository.getById(orderDetail.getProduct().getId());
-              System.out.println("sanpham:" + product.getName());
-              product.setCurrentQuantity(product.getCurrentQuantity() + orderDetail.getQuantity());
-              productRepository.save(product);
+            Product product = productRepository.getById(orderDetail.getProduct().getId());
+            System.out.println("sanpham:" + product.getName());
+            product.setCurrentQuantity(product.getCurrentQuantity() + orderDetail.getQuantity());
+            productRepository.save(product);
         }
         orderRepository.save(order);
 //      orderRepository.deleteById(id);
@@ -111,5 +109,28 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public int numOfOrderToday() {
+        return orderRepository.countByTodayOrder();
+    }
+
+    @Override
+    public Double[] revenueByMonths() {
+        List<Double> list = orderRepository.getRevenueByMonths();
+        Double[] revenueByMonths = list.toArray(new Double[0]);
+        return revenueByMonths;
+    }
+
+    @Override
+    public List<Order> getUnCheckedOrder() {
+        return null;
+    }
+
+
+    @Override
+    public int numOfOrderByStatus(String status) {
+        return orderRepository.countByOrderStatus(status);
     }
 }

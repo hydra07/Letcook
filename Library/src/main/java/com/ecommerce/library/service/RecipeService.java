@@ -32,4 +32,10 @@ public interface RecipeService {
 
     List<Recipe> findAllByCustomer(String username);
 
+    int numOfUncheckedRecipe();
+
+    int numOfRecipeToday();
+
+    Long[] numOfRecipeByMonths();
+
 }
