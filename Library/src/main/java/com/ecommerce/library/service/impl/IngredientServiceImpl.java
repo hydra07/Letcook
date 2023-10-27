@@ -68,6 +68,12 @@ public class IngredientServiceImpl implements IngredientService {
             case "quả/củ/cái":
                 change = ingredient.getProduct().getAverageWeight();
                 break;
+            case "ml":
+                change = 1;
+                break;
+            case "lit":
+                change = 1000;
+                break;
             default:
                 change = 1;
         }

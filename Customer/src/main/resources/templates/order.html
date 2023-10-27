@@ -78,8 +78,8 @@
                                 <span>Cash</span>
                             </td>
                             <td>
-                                <a th:if="${!order.accepted}" th:href="@{/cancel-order/{id}(id=${order.id})} " class="button-cancel btn btn-primary">Cancel</a>
-                                <a th:if="${!order.accepted}" th:href="@{/accept-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Accept</a>
+                                <a th:if="${!order.accepted && (order.orderStatus != 'CANCELED' && order.orderStatus != 'UNSUCCESSFUL')}" th:href="@{/cancel-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
+<!--                                <a th:if="${!order.accepted}" th:href="@{/accept-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Accept</a>-->
                             </td>
                         </tr>
                         </tbody>

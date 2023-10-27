@@ -67,15 +67,16 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div id="savedRecipes" class="container tab-pane active"><br>
-            <h3>Công thức đã lưu</h3>
+            <h3>Saved recipes</h3>
             <div class="row">
+                <div class="alert alert-warning" th:if="${savedRecipes == null || savedRecipes.size() == 0}">You has not saved any recipe yet!</div>
                 <!-- <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="recipe: ${myRecipes}"> -->
                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="savedRecipe : ${savedRecipes}">
                     <div class="products-single fix">
                         <div class="box-img-hover">
                             <a th:href="@{/find-recipe/{id}(id = ${savedRecipe.id})}">
-                                <img th:src="@{'/' + ${savedRecipe.steps.get(1).images.get(0).getImgPath()}}"
-                                     class="img-fluid" alt="Image">
+                                <img th:src="@{'/' + ${savedRecipe.image}}"
+                                     class="img-fluid" alt="Image" style="width: 340px; height: 190px">
                             </a>
                         </div>
                         <div class="why-text">
@@ -88,14 +89,15 @@
             </div>
         </div>
         <div id="myRecipes" class="container tab-pane fade"><br>
-            <h3>Công thức của bạn</h3>
+            <h3>Your recipes</h3>
             <div class="row">
+                <div class="alert alert-warning" th:if="${myRecipes == null || myRecipes.size() == 0}">You has not created any recipe yet!</div>
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" th:each="recipe: ${myRecipes}">
                         <div class="products-single fix">
                             <div class="box-img-hover">
                                 <a th:href="@{/find-recipe/{id}(id = ${recipe.id})}">
-                                    <img th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
-                                         class="img-fluid" alt="Image">
+                                    <img th:src="@{'/' + ${recipe.image}}"
+                                         class="img-fluid" alt="Image" style="width: 340px; height: 190px">
                                 </a>
                             </div>
                             <div class="why-text">

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,10 +21,10 @@ public class Recipe {
     @Column(name = "recipe_id")
     private Long id;
 
-    @Column(columnDefinition = "NVARCHAR(50)")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String name;
 
-    @Column(columnDefinition = "NVARCHAR(200)")
+    @Column(columnDefinition = "NVARCHAR(500)")
     private String description;
 
     private Integer portion;
@@ -42,6 +43,8 @@ public class Recipe {
     @Column(nullable = false)
     private boolean is_checked;
 
+
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -50,4 +53,8 @@ public class Recipe {
         this.ingredients.add(ingredient);
         ingredient.setRecipe(this);
     }
+
+    private Date createAt;
+
+    private String image;
 }

@@ -1,11 +1,15 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.model.*;
+
 import com.ecommerce.library.service.CommentService;
 import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.IngredientService;
 import com.ecommerce.library.service.MeasurementService;
 import com.ecommerce.library.service.RecipeService;
+
+import com.ecommerce.library.service.*;
+
 import com.ecommerce.library.utils.ImageUpload;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.id.IncrementGenerator;
@@ -21,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +36,10 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @Autowired
+
     private CommentService commentService;
+
+    private FollowService followService;
 
     @Autowired
     private MeasurementService measurementService;
@@ -46,6 +54,7 @@ public class RecipeController {
 
     public String recipeDetail(@PathVariable("id") Long id, Model model,Principal principal){
         Recipe recipe = recipeService.getRecipeById(id);
+
         List<Comment> comments =  commentService.findAllCommentByRecipeId(id);
         model.addAttribute("comments",comments);
         model.addAttribute("recipe",recipe);
@@ -53,9 +62,21 @@ public class RecipeController {
         model.addAttribute("currentUser",customerService.findByUsername(principal.getName()));
 
 
+
+        if(!recipe.is_confirmed()){
+            return "redirect:/recipe-home";
+        }
+        model.addAttribute("recipe",recipe);
+
         boolean isFavorite = false;
+        boolean isFollowed = false;
+
         if(principal != null){
             isFavorite = customerService.isFavorite(id,principal.getName());
+            Customer customer = customerService.findByUsername(principal.getName());
+            Customer following = recipe.getCustomer();
+            isFollowed = followService.isFollowing(customer.getId(),following.getId());
+            model.addAttribute("isFollowed", isFollowed);
         }
         double calories = 0;
         double sugar = 0;
@@ -63,6 +84,7 @@ public class RecipeController {
         double sodium = 0;
         double carbs = 0;
         double fiber = 0;
+
         for(Ingredient ingredient  : recipe.getIngredients()){
             Map<String, Double> nutritions =  ingredientService.getNutrition(ingredient);
             calories += nutritions.get("calories");
@@ -124,7 +146,7 @@ public class RecipeController {
         Recipe recipe = new Recipe();
         List<Ingredient> ingredients = new ArrayList<>();
         List<Step> steps = new ArrayList<>();
-
+        ImageUpload imageUpload = new ImageUpload();
         //get data from form
         String recipeName = request.getParameter("recipeName");
         String recipeDescription = request.getParameter("recipeDescription");
@@ -153,7 +175,7 @@ public class RecipeController {
         }
         String imgStepPath = "image-step";
         for (int i = 1; i <= stepCount; i++) {
-            ImageUpload imageUpload = new ImageUpload();
+
             System.out.println(request.getParameter("step" + i));
             List<MultipartFile> images = request.getFiles("step" + i + "Image");
 
@@ -162,19 +184,24 @@ public class RecipeController {
             step.setDescription(request.getParameter("step" + i));
             step.setRecipe(recipe);
 
-            for (MultipartFile image : images) {
-                System.out.println(image.getOriginalFilename());
-                String imageName = "images/image-step/" + imageUpload.uploadImage(image, imgStepPath);
-                ImgStep imgStep = new ImgStep();
+            if( images != null || images.size() > 0) {
+                for (MultipartFile image : images) {
+                    System.out.println(image.getOriginalFilename());
+                    String imageName = "images/image-step/" + imageUpload.uploadImage(image, imgStepPath);
+                    ImgStep imgStep = new ImgStep();
 //                imgStep.setImgPath(imageUpload.getURL(imageUpload.uploadImage(image,"/recipe/"),"recipe"));;
-                imgStep.setImgPath(imageName);
-                imgStep.setStep(step);
-                imgSteps.add(imgStep);
+                    imgStep.setImgPath(imageName);
+                    imgStep.setStep(step);
+                    imgSteps.add(imgStep);
+                }
+                step.setImages(imgSteps);
             }
-            step.setImages(imgSteps);
+
             steps.add(step);
 
         }
+        MultipartFile recipeImageFile = request.getFile("recipeImage");
+        String recipeImage = "images/recipe/" + imageUpload.uploadImage(recipeImageFile,"recipe");
         try {
             recipe.setName(recipeName);
             recipe.setDescription(recipeDescription);
@@ -185,12 +212,14 @@ public class RecipeController {
             recipe.set_confirmed(false);
             recipe.set_checked(false);
             recipe.setCustomer(customerService.findByUsername(principal.getName()));
+            recipe.setCreateAt(new Date());
+            recipe.setImage(recipeImage);
             recipeService.save(recipe);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "index";
+        return "redirect:/my-recipe";
     }
 
     @PostMapping("/add-to-favorite")

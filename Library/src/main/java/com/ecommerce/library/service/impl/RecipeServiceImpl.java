@@ -73,6 +73,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipeDto.setSteps(recipe.getSteps());
         recipeDto.setCustomer(recipe.getCustomer());
         recipeDto.setChecked(recipe.is_checked());
+        recipeDto.setImage(recipe.getImage());
         return recipeDto;
     }
 
@@ -93,7 +94,7 @@ public class RecipeServiceImpl implements RecipeService {
         for (int i = 0; i < recipeDto.getIngredients().size(); i++) {
             recipe.getIngredients().get(i).setProduct(recipeDto.getIngredients().get(i).getProduct());
         }
-        recipe.setSteps(recipeDto.getSteps());
+//        recipe.setSteps(recipeDto.getSteps());
 //        recipe.setCustomer(recipeDto.getCustomer());
         recipe.set_checked(true);
         return recipeRepository.save(recipe);
@@ -108,8 +109,8 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.set_confirmed(false);
         recipe.setCookingTime(recipeDto.getCookingTime());
         recipe.setIngredients(recipeDto.getIngredients());
-        recipe.setSteps(recipeDto.getSteps());
-        recipe.setCustomer(recipeDto.getCustomer());
+//        recipe.setSteps(recipeDto.getSteps());
+//        recipe.setCustomer(recipeDto.getCustomer());
         recipe.set_checked(true);
         return recipeRepository.save(recipe);
     }
@@ -117,6 +118,23 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> findAllByCustomer(String username) {
         return null;
+    }
+
+    @Override
+    public int numOfUncheckedRecipe() {
+        return recipeRepository.countByIsCheckedFalse();
+    }
+
+    @Override
+    public int numOfRecipeToday() {
+        return recipeRepository.countTodayRecipe();
+    }
+
+    @Override
+    public Long[] numOfRecipeByMonths() {
+        List<Long> list = recipeRepository.countRecipeByMonths();
+        Long[] array = list.toArray(new Long[0]);
+        return array;
     }
 
     private Page toPage(List<RecipeDto> list, Pageable pageable) {
@@ -145,6 +163,7 @@ public class RecipeServiceImpl implements RecipeService {
             recipeDto.setSteps(recipe.getSteps());
             recipeDto.setCustomer(recipe.getCustomer());
             recipeDto.setChecked(recipe.is_checked());
+            recipeDto.setImage(recipe.getImage());
             recipeDtoList.add(recipeDto);
         }
         return recipeDtoList;

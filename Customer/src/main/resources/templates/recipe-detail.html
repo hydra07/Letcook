@@ -57,7 +57,7 @@
 
             <div class="col-xl-8 col-lg-8 col-md-6">
                 <div class="row rounded">
-                    <img class="rounded" th:src="@{'/' + ${recipe.steps.get(1).images.get(0).getImgPath()}}"
+                    <img class="rounded" th:src="@{'/' + ${recipe.image}}"
                          style="width:680px ; height: 482px">
                 </div>
 
@@ -71,7 +71,11 @@
                                     th:text="${recipe.customer.firstName + ' ' + recipe.customer.lastName}">John
                                 Doe</strong></h3>
                             <p th:text="'@letcook_' + ${recipe.customer.firstName}">@letcook_john</p>
-                            <button class="btn btn-warning">Follow</button>
+                            <a th:href="@{/follow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${session.customerUsername == null}">Follow</a>
+                            <th:block th:if="${session.customerUsername != null}">
+                            <a th:href="@{/follow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${session.customerUsername != recipe.customer.username && !isFollowed}">Follow</a>
+                            <a th:href="@{/unFollow/{followingName}(followingName = ${recipe.customer.username})}" class="btn btn-warning" th:if="${isFollowed}">UnFollow</a>
+                            </th:block>
                         </div>
                     </div>
                 </div>
@@ -90,7 +94,7 @@
                         <p th:text="'Số lượng '+ ${ingredient.amount} + ' ' + ${ingredient.measurement.name}">Số lượng:
                             1 cây</p>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2"  th:if="${ingredient.product._activated}">
                         <form th:action="@{/add-to-cart}" method="post">
                             <input type="hidden" th:value="${ingredient.product.id}" name="id" class="form-control">
                             <button type="submit" class="btn bg-secondary rounded-circle" style="width: 24px; height: 24px; font-size: 12px; padding: 0;">+</button>
@@ -102,10 +106,10 @@
                     <div class="col-sm-12" th:each="step, stepStat: ${recipe.steps}">
                         <h4 th:text="'Bước ' + ${stepStat.index + 1}"></h4>
                         <p th:text="${step.description}">Mô tả bước nấu ăn</p>
-                        <img class="img-fluid mr-2"
-                             style="width: 150px;" th:src="@{'/' + ${stepImg.getImgPath()}}" a
+                        <img class="img-fluid mr-2" th:if="${step.getImages() != null} && step.getImages().size() > 0"
+                             style="width: 150px; height: 85px" th:src="@{'/' + ${stepImg.getImgPath()}}" a
                              lt="Ảnh bước nấu ăn"
-                             th:each="stepImg: ${step.getImages()}">
+                             th:each="stepImg: ${step.getImages()}" >
                     </div>
                 </div>
 
