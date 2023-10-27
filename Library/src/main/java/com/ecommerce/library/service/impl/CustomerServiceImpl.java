@@ -2,7 +2,9 @@ package com.ecommerce.library.service.impl;
 
 import com.ecommerce.library.dto.CustomerDto;
 import com.ecommerce.library.model.Customer;
+import com.ecommerce.library.model.Recipe;
 import com.ecommerce.library.repository.CustomerRepository;
+import com.ecommerce.library.repository.RecipeRepository;
 import com.ecommerce.library.repository.RoleRepository;
 import com.ecommerce.library.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    RecipeRepository recipeRepository;
 
     @Override
     public Customer save(CustomerDto customerDto) {
@@ -85,5 +90,40 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id).orElse(null);
     }
 
+    public Customer addToFavourite(Long id, String username) {
+        Customer customer = customerRepository.findByUsername(username);
+        Recipe recipe = recipeRepository.getById(id);
+
+        if (customer.getFavoriteRecipes().contains(recipe)) {
+            return null;
+        }
+
+        customer.getFavoriteRecipes().add(recipe);
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer removeFromFavorite(Long id, String username) {
+        Customer customer = customerRepository.findByUsername(username);
+        Recipe recipe = recipeRepository.getById(id);
+
+        if (!customer.getFavoriteRecipes().contains(recipe)) {
+            return null;
+        }
+
+        customer.getFavoriteRecipes().remove(recipe);
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public boolean isFavorite(Long id, String username) {
+        Customer customer = customerRepository.findByUsername(username);
+        Recipe recipe = recipeRepository.getById(id);
+        if(customer.getFavoriteRecipes().contains(recipe)){
+            return true;
+        }
+        return false;
+
+    }
 
 }

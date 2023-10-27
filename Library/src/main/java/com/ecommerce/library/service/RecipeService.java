@@ -37,6 +37,6 @@ public interface RecipeService {
 
     JSONArray getSuggestRecipes(String query);
 
-
+    List<Recipe> findAllByCustomer(String username);
 
 }

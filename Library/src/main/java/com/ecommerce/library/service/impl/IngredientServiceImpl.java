@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -48,6 +50,45 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientDtos;
     }
 
+    @Override
+    public Map<String, Double> getNutrition(Ingredient ingredient) {
+        Map<String, Double> nutritions = new HashMap<>();
+
+        double change = 1;
+        switch (ingredient.getMeasurement().getName()) {
+            case "kilogram":
+                change = 1000;
+                break;
+            case "tsp":
+                change = 5;
+                break;
+            case "tbsp":
+                change = 15;
+                break;
+            case "quả/củ/cái":
+                change = ingredient.getProduct().getAverageWeight();
+                break;
+            default:
+                change = 1;
+        }
+        double portion = ingredient.getRecipe().getPortion();
+        double amount = ingredient.getAmount() ;
+        double calories = ingredient.getProduct().getCalories()/100 * amount * change / portion;
+        double sugar = ingredient.getProduct().getSugar()/100 * amount * change / portion;
+        double fat = ingredient.getProduct().getFat()/100 * amount * change / portion;
+        double sodium = ingredient.getProduct().getSodium()/100 * amount * change / portion;
+        double carbs = ingredient.getProduct().getCarbs()/100 * amount * change / portion;
+        double fiber = ingredient.getProduct().getFiber()/100 * amount * change / portion;
+
+        nutritions.put("calories", calories);
+        nutritions.put("sugar", sugar);
+        nutritions.put("fat", fat);
+        nutritions.put("sodium", sodium);
+        nutritions.put("carbs", carbs);
+        nutritions.put("fiber", fiber);
+
+        return nutritions;
+    }
 
 
 }

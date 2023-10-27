@@ -64,7 +64,7 @@
                 <div class="row mt-2 rounded d-block">
                     <h1 th:text="${recipe.name}"></h1>
                     <div class="media p-3">
-                        <img src="images/img-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle"
+                        <img th:src="@{'/' + ${recipe.customer.image}}" alt="John Doe" class="mr-3 mt-3 rounded-circle"
                              style="width:60px;">
                         <div class="media-body align-self-center">
                             <h3>Tên tác giả: <strong
@@ -93,7 +93,7 @@
                     <div class="col-sm-2">
                         <form th:action="@{/add-to-cart}" method="post">
                             <input type="hidden" th:value="${ingredient.product.id}" name="id" class="form-control">
-                            <button type="submit" class="btn rounded-circle">+</button>
+                            <button type="submit" class="btn bg-secondary rounded-circle" style="width: 24px; height: 24px; font-size: 12px; padding: 0;">+</button>
                         </form>
                     </div>
                 </div>
@@ -114,13 +114,63 @@
             <div class="col-xl-4 col-lg-4 col-md-6">
                 <div class="row rounded shadow">
                     <div class="col-lg-12">
-                        <button class="btn btn-block btn-custom "><i class="fas fa-save mr-2"></i>Lưu món</button>
+                        <form th:action="${isFavorite} ? @{/remove-from-favorite} : @{/add-to-favorite}" method="post">
+                            <input type="hidden" th:value="${recipe.id}" name="id" class="form-control">
+                            <button class="btn btn-block bg-light text-dark btn-outline-secondary" type="submit">
+                                <i class="fas fa-save"></i>
+                                <span th:text="${isFavorite} ? 'Unsave' : 'Save'"></span>
+                            </button>
+                        </form>
                     </div>
                     <div class="col-lg-12">
-                        <button class="btn btn-block btn-custom "><i class="fas fa-camera mr-2"></i>Gửi cooksnap</button>
+                        <button class="btn btn-block bg-light text-dark btn-outline-secondary "><i class="fas fa-camera mr-2"></i>Gửi cooksnap</button>
                     </div>
                     <div class="col-lg-12 pb-3">
-                        <button class="btn btn-block btn-custom "><i class="fas fa-flag mr-2"></i>Báo cáo</button>
+                        <button class="btn btn-block bg-light text-dark btn-outline-secondary"><i class="fas fa-flag mr-2"></i>Báo cáo</button>
+                    </div>
+                </div>
+                <div class="row rounded shadow mt-5">
+                    <div class="col-lg-12">
+                        <h5 class="text-center">Thành phần dinh dưỡng</h5>
+                    </div>
+                    <div class="col-lg-12">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Thành phần</th>
+                                <th>Giá trị</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><img class="mr-3" th:src="@{/images/calories.png}" alt="calo" width="40"
+                                         height="40"><strong>Calo</strong></td>
+                                <td><span th:text="${calories}"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img class="mr-3" th:src="@{/images/sugar.png}" alt="sugar" width="40"
+                                         height="40"><strong>Sugar</strong></td>
+                                <td><span th:text="${sugar}"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img class="mr-3" th:src="@{/images/vegetable (1).png}" alt="fiber" width="40"
+                                         height="40"><strong>Fiber</strong></td>
+                                <td><span th:text="${fiber}"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img class="mr-3" th:src="@{/images/low-sodium.png}" alt="sodim" width="40"
+                                         height="40"><strong>Sodium</strong></td>
+                                <td><span th:text="${sodium}"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img class="mr-3" th:src="@{/images/trans-fat.png}" alt="fat" width="40"
+                                         height="40"><strong>Fat</strong></td>
+                                <td><span th:text="${fat}"></span></td>
+                            </tr>
+                            <td><img class="mr-3" th:src="@{/images/low-carb-diet.png}" alt="carbs" width="40" height="40"><strong>Carbs</strong></td>
+                            <td><span th:text="${carbs}"></span></td>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

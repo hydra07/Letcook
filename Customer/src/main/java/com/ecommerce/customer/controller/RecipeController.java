@@ -3,9 +3,11 @@ package com.ecommerce.customer.controller;
 import com.ecommerce.library.model.*;
 import com.ecommerce.library.service.CommentService;
 import com.ecommerce.library.service.CustomerService;
+import com.ecommerce.library.service.IngredientService;
 import com.ecommerce.library.service.MeasurementService;
 import com.ecommerce.library.service.RecipeService;
 import com.ecommerce.library.utils.ImageUpload;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.id.IncrementGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RecipeController {
@@ -36,13 +39,47 @@ public class RecipeController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private IngredientService ingredientService;
+
     @GetMapping("/find-recipe/{id}")
+
     public String recipeDetail(@PathVariable("id") Long id, Model model,Principal principal){
         Recipe recipe = recipeService.getRecipeById(id);
         List<Comment> comments =  commentService.findAllCommentByRecipeId(id);
         model.addAttribute("comments",comments);
         model.addAttribute("recipe",recipe);
+
         model.addAttribute("currentUser",customerService.findByUsername(principal.getName()));
+
+
+        boolean isFavorite = false;
+        if(principal != null){
+            isFavorite = customerService.isFavorite(id,principal.getName());
+        }
+        double calories = 0;
+        double sugar = 0;
+        double fat = 0;
+        double sodium = 0;
+        double carbs = 0;
+        double fiber = 0;
+        for(Ingredient ingredient  : recipe.getIngredients()){
+            Map<String, Double> nutritions =  ingredientService.getNutrition(ingredient);
+            calories += nutritions.get("calories");
+            sugar += nutritions.get("sugar");
+            fat += nutritions.get("fat");
+            sodium += nutritions.get("sodium");
+            carbs += nutritions.get("carbs");
+            fiber += nutritions.get("fiber");
+        }
+        model.addAttribute("calories", calories);
+        model.addAttribute("sugar", sugar);
+        model.addAttribute("fat", fat);
+        model.addAttribute("sodium", sodium);
+        model.addAttribute("carbs", carbs);
+        model.addAttribute("fiber", fiber);
+        model.addAttribute("isFavorite", isFavorite);
+
         return "recipe-detail";
     }
 
@@ -58,6 +95,23 @@ public class RecipeController {
         model.addAttribute("quickQuantity", quickQuantity);
         return "recipe-home";
     }
+
+
+    @GetMapping("/my-recipe")
+    public String myRecipe(Model model, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        Customer customer = customerService.findByUsername(username);
+        List<Recipe> myRecipes = customer.getRecipes();
+        List<Recipe> savedRecipes = customer.getFavoriteRecipes();
+        model.addAttribute("myRecipes",myRecipes);
+        model.addAttribute("savedRecipes",savedRecipes);
+
+        return "my-recipe";
+    }
+
     @GetMapping("/recipe-form")
     public String recipeForm() {
         return "recipe-form";
@@ -139,7 +193,37 @@ public class RecipeController {
         return "index";
     }
 
+    @PostMapping("/add-to-favorite")
+    public String addToFavorite(
+            @RequestParam("id") Long id,
+            Model model, Principal principal,
+            HttpServletRequest request) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String customerName = principal.getName();
+        Customer customer = customerService.addToFavourite(id, customerName);
+        if (customer == null) {
+            model.addAttribute("error", "Something has error");
+        }
+        return "redirect:" + request.getHeader("Referer");
+    }
 
+    @PostMapping("/remove-from-favorite")
+    public String removeFromFavorite(
+            @RequestParam("id") Long id,
+            Model model, Principal principal,
+            HttpServletRequest request) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String customerName = principal.getName();
+        Customer customer = customerService.removeFromFavorite(id, customerName);
+        if (customer == null) {
+            model.addAttribute("error", "Something has error");
+        }
+        return "redirect:" + request.getHeader("Referer");
+    }
 
     @GetMapping("/recipe-search")
     public String resultRecipe(@RequestParam("keyword")String keyword, Model model){

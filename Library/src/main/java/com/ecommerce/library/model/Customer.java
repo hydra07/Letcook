@@ -57,4 +57,11 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "favourite_recipes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    private List<Recipe> favoriteRecipes;
 }

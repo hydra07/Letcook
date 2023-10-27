@@ -208,6 +208,7 @@ public class ProductServiceImpl implements ProductService {
         productDto.setSodium(product.getSodium());
         productDto.setCarbs(product.getCarbs());
         productDto.setFiber(product.getFiber());
+        productDto.setAverageWeight(product.getAverageWeight());
         return productDto;
     }
 

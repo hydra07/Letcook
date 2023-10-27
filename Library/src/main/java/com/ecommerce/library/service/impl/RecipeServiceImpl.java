@@ -114,6 +114,11 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.save(recipe);
     }
 
+    @Override
+    public List<Recipe> findAllByCustomer(String username) {
+        return null;
+    }
+
     private Page toPage(List<RecipeDto> list, Pageable pageable) {
         if (pageable.getOffset() >= list.size()) {
             return Page.empty();
