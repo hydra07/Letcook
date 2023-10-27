@@ -225,12 +225,12 @@
         <div class="reaction">
             <!-- Nút like/dislike -->
             <div class="btn-group">
-                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${currentUser.id},'like')|">
+                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${customer.id},'like')|">
                     <p name="like" th:id="'like'+${comment.id}"></p>
                     <i class="far fa-thumbs-up"></i>
                 </button>
 
-                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${currentUser.id},'dislike')|">
+                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${customer.id},'dislike')|">
                     <p name="dislike" th:id="'dislike'+${comment.id}"></p>
                     <i class="far fa-thumbs-down"></i>
                 </button>
