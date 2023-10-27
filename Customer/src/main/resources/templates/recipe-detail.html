@@ -106,10 +106,12 @@
                     <div class="col-sm-12" th:each="step, stepStat: ${recipe.steps}">
                         <h4 th:text="'Bước ' + ${stepStat.index + 1}"></h4>
                         <p th:text="${step.description}">Mô tả bước nấu ăn</p>
-                        <img class="img-fluid mr-2" th:if="${step.getImages() != null} && step.getImages().size() > 0"
+                        <th:block th:if="${step.getImages() != null && step.getImages().size() > 0}">
+                        <img class="img-fluid mr-2"
                              style="width: 150px; height: 85px" th:src="@{'/' + ${stepImg.getImgPath()}}" a
                              lt="Ảnh bước nấu ăn"
                              th:each="stepImg: ${step.getImages()}" >
+                        </th:block>
                     </div>
                 </div>
 
