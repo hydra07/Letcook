@@ -296,3 +296,52 @@ async function fetchSuggestions() {
 //
 // });
 
+// suggest/ recipe
+
+function displaySuggestionsRecipe(suggestions) {
+	let suggestionList = document.getElementById("search-recipe-suggest");
+
+	suggestionList.innerHTML = "";
+
+	if (Array.isArray(suggestions)) {
+		suggestions.forEach((suggestion,index) => {
+			let item = document.createElement("div");
+			let divId = "suggestionItem" + index;
+
+			item.textContent = suggestion;
+			item.id = divId;
+			item.className = "list-group-item";
+			item.addEventListener("click", () => {
+				document.getElementById("search-recipe").value = suggestion;
+				suggestionList.innerHTML = "";
+			});
+
+			suggestionList.appendChild(item);
+		});
+	}
+}
+// Hàm lấy gợi ý từ API
+
+
+async function fetchSuggestionsRecipe() {
+
+	let query = document.getElementById("search-recipe").value;
+	let url = '/shop/api/suggest-recipes?query=' + query;
+
+	let response = await fetch(url);
+	let suggestions = await response.json();
+	// console.log(suggestions);
+	if (query.length > 2) {
+		displaySuggestionsRecipe(suggestions);
+		console.log(suggestions);
+	}
+
+	if (query.length == 0){
+		for (let i = 0; i < suggestions.length; i++) {
+			console.log("suggestionItem" + i);
+			document.getElementById("suggestionItem" + i).remove();
+		}
+	}
+
+
+}

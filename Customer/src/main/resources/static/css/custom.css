@@ -49,3 +49,63 @@
  {
     /*margin-right: 10px;*/
 }
+
+
+#search-recipe-div {
+    /*display: flex;*/
+    /*align-items: center;*/
+    padding: 20px;
+    margin: 20px;
+    height: 200px;
+}
+
+#search-recipe-div form .input-group .form-control {
+    width: 75%;
+    overflow: hidden;
+
+}
+
+#search-recipe-div form .input-group .btn {
+    /*border-radius: 50%;*/
+    /*width: 50px;*/
+    /*height: 50px;*/
+    /*background-color:transparent;*/
+    color: #0a0101;
+
+}
+
+#search-recipe-div div {
+    border-radius: 25px;
+    border: #0a0101;
+}
+
+/* Styles for section */
+.comment-section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Styles for comment */
+.comment {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Styles for avatar */
+.comment img {
+    width: 50px;
+    height: 50px;
+}
+.comment .img-fluid {
+    height: 150px;
+    width: auto;
+}
+/* Styles for form */
+.comment-section textarea {
+    resize: none;
+}
+
+.comment-section .btn {
+    width: 100%;
+}

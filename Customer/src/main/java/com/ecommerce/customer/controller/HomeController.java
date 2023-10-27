@@ -1,13 +1,11 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.dto.ProductDto;
-import com.ecommerce.library.model.Category;
-import com.ecommerce.library.model.Customer;
-import com.ecommerce.library.model.Product;
-import com.ecommerce.library.model.ShoppingCart;
+import com.ecommerce.library.model.*;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.ProductService;
+import com.ecommerce.library.service.RecipeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -29,6 +28,9 @@ public class HomeController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private RecipeService recipeService;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String home(Model model, Principal principal, HttpSession session) {
@@ -53,4 +55,10 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/search-recipe")
+    public String searchRecipe(@RequestParam("keyword") String keyword, Model model) {
+        List<Recipe> recipes = recipeService.searchRecipes(keyword);
+        model.addAttribute("recipes", recipes);
+        return "";
+    }
 }

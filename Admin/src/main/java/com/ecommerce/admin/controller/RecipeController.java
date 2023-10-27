@@ -104,7 +104,7 @@ public class RecipeController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to update!");
         }
-        return "redirect:/recipes";
+        return "redirect:/recipes/0";
     }
 
     @RequestMapping(value = "/check-recipe/{id}", method = RequestMethod.POST, params = "action=reject")
@@ -120,6 +120,6 @@ public class RecipeController {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Failed to Reject!");
         }
-        return "redirect:/recipes";
+        return "redirect:/recipes/0";
     }
 }

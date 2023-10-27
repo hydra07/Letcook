@@ -129,6 +129,73 @@
 </div>
 <!-- End Cart -->
 
+<!--Start Comment-->
+<!-- Start Comment Section -->
+<div class="comment-section">
+
+    <!-- Thymeleaf loop -->
+    <div th:each="comment : ${comments}" class="comment mb-5">
+        <div class="d-flex">
+            <img src="https://via.placeholder.com/50" class="rounded-circle mr-3" alt="Avatar">
+
+            <div>
+                <h5 class="mt-0" th:text="${comment.customer.firstName + ' ' + comment.customer.lastName}"></h5>
+                <!-- <p class="text-muted" th:text="${#dates.format(comment.createdDate,'dd/MM/yyyy HH:mm')}"></p> -->
+            </div>
+        </div>
+
+        <p class="mt-3" th:text="${comment.content}"></p>
+
+        <div th:if="${comment.images != null}" class="comment-images mt-3">
+            <div th:each="image : ${comment.images}" class="comment-image mr-2">
+                <img th:src="@{'/' + ${image.imgUrl}}" class="img-fluid rounded" alt="Comment Image" style="max-width: 150px;">
+            </div>
+        </div>
+
+        <style>
+            .transparent-button {
+                background-color: transparent;
+                border: none;
+                color: #000; /* Màu chữ bên trong nút */
+            }
+            @media (max-width: 768px) {
+                .transparent-button {
+                    background-color: #f0f0f0; /* Màu nền khi trên màn hình nhỏ hơn hoặc bằng 768px */
+                    color: #000; /* Màu chữ bên trong nút */
+                }
+            }
+        </style>
+
+        <div class="reaction">
+            <!-- Nút like/dislike -->
+            <div class="btn-group">
+                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${currentUser.id},'like')|">
+                    <p name="like" th:id="'like'+${comment.id}"></p>
+                    <i class="far fa-thumbs-up"></i>
+                </button>
+
+                <button class="btn btn-sm rounded-circle transparent-button" th:attr="onclick=| reaction(${comment.id},${currentUser.id},'dislike')|">
+                    <p name="dislike" th:id="'dislike'+${comment.id}"></p>
+                    <i class="far fa-thumbs-down"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Thymeleaf loop -->
+
+    <form th:action="@{/add-comment}" method="post" enctype="multipart/form-data">
+        <textarea name="comment" rows="4" placeholder="Viết bình luận" class="form-control"></textarea>
+        <input name="img-comment" type="file" multiple="multiple" class="form-control-file">
+        <input name="recipeId" type="hidden" th:value="${recipe.id}">
+
+        <button type="submit" class="btn btn-primary mt-3">Gửi</button>
+    </form>
+
+</div>
+<!-- End Comment Section -->
+<!--End Comment-->
+
 <!-- Start Feed  -->
 <div th:replace="~{fragments::instagram-box}"></div>
 
@@ -141,7 +208,7 @@
 
 </footer>
 
-
+<script th:src="@{/assets/js/comment.js}"></script>
 <!-- ALL JS FILES -->
 <div th:replace="~{fragments::script}"></div>
 </body>

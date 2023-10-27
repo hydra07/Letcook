@@ -3,6 +3,7 @@ package com.ecommerce.library.service;
 import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.dto.RecipeDto;
 import com.ecommerce.library.model.Recipe;
+import net.minidev.json.JSONArray;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,5 +30,13 @@ public interface RecipeService {
     Recipe update(RecipeDto recipeDto);
 
     Recipe reject(RecipeDto recipeDto);
+
+    List<Recipe> searchRecipes(String keyword);
+
+    JSONArray getAllRecipesJson();
+
+    JSONArray getSuggestRecipes(String query);
+
+
 
 }

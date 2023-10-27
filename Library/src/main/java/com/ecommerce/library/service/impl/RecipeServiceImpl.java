@@ -10,6 +10,7 @@ import com.ecommerce.library.repository.RecipeRepository;
 import com.ecommerce.library.repository.StepRepository;
 import com.ecommerce.library.service.IngredientService;
 import com.ecommerce.library.service.RecipeService;
+import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -143,5 +144,31 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return recipeDtoList;
     }
+
+    @Override
+    public List<Recipe> searchRecipes(String keyword) {
+        return recipeRepository.getRecipeByKeyword(keyword);
+    }
+
+    @Override
+    public JSONArray getAllRecipesJson() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        JSONArray jsonArray = new JSONArray();
+        for (Recipe recipe : recipes) {
+            jsonArray.add(recipe.getName());
+        }
+        return jsonArray;
+    }
+
+    @Override
+    public JSONArray getSuggestRecipes(String query) {
+        List<Recipe> recipes = recipeRepository.getRecipeByKeyword(query);
+        JSONArray jsonArray = new JSONArray();
+        for (Recipe recipe : recipes) {
+            jsonArray.add(recipe.getName());
+        }
+        return jsonArray;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.model.*;
+import com.ecommerce.library.service.CommentService;
 import com.ecommerce.library.service.CustomerService;
 import com.ecommerce.library.service.MeasurementService;
 import com.ecommerce.library.service.RecipeService;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -25,6 +27,8 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private MeasurementService measurementService;
@@ -33,9 +37,12 @@ public class RecipeController {
     private CustomerService customerService;
 
     @GetMapping("/find-recipe/{id}")
-    public String recipeDetail(@PathVariable("id") Long id, Model model){
+    public String recipeDetail(@PathVariable("id") Long id, Model model,Principal principal){
         Recipe recipe = recipeService.getRecipeById(id);
+        List<Comment> comments =  commentService.findAllCommentByRecipeId(id);
+        model.addAttribute("comments",comments);
         model.addAttribute("recipe",recipe);
+        model.addAttribute("currentUser",customerService.findByUsername(principal.getName()));
         return "recipe-detail";
     }
 
@@ -134,5 +141,19 @@ public class RecipeController {
 
 
 
+    @GetMapping("/recipe-search")
+    public String resultRecipe(@RequestParam("keyword")String keyword, Model model){
+//        List<Recipe> recipes = recipeService.findAllByConfirmed();
+        List<Recipe> recipes = recipeService.searchRecipes(keyword);
+//        System.out.println(recipes.get(0).getName());
+        model.addAttribute("recipes",recipes);
+        int veganQuantity = 0;
+        int lowCaloQuantity = 0;
+        int quickQuantity = 0;
+        model.addAttribute("veganQuantity", veganQuantity);
+        model.addAttribute("lowCaloQuantity", lowCaloQuantity);
+        model.addAttribute("quickQuantity", quickQuantity);
+        return "recipe-home";
+    }
 
 }

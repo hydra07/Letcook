@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class CustomerConfiguration {
     //public
-    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**","/find-recipe/**","/api/**" ,"/search-product/**"};
+    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**","/find-recipe/**","/api/**" ,"/search-product/**","/add-comment/**","/recipe-search","/api/add-reaction"};
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -70,6 +70,7 @@ public class CustomerConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(PUBLIC).permitAll()
                 .requestMatchers("/customer/**" , "/cancel-order/**" , "/accept-order/**").hasAuthority("CUSTOMER")
+//                .requestMatchers("/add-comment/**").permitAll()
                 .and()
                 //remember me
                     .rememberMe()
@@ -93,8 +94,9 @@ public class CustomerConfiguration {
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-        ;
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+        http.csrf().disable();
+
         return http.build();
     }
 }

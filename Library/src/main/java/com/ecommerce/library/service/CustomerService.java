@@ -14,4 +14,6 @@ public interface CustomerService{
     public Customer update(CustomerDto dto);
 
     public Customer updateAvatar(String username, String avatar);
+
+    public Customer findById(Long id);
 }
