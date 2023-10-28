@@ -14,7 +14,12 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> getRecipeByConfirmed();
 
 
-    @Query("SELECT r FROM Recipe r WHERE r.is_confirmed = true AND r.name LIKE %?1% OR r.description LIKE %?1%")
+    @Query(value = "SELECT DISTINCT r.* FROM recipes r " +
+            "INNER JOIN ingredients i ON r.recipe_id = i.recipe_id " +
+            "WHERE r.is_confirmed = 1 " +
+            "AND (r.name LIKE %?1% OR r.description LIKE %?1% " +
+            "OR i.name LIKE %?1%)",
+            nativeQuery = true)
     List<Recipe> getRecipeByKeyword(String keyword);
 
     @Query(value = "SELECT COALESCE(COUNT(recipe_id),0) FROM recipes WHERE is_checked = 0", nativeQuery = true)

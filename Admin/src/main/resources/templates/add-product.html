@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="categories">PRODUCT CATEGORY</label>
                             <div class="col-md-4">
-                                <select id="categories" th:field="*{category}" name="categories" class="form-control">
+                                <select id="categories" th:field="*{category}" name="categories" class="form-control" required>
                                     <option th:value="null">-SELECT-</option>
                                     <option th:each="category : ${categories}"
                                             th:value="${category.id}"
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="categories">PRODUCT MEASUREMENT</label>
                             <div class="col-md-4">
-                                <select id="measurements" th:field="*{measurement}" name="categories" class="form-control">
+                                <select id="measurements" th:field="*{measurement}" name="categories" class="form-control" required>
                                     <option th:value="null">-SELECT-</option>
                                     <option th:each="measurement : ${measurements}"
                                             th:value="${measurement.id}"
@@ -68,42 +68,42 @@
                             <div class="col-md-4">
                                 <label for="product_calories">CALORIES</label>
                                 <input id="product_calories" th:field="*{calories}" name="product_calories"
-                                       class="form-control input-md" required="" type="text" placeholder="CALORIES">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.01" placeholder="CALORIES">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <label for="product_sugar">SUGAR</label>
                                 <input id="product_sugar" th:field="*{sugar}" name="product_sugar"
-                                       class="form-control input-md" required="" type="text" placeholder="SUGAR">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.01" placeholder="SUGAR">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <label for="product_fat">FAT</label>
                                 <input id="product_fat" th:field="*{fat}" name="product_fat"
-                                       class="form-control input-md" required="" type="text" placeholder="FAT">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.01" placeholder="FAT">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <label for="product_sodium">SODIUM</label>
                                 <input id="product_sodium" th:field="*{sodium}" name="product_sodium"
-                                       class="form-control input-md" required="" type="text" placeholder="SODIUM">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.001" placeholder="SODIUM">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <label for="product_carbs">CARBS</label>
                                 <input id="product_carbs" th:field="*{carbs}" name="product_carbs"
-                                       class="form-control input-md" required="" type="text" placeholder="CARBS">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.01" placeholder="CARBS">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <label for="product_fiber">FIBER</label>
                                 <input id="product_fiber" th:field="*{fiber}" name="product_fiber"
-                                       class="form-control input-md" required="" type="text" placeholder="FIBER">
+                                       class="form-control input-md" required="" type="number" min="0" step="0.01" placeholder="FIBER">
                             </div>
                         </div>
 
@@ -123,21 +123,21 @@
                             <label class="col-md-4 control-label" for="available_quantity">AVAILABLE QUANTITY</label>
                             <div class="col-md-4">
                                 <input id="available_quantity" th:field="*{currentQuantity}" name="available_quantity"
-                                       class="form-control input-md" required="" type="text">
+                                       class="form-control input-md" required="" type="number" min="0">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="available_quantity">AMOUNT TO SELL</label>
                             <div class="col-md-4">
                                 <input id="amount_to_sell" th:field="*{amountToSell}" name="amount_to_sell"
-                                       class="form-control input-md" required="" type="text">
+                                       class="form-control input-md" required="" type="number" min="0">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="available_quantity">AVERAGE WEIGHT</label>
                             <div class="col-md-4">
-                                <input id="average_weight" th:field="*{averageWeight}" name="average_weight"
-                                       class="form-control input-md" required="" type="text">
+                                <input id="average_weight" th:field="*{averageWeight}" name="average_weight"  step="0.01"
+                                       class="form-control input-md" required="" type="number" min="0">
                             </div>
                         </div>
 
@@ -147,7 +147,7 @@
                             <label class="col-md-4 control-label" for="price">PRICE</label>
                             <div class="col-md-4">
                                 <input id="price" name="price" th:field="*{costPrice}" class="form-control input-md"
-                                       required="" type="text">
+                                       required="" type="number" min="0">
                             </div>
                         </div>
                         <!-- Text input-->

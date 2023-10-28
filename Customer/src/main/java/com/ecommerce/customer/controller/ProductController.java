@@ -1,6 +1,7 @@
 package com.ecommerce.customer.controller;
 
 import com.ecommerce.library.dto.CategoryDto;
+import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Category;
 import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,10 +60,13 @@ public class ProductController {
         Optional<Category> category = categoryService.findById(categoryId);
         List<CategoryDto> categories = categoryService.getCategoryAndProduct();
         List<Product> products = productService.getProductsInCategory(categoryId);
+        List<Product> listViewProducts = productService.listViewProducts();
+
+        model.addAttribute(("viewProducts"), listViewProducts);
         model.addAttribute("category", category);
         model.addAttribute("categories", categories);
         model.addAttribute("products", products);
-        return "products-in-category";
+        return "shop";
     }
     @GetMapping("/search-result")
     public String searchResult(@RequestParam("keyword")String keyword, Model model){
@@ -91,5 +96,54 @@ public class ProductController {
         // Redirect hoặc trả về trang web khác
         return "redirect:/another-page";
     }
+
+    @GetMapping("/products/1")
+    public String products_high_price_to_low(Model model){
+//        List<ProductDto> productDtoList = productService.findAllByActivated();
+//        productDtoList.sort((o1, o2) -> Double.compare(o2.getCostPrice(), o1.getCostPrice()));
+        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
+        List<Product> products = productService.getAllProducts();
+        products.sort((o1, o2) -> Double.compare(o2.getCostPrice(), o1.getCostPrice()));
+        List<Product> listViewProducts = productService.listViewProducts();
+        System.out.println("sizee:"+listViewProducts.get(0).getName());
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("products", products);
+        model.addAttribute(("viewProducts"), listViewProducts);
+        model.addAttribute("keyword",null);
+
+        return "shop";
+    }
+    @GetMapping("/products/2")
+    public String products_low_price_to_high(Model model, Principal principal){
+        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
+        List<Product> products = productService.getAllProducts();
+        products.sort((o1, o2) -> Double.compare(o1.getCostPrice(), o2.getCostPrice()));
+        List<Product> listViewProducts = productService.listViewProducts();
+        System.out.println("sizee:"+listViewProducts.get(0).getName());
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("products", products);
+        model.addAttribute(("viewProducts"), listViewProducts);
+        model.addAttribute("keyword",null);
+
+        return "shop";
+    }
+    @GetMapping("/products/3")
+    public String products_bestselling(Model model, Principal principal){
+
+        List<Product> products = productService.getProductBySelling();
+        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
+
+
+        List<Product> listViewProducts = productService.listViewProducts();
+        System.out.println("sizee:"+listViewProducts.get(0).getName());
+        model.addAttribute("categories", categoryDtoList);
+        model.addAttribute("products", products);
+        model.addAttribute(("viewProducts"), listViewProducts);
+        model.addAttribute("keyword",null);
+        return "shop";
+    }
+
+
+
 
 }

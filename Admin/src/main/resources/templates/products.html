@@ -75,7 +75,7 @@
                         <td>
                             <!-- Display product images -->
                             <div>
-                                <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
+                                <img th:if="${product.imgProducts != null && product.imgProducts.size() > 0}" class="my-product-image" style="height: 40px; width: 40px;" alt=""
                                      th:src="@{'/' + ${product.imgProducts.get(0)}}"/> <!-- Use imgPath property of ImgProduct -->
                             </div>
                         </td>

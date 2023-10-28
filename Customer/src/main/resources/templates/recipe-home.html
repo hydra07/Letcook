@@ -67,6 +67,21 @@
 <!-- End Slider -->
 <div class="shop-box-inner">
     <div class="container">
+        <div class="row" id="search-recipe-div">
+                <div class="col-12 col-md-6 mx-auto">
+                    <form th:action="@{/recipe-search}" method="get">
+                        <div class="d-flex">
+                            <input  type="text" class="form-control" id="search-recipe" name="keyword" placeholder="Nhập tên món ăn bạn muốn tìm kiếm hoặc nguyên liệu" oninput="fetchSuggestionsRecipe()" style="width: 80%">
+                                <button class="btn btn-primary" type="submit" id="search-recipe-button"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="search-recipe-suggest" id="search-recipe-suggest">
+                        <!-- Gợi ý sẽ được thêm vào đây -->
+                    </div>
+                </div>
+        </div>
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
                 <div class="right-product-box">
@@ -159,13 +174,13 @@
                         </div>
                         <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
                              data-children=".sub-men">
-                            <a href="#" class="list-group-item list-group-item-action">Chay
+                            <a th:href="@{/recipe-home/vegan}" class="list-group-item list-group-item-action">Chay
                                 <small class="text-muted" th:text="${veganQuantity}"></small>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action">Ít calo
+                            <a th:href="@{/recipe-home/low-calo}" class="list-group-item list-group-item-action">Ít calo
                                 <small class="text-muted" th:text="${lowCaloQuantity}"></small>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action">Nấu nhanh
+                            <a th:href="@{/recipe-home/quick}" class="list-group-item list-group-item-action">Nấu nhanh
                                 <small class="text-muted" th:text="${quickQuantity}"></small>
                             </a>
                         </div>

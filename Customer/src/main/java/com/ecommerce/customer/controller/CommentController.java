@@ -39,6 +39,9 @@ public class CommentController {
 
     @PostMapping("/add-comment")
     public String addComment(MultipartHttpServletRequest request,@RequestParam("recipeId") Long recipeId, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
         Comment comment = new Comment();
         List<ImgComment> imgComments = new ArrayList<>();
 //        ImageUpload imageUpload = new ImageUpload();

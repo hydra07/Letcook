@@ -53,7 +53,7 @@
                             <div class="toolbar-sorter-right">
                                 <span>Sort by </span>
                                 <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD" name="selectedValue">
-                                    <option data-display="Select">Nothing</option>
+                                    <option value="1" data-display="Select">Nothing</option>
                                     <option value="2">High Price → Low Price</option>
                                     <option value="3">Low Price → High Price</option>
                                     <option value="4">Best Selling</option>
@@ -61,6 +61,34 @@
                             </div>
                             <p>Showing all results</p>
                         </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                // Lắng nghe sự kiện thay đổi của thẻ select
+                                $("#basic").on("change", function() {
+                                    var selectedValue = $(this).val();
+
+                                    // Chuyển hướng dựa trên giá trị đã chọn
+                                    switch (selectedValue) {
+                                        case "1":
+                                            window.location.href = "/shop/products";
+                                            break;
+                                        case "2":
+                                            window.location.href = "/shop/products/1";
+                                            break;
+                                        case "3":
+                                            window.location.href = "/shop/products/2";
+                                            break;
+                                        case "4":
+                                            window.location.href = "/shop/products/3";
+                                            break;
+                                        default:
+                                            // Xử lý khi không có tùy chọn nào được chọn
+                                            break;
+                                    }
+                                });
+                            });
+                        </script>
                         <div class="col-12 col-sm-4 text-center text-sm-right">
                             <ul class="nav nav-tabs ml-auto">
                                 <li>
@@ -158,11 +186,12 @@
                         </div>
                         <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
                              data-children=".sub-men">
-                            <a href="#" class="list-group-item list-group-item-action"
-                               th:each="category: ${categories}"
-                            >[[${category.categoryName}]] <small
-                                    class="text-muted">[[${category.numberOfProduct}]]</small></a>
+                            <a th:each="category: ${categories}"
+                               th:href="@{/products-in-category/{id}(id=${category.id})}"
+                               class="list-group-item list-group-item-action"
+                            >[[${category.categoryName}]] <small class="text-muted">[[${category.numberOfProduct}]]</small></a>
                         </div>
+
                     </div>
                     <div class="filter-price-left">
                         <div class="title-left">

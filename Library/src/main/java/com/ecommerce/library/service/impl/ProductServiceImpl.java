@@ -281,6 +281,7 @@ public class ProductServiceImpl implements ProductService {
             productDto.setSodium(product.getSodium());
             productDto.setCarbs(product.getCarbs());
             productDto.setFiber(product.getFiber());
+            productDto.setAverageWeight(product.getAverageWeight());
 
             productDtoList.add(productDto);
         }
@@ -343,6 +344,10 @@ public class ProductServiceImpl implements ProductService {
         return productDtoList;
     }
 
+    @Override
+    public List<Product> getProductBySelling() {
+        return productRepository.sortByQuantitySell();
+    }
 
 
 }

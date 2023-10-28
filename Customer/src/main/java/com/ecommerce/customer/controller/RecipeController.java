@@ -51,6 +51,13 @@ public class RecipeController {
             return "redirect:/recipe-home";
         }
         model.addAttribute("recipe",recipe);
+
+        if(principal != null) {
+            model.addAttribute("currentUser", customerService.findByUsername(principal.getName()));
+        }else{
+            model.addAttribute("currentUser", null);
+        }
+
         boolean isFavorite = false;
         boolean isFollowed = false;
 
@@ -91,9 +98,26 @@ public class RecipeController {
     public String recipes(Model model){
         List<Recipe> recipes = recipeService.findAllByConfirmed();
         model.addAttribute("recipes",recipes);
-        int veganQuantity = 0;
-        int lowCaloQuantity = 0;
-        int quickQuantity = 0;
+        List<Recipe> veganRecipes = recipeService.searchRecipes("chay");
+        List<Recipe> lowCaloRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            double calories = 0;
+            for(Ingredient ingredient  : recipe.getIngredients()){
+                calories += ingredientService.getNutrition(ingredient).get("calories");
+            }
+            if(calories < 100){
+                lowCaloRecipes.add(recipe);
+            }
+        }
+        List<Recipe> quickRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            if(recipe.getCookingTime() < 30){
+                quickRecipes.add(recipe);
+            }
+        }
+        int veganQuantity = veganRecipes.size();
+        int lowCaloQuantity = lowCaloRecipes.size();
+        int quickQuantity = quickRecipes.size();
         model.addAttribute("veganQuantity", veganQuantity);
         model.addAttribute("lowCaloQuantity", lowCaloQuantity);
         model.addAttribute("quickQuantity", quickQuantity);
@@ -204,6 +228,7 @@ public class RecipeController {
         return "redirect:/my-recipe";
     }
 
+
     @PostMapping("/add-to-favorite")
     public String addToFavorite(
             @RequestParam("id") Long id,
@@ -236,5 +261,123 @@ public class RecipeController {
         return "redirect:" + request.getHeader("Referer");
     }
 
+    @GetMapping("/recipe-search")
+    public String resultRecipe(@RequestParam("keyword")String keyword, Model model){
+//        List<Recipe> recipes = recipeService.findAllByConfirmed();
+        List<Recipe> recipes = recipeService.searchRecipes(keyword);
+//        System.out.println(recipes.get(0).getName());
+        model.addAttribute("recipes",recipes);
+        List<Recipe> veganRecipes = recipeService.searchRecipes("chay");
+        List<Recipe> lowCaloRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            double calories = 0;
+            for(Ingredient ingredient  : recipe.getIngredients()){
+                calories += ingredientService.getNutrition(ingredient).get("calories");
+            }
+            if(calories < 100){
+                lowCaloRecipes.add(recipe);
+            }
+        }
+        List<Recipe> quickRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            if(recipe.getCookingTime() < 30){
+                quickRecipes.add(recipe);
+            }
+        }
+        int veganQuantity = veganRecipes.size();
+        int lowCaloQuantity = lowCaloRecipes.size();
+        int quickQuantity = quickRecipes.size();
+        model.addAttribute("veganQuantity", veganQuantity);
+        model.addAttribute("lowCaloQuantity", lowCaloQuantity);
+        model.addAttribute("quickQuantity", quickQuantity);
+        return "recipe-home";
+    }
+    @GetMapping("/recipe-home/vegan")
+    public String veganRecipe(Model model){
+        List<Recipe> recipes = recipeService.findAllByConfirmed();
+        List<Recipe> veganRecipes = recipeService.searchRecipes("chay");
+        List<Recipe> lowCaloRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            double calories = 0;
+            for(Ingredient ingredient  : recipe.getIngredients()){
+                calories += ingredientService.getNutrition(ingredient).get("calories");
+            }
+            if(calories < 100){
+                lowCaloRecipes.add(recipe);
+            }
+        }
+        List<Recipe> quickRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            if(recipe.getCookingTime() < 30){
+                quickRecipes.add(recipe);
+            }
+        }
+        model.addAttribute("recipes",veganRecipes);
+        int veganQuantity = veganRecipes.size();
+        int lowCaloQuantity = lowCaloRecipes.size();
+        int quickQuantity = quickRecipes.size();
+        model.addAttribute("veganQuantity", veganQuantity);
+        model.addAttribute("lowCaloQuantity", lowCaloQuantity);
+        model.addAttribute("quickQuantity", quickQuantity);
+        return "recipe-home";
+    }
+    @GetMapping("/recipe-home/low-calo")
+    public String lowCaloRecipe(Model model){
+        List<Recipe> recipes = recipeService.findAllByConfirmed();
+        List<Recipe> veganRecipes = recipeService.searchRecipes("chay");
+        List<Recipe> lowCaloRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            double calories = 0;
+            for(Ingredient ingredient  : recipe.getIngredients()){
+                calories += ingredientService.getNutrition(ingredient).get("calories");
+            }
+            if(calories < 100){
+                lowCaloRecipes.add(recipe);
+            }
+        }
+        List<Recipe> quickRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            if(recipe.getCookingTime() < 30){
+                quickRecipes.add(recipe);
+            }
+        }
+        model.addAttribute("recipes",lowCaloRecipes);
+        int veganQuantity = veganRecipes.size();
+        int lowCaloQuantity = lowCaloRecipes.size();
+        int quickQuantity = quickRecipes.size();
+        model.addAttribute("veganQuantity", veganQuantity);
+        model.addAttribute("lowCaloQuantity", lowCaloQuantity);
+        model.addAttribute("quickQuantity", quickQuantity);
+        return "recipe-home";
+    }
+    @GetMapping("/recipe-home/quick")
+    public String quickRecipe(Model model){
+        List<Recipe> recipes = recipeService.findAllByConfirmed();
+        List<Recipe> veganRecipes = recipeService.searchRecipes("chay");
+        List<Recipe> lowCaloRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            double calories = 0;
+            for(Ingredient ingredient  : recipe.getIngredients()){
+                calories += ingredientService.getNutrition(ingredient).get("calories");
+            }
+            if(calories < 100){
+                lowCaloRecipes.add(recipe);
+            }
+        }
+        List<Recipe> quickRecipes = new ArrayList<>();
+        for(Recipe recipe :recipes){
+            if(recipe.getCookingTime() < 30){
+                quickRecipes.add(recipe);
+            }
+        }
+        model.addAttribute("recipes",quickRecipes);
+        int veganQuantity = veganRecipes.size();
+        int lowCaloQuantity = lowCaloRecipes.size();
+        int quickQuantity = quickRecipes.size();
+        model.addAttribute("veganQuantity", veganQuantity);
+        model.addAttribute("lowCaloQuantity", lowCaloQuantity);
+        model.addAttribute("quickQuantity", quickQuantity);
+        return "recipe-home";
+    }
 
 }

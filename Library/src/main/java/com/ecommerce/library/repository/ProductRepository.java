@@ -1,5 +1,6 @@
 package com.ecommerce.library.repository;
 
+import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,4 +81,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 //
     @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
     List<Product> searchProductsList(String keyword);
+
+
+    @Query(value = "SELECT p.* FROM products p LEFT JOIN ( SELECT product_id, SUM(quantity) AS total_quantity_sold FROM order_detail GROUP BY product_id ) AS quantities ON p.product_id = quantities.product_id ORDER BY COALESCE(quantities.total_quantity_sold, 0) DESC;", nativeQuery = true)
+    List<Product> sortByQuantitySell();
 }

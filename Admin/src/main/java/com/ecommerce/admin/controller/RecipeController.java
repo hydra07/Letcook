@@ -104,9 +104,9 @@ public class RecipeController {
             Recipe recipe = recipeService.update(recipeDto);
             Customer customer = recipe.getCustomer();
             NotificationType accept = NotificationType.ACCEPT;
-            String acceptMessage = "Your recipe" + recipe.getName() + "has been accepted";
+            String acceptMessage = "Your recipe " + recipe.getName() + " has been accepted";
             String acceptUrl = "/find-recipe/" + recipe.getId();
-            notificationService.createNotification(accept.getType(), customer, accept.getTitle(), acceptMessage, acceptUrl);
+            notificationService.createNotification(accept.getTitle(), customer, accept.getType(), acceptMessage, acceptUrl);
 
 
             List<Customer> follows = followService.findAllByFollowingId(recipe.getCustomer().getId());

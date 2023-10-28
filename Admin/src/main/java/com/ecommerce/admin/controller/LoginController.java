@@ -59,7 +59,7 @@ public class LoginController {
         int unCheckedRecipe = recipeService.numOfUncheckedRecipe();
         int unCheckedOrder = orderService.numOfOrderByStatus("PENDING");
         int todayOrder = orderService.numOfOrderToday();
-        int todayRecipe = orderService.numOfOrderToday();
+        int todayRecipe = recipeService.numOfRecipeToday();
 
         //pie chart
         int unSuccessfulOrder = orderService.numOfOrderByStatus("UNSUCCESSFUL");

@@ -57,4 +57,6 @@ public interface ProductService {
 
     List<ProductDto> findAllByActivated();
 
+    List<Product> getProductBySelling();
+
 }

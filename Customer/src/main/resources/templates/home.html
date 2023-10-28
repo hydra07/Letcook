@@ -66,77 +66,59 @@
 <!-- End Slider -->
 
 
-<!-- Start About Page  -->
-<!--<div class="about-box-main">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-6">-->
-<!--                <div class="banner-frame"><img class="img-fluid" src="images/letcooklogo2.png" alt=""/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-6">-->
-<!--                <h2 class="noo-sh-title-top">We are <span>Let's cook Market</span></h2>-->
-<!--                <p>Seafood is our only business. Having spent many years in the seafood business, we know where to find-->
-<!--                    the best products.-->
-<!--                    Let's cook Market deals only with high-end processors and reliable importers. We handle quality-->
-<!--                    products that-->
-<!--                    we would serve to our friends and family. If it is good enough for our table, you will want it on-->
-<!--                    yours!</p>-->
-<!--                <p>At Let's cook Market, you can choose the best of both. Here, guests are invited on an adventure in great-->
-<!--                    food. We will create a great experience for you.</p>-->
-<!--                <p>Our menu is both classic and modern featuring lighter items to indulgent seafood presentations like-->
-<!--                    crab, shrimp, lobster,...-->
-<!--                    We deliver more than just incredible food: We create remarkable experiences.</p>-->
-<!--                <a class="btn hvr-hover" href="#">Read More</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="row my-5">-->
-<!--            <div class="col-sm-6 col-lg-4">-->
-<!--                <div class="service-block-inner">-->
-<!--                    <h3>We are Trusted</h3>-->
-<!--                    <p>Let's cook Market deals only with high-end processors and reliable importers.-->
-<!--                        We handle quality products that we would serve to our friends and family. </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-sm-6 col-lg-4">-->
-<!--                <div class="service-block-inner">-->
-<!--                    <h3>We are Professional</h3>-->
-<!--                    <p>Here, guests are invited on an adventure in great food. We will create a great experience for-->
-<!--                        you.-->
-<!--                        We deliver more than just incredible food: We create remarkable experiences.-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-sm-6 col-lg-4">-->
-<!--                <div class="service-block-inner">-->
-<!--                    <h3>We are Expert</h3>-->
-<!--                    <p>We Have spent many years in the seafood business, we know where to find the best products.-->
-<!--                        Our menu is both classic and modern featuring lighter items to indulgent seafood presentations-->
-<!--                        like crab, shrimp, lobster,... </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<div class="container" id="search-recipe-div">
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <form th:action="@{/recipe-search}" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="search-recipe" name="keyword" placeholder="Nhập món ăn bạn muốn tìm kiếm ..." oninput="fetchSuggestionsRecipe()">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" id="search-recipe-button"><i class="fas fa-search"></i></button>
-                    </div>
+ Start About Page
+<div class="about-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="banner-frame"><img class="img-fluid" src="images/letcooklogo2.png" alt=""/>
                 </div>
-            </form>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="noo-sh-title-top">We are <span>Let's cook Market</span></h2>
+                <p>Seafood is our only business. Having spent many years in the seafood business, we know where to find
+                    the best products.
+                    Let's cook Market deals only with high-end processors and reliable importers. We handle quality
+                    products that
+                    we would serve to our friends and family. If it is good enough for our table, you will want it on
+                    yours!</p>
+                <p>At Let's cook Market, you can choose the best of both. Here, guests are invited on an adventure in great
+                    food. We will create a great experience for you.</p>
+                <p>Our menu is both classic and modern featuring lighter items to indulgent seafood presentations like
+                    crab, shrimp, lobster,...
+                    We deliver more than just incredible food: We create remarkable experiences.</p>
+                <a class="btn hvr-hover" href="#">Read More</a>
+            </div>
         </div>
-        <div class="col-lg-8 offset-lg-2">
-            <div class="search-recipe-suggest" id="search-recipe-suggest">
-                <!-- Gợi ý sẽ được thêm vào đây -->
+        <div class="row my-5">
+            <div class="col-sm-6 col-lg-4">
+                <div class="service-block-inner">
+                    <h3>We are Trusted</h3>
+                    <p>Let's cook Market deals only with high-end processors and reliable importers.
+                        We handle quality products that we would serve to our friends and family. </p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="service-block-inner">
+                    <h3>We are Professional</h3>
+                    <p>Here, guests are invited on an adventure in great food. We will create a great experience for
+                        you.
+                        We deliver more than just incredible food: We create remarkable experiences.
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="service-block-inner">
+                    <h3>We are Expert</h3>
+                    <p>We Have spent many years in the seafood business, we know where to find the best products.
+                        Our menu is both classic and modern featuring lighter items to indulgent seafood presentations
+                        like crab, shrimp, lobster,... </p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!-- Start Feed  -->
