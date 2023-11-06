@@ -21,7 +21,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
             value = "SELECT COALESCE(SUM(orders.total_price), 0) AS TotalPrice " +
                     "FROM Months " +
                     "LEFT JOIN orders ON Months.MonthID = MONTH(orders.order_date) " +
-                    "AND YEAR(orders.order_date) = YEAR(GETDATE()) AND orders.order_status = 'SHIPPING'" +
+                    "AND YEAR(orders.order_date) = YEAR(GETDATE()) AND orders.order_status = 'SUCCESSFUL'" +
                     "GROUP BY Months.MonthID;",
             nativeQuery = true
     )

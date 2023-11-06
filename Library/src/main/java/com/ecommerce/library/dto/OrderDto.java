@@ -18,5 +18,8 @@ public class OrderDto {
     private Customer customer;
 
     private String paymentMethod;
+
+    private String transactionId;
+
     private List<OrderDetail> orderDetailList;
 }

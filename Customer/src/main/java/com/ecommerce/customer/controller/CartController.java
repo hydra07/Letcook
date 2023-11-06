@@ -83,7 +83,7 @@ public class CartController {
                 return "redirect:/cart";
             } else {
                 if (quantity > product.getCurrentQuantity()) {
-                    model.addAttribute("notify", "Quantity is not enough");
+                    attributes.addFlashAttribute("notify", "Quantity is not enough");
                     cart = customer.getShoppingCart();
                 } else {
                     cart = cartService.updateItemInCart(product, quantity, customer);

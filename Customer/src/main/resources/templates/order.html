@@ -63,7 +63,7 @@
                                 <strong th:text="${order.orderDate}"></strong>
                             </td>
                             <td th:if="${order.deliveryDate != null}">
-                                <p th:text="${order.deliveryDate}"></p>
+                                <p th:text="${#dates.format(order.deliveryDate, 'dd-MM-yyyy')}"></p>
                             </td>
                             <td th:if="${order.deliveryDate == null}">
                                 <p>Waiting...</p>
@@ -75,11 +75,15 @@
                                 <p style="color: red" th:text="${'$' + order.totalPrice}">$80.0</p>
                             </td>
                             <td>
-                                <span>Cash</span>
+                                <span th:text="${order.paymentMethod}">Cash</span>
                             </td>
                             <td>
-                                <a th:if="${!order.accepted && (order.orderStatus != 'CANCELED' && order.orderStatus != 'UNSUCCESSFUL')}" th:href="@{/cancel-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
+                                <th:block th:if="${!order.accepted && (order.orderStatus != 'CANCELED' && order.orderStatus != 'UNSUCCESSFUL')}">
+                                <a th:if="${order.paymentMethod == 'COD'}" th:href="@{/cancel-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
 <!--                                <a th:if="${!order.accepted}" th:href="@{/accept-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Accept</a>-->
+                                    <a th:if="${order.paymentMethod == 'VNPAY'}" th:href="@{/refund/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
+
+                                </th:block>
                             </td>
                         </tr>
                         </tbody>

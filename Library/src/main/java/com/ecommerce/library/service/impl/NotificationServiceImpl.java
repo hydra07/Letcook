@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -38,5 +39,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void deleteNotificationById(Long id) {
         notificationRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Notification> getAdminNotifications() {
+        return notificationRepository.findNotificationByCustomerIsNull();
     }
 }

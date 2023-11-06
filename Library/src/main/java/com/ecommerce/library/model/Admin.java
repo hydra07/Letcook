@@ -36,4 +36,9 @@ public class Admin {
     @JoinTable(name = "admins_roles", joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "admin_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Collection<Role> roles;
+
+    public String getName(){
+        return this.firstName + " " + this.lastName;
+    }
+
 }

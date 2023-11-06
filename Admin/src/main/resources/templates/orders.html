@@ -69,8 +69,23 @@
                         <td th:text="${order.paymentMethod}"></td>
                         <td th:text="${order.shippingAddress}"></td>
                         <td>
-                            <a th:if="${!order.accepted && order.orderStatus == 'PENDING'}" class="btn btn-primary" th:href="@{/accept-order/{id}(id = ${order.id})}"> Accept</a>
-                            <a th:if="${order.orderStatus == 'CANCELED'}" class="btn btn-danger" th:href="@{/resolve-order/{id}(id = ${order.id})}"> Resolve</a>
+
+                            <th:block th:if="${!order.accepted && order.orderStatus == 'PENDING'}">
+                                <a class="btn btn-primary" th:href="@{/accept-order/{id}(id = ${order.id})}"> Accept</a>
+                                <button class="btn btn-warning" data-toggle="modal" data-target="#rejectModal" id="rejectButton" th:value="${order.id}" onclick="handleRejectButtonClick(this.value)"> Reject
+                                </button>
+                            </th:block>
+                            <th:block th:if="${order.orderStatus == 'SHIPPING'}">
+                                <a class="btn btn-success" style="width: 120px"
+                                   th:href="@{/order-success/{id}(id = ${order.id})}">SUCCESS
+                                </a>
+
+                                <a class="btn btn-danger" style="width: 120px"
+                                   th:href="@{/order-unsuccess/{id}(id = ${order.id})}">UNSUCCESS
+                                </a>
+                            </th:block>
+                            <!--                            <a th:if="${order.orderStatus == 'CANCELED'}" class="btn btn-danger"-->
+                            <!--                               th:href="@{/resolve-order/{id}(id = ${order.id})}"> Resolve</a>-->
 
                             <!--                            <a th:href="@{'/update-product/' + ${product.id}}" class="btn btn-primary">Update</a>-->
                             <!--                            &lt;!&ndash; Check if product is deleted &ndash;&gt;-->
@@ -82,7 +97,32 @@
                 </table>
             </div>
             <!-- /.container-fluid -->
+            <!--Modal reject-->
+            <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reject order</h5>
+                            <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/reject-order}" method="get">
+                            <div class="modal-body">
 
+                                <label class="mr-5 font-weight-bold" for="reason">Reason</label>
+                                <input id="reason" name="reason" placeholder="Reason for rejecting..." required>
+                                <input id="orderId" name="orderId" type="hidden">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- End of Main Content -->
 
@@ -101,7 +141,7 @@
 <a th:replace="~{fragments::scroll}">
 </a>
 
-
+<script th:src="@{/js/orders.js}"></script>
 <!-- Bootstrap core JavaScript-->
 <div th:replace="~{fragments::script}"></div>
 </body>

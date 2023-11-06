@@ -31,7 +31,7 @@ public class CustomerConfiguration {
 
 //    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**","/find-recipe/**","/api/**" ,"/search-product/**"};
 
-    public final String[]  PUBLIC = {"/assets/**","/recipe-home/**","/*","/products-in-category/**", "/products/**","/js/**","assets/js/**", "/css/**", "/images/**",
+    public final String[]  PUBLIC = {"/assets/**","/recipe-home/**","/*","/refund/**","/products-in-category/**", "/products/**","/js/**","assets/js/**", "/css/**", "/images/**",
                                     "/webfonts/**","/find-product/**","/find-recipe/**",
                                     "/api/**" ,"/search-product/**" ,"/follow/**" ,"/unFollow/**",
                                     "handle-notification/**","/add-comment/**","/recipe-search","/api/add-reaction"};

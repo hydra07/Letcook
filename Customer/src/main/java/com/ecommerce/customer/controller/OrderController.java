@@ -1,9 +1,11 @@
 package com.ecommerce.customer.controller;
 
+import com.ecommerce.library.enums.NotificationType;
 import com.ecommerce.library.model.Customer;
 import com.ecommerce.library.model.Order;
 import com.ecommerce.library.model.ShoppingCart;
 import com.ecommerce.library.service.CustomerService;
+import com.ecommerce.library.service.NotificationService;
 import com.ecommerce.library.service.OrderService;
 import com.ecommerce.library.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +31,9 @@ public class OrderController {
     @Autowired
     VNPayService vnPayService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/check-out")
     public String checkout(Model model, Principal principal) {
         if (principal == null) {
@@ -47,6 +52,27 @@ public class OrderController {
         }
 
         return "checkout";
+    }
+
+    @GetMapping("/refund/{id}")
+    public String refundOrder(HttpServletRequest request,@PathVariable("id") Long id, Principal principal, RedirectAttributes attributes) {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/shop";
+//        vnPayService.refundOrder("14155784",20000, "hihi");
+        Customer customer = customerService.findByUsername(principal.getName());
+        String username = customer.getName();
+        Order order = orderService.getOrderById(id);
+        int amount = (int)order.getTotalPrice();
+        String transactionId = order.getTransactionId();
+        vnPayService.refund(amount, transactionId, username);
+
+        NotificationType acceptOrder = NotificationType.CANCEL_ORDER;
+        String message = "An order has been canceled by customer";
+        String url = "/orders";
+        notificationService.createNotification(acceptOrder.getTitle(), null, acceptOrder.getType(), message, url);
+
+
+        attributes.addFlashAttribute("success", "Cancel order successfully, your money will be refund!");
+        return "redirect:/cancel-order/" + id;
     }
 
 
@@ -78,7 +104,7 @@ public class OrderController {
         ShoppingCart cart = customer.getShoppingCart();
         String shippingAddress = province + ", " + district + ", " + ward + "," + customer.getAddress();
         System.out.println("diachi:" + shippingAddress);
-        if (paymentMethod.equals("BANKING")) {
+        if (paymentMethod.equals("VNPAY")) {
             String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/shop";
             System.out.println("baseUrl: " + baseUrl);
             String orderInfo = "Thanh toan don hang-" + customer.getName();
@@ -87,7 +113,15 @@ public class OrderController {
 //            orderService.saveOrder(cart, shippingAddress, paymentMethod);
             return "redirect:" + vnpayUrl;
         }
-        orderService.saveOrder(cart, shippingAddress, paymentMethod);
+        orderService.saveOrder(cart, shippingAddress, paymentMethod, null);
+
+        //create notification
+        NotificationType acceptOrder = NotificationType.NEW_ORDER;
+        String message = "You have a new order to check";
+        String url = "/orders";
+        notificationService.createNotification(acceptOrder.getTitle(), null, acceptOrder.getType(), message, url);
+
+
         return "redirect:/order";
     }
 
@@ -112,7 +146,12 @@ public class OrderController {
         orderService.cancelOrder(id);
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
-        List<Order> orderList = customer.getOrders();
+//        List<Order> orderList = customer.getOrders();
+        NotificationType acceptOrder = NotificationType.CANCEL_ORDER;
+        String message = "An order has been canceled by customer";
+        String url = "/orders";
+        notificationService.createNotification(acceptOrder.getTitle(), null, acceptOrder.getType(), message, url);
+
         attributes.addFlashAttribute("success", "Cancel order successfully!");
         return "redirect:/order";
     }
@@ -126,7 +165,7 @@ public class OrderController {
         String username = principal.getName();
 //        Customer customer = customerService.findByUsername(username);
 //        List<Order> orderList = customer.getOrders();
-        attributes.addFlashAttribute("success", "Cancel order successfully!");
+        attributes.addFlashAttribute("success", "Accept order successfully!");
         return "redirect:/order";
     }
 
@@ -136,6 +175,7 @@ public class OrderController {
         String orderInfo = request.getParameter("vnp_OrderInfo");
         String paymentTime = request.getParameter("vnp_PayDate");
         String transactionId = request.getParameter("vnp_TransactionNo");
+        String transactionNo = request.getParameter("vnp_TxnRef");
         String totalPrice = request.getParameter("vnp_Amount");
 //        String paymentMethod = request.getParameter("vnp_PaymentMethod");
 //        String shippingAddress = request.getParameter("vnp_Address");
@@ -145,7 +185,7 @@ public class OrderController {
         ShoppingCart cart = customer.getShoppingCart();
         if (paymentStatus == 1) {
             String shippingAddress = (String) session.getAttribute("shippingAddress");
-            orderService.saveOrder(cart, shippingAddress, "BANKING");
+            orderService.saveOrder(cart, shippingAddress, "VNPAY",transactionNo);
             session.removeAttribute("shippingAddress");
             return "redirect:/order";
         }

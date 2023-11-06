@@ -14,6 +14,10 @@ public class OrderServiceImpl implements OrderService {
     static final String PENDING = "PENDING";
     static final String SHIPPING = "SHIPPING";
     static final String CANCELED = "CANCELED";
+    static final String REJECTED = "REJECTED";
+    static final String SUCCESSFUL = "SUCCESSFUL";
+    static final String UNSUCCESSFUL = "UNSUCCESSFUL";
+
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
@@ -42,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void saveOrder(ShoppingCart cart, String shippingAddress, String paymentMethod) {
+    public void saveOrder(ShoppingCart cart, String shippingAddress, String paymentMethod, String transactionNo) {
         Order order = new Order();
         order.setOrderStatus(PENDING);
         order.setOrderDate((new Date()));
@@ -51,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(shippingAddress);
         order.setPaymentMethod(paymentMethod);
         order.setAccepted(false);
+        order.setTransactionId(transactionNo);
         List<OrderDetail> orderDetailList = new ArrayList<>();
         for (CartItem item : cart.getCartItem()) {
             OrderDetail orderDetail = new OrderDetail();
@@ -82,9 +87,42 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void acceptOrder(Long id) {
         Order order = orderRepository.getById(id);
-        order.setDeliveryDate(new Date());
+//        order.setDeliveryDate(new Date());
         order.setAccepted(true);
         order.setOrderStatus(SHIPPING);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void rejectOrder(Long id) {
+        Order order = orderRepository.getById(id);
+        order.setOrderStatus(REJECTED);
+        for (OrderDetail orderDetail : order.getOrderDetailList()) {
+            Product product = productRepository.getById(orderDetail.getProduct().getId());
+            product.setCurrentQuantity(product.getCurrentQuantity() + orderDetail.getQuantity());
+            productRepository.save(product);
+        }
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void orderSuccess(Long id) {
+        Order order = orderRepository.getById(id);
+        order.setDeliveryDate(new Date());
+        order.setAccepted(true);
+        order.setOrderStatus(SUCCESSFUL);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void orderUnsuccessful(Long id) {
+        Order order = orderRepository.getById(id);
+        order.setOrderStatus(UNSUCCESSFUL);
+        for (OrderDetail orderDetail : order.getOrderDetailList()) {
+            Product product = productRepository.getById(orderDetail.getProduct().getId());
+            product.setCurrentQuantity(product.getCurrentQuantity() + orderDetail.getQuantity());
+            productRepository.save(product);
+        }
         orderRepository.save(order);
     }
 

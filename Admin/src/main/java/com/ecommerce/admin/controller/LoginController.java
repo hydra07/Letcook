@@ -2,7 +2,9 @@ package com.ecommerce.admin.controller;
 
 import com.ecommerce.library.dto.AdminDto;
 import com.ecommerce.library.model.Admin;
+import com.ecommerce.library.model.Notification;
 import com.ecommerce.library.service.AdminService;
+import com.ecommerce.library.service.NotificationService;
 import com.ecommerce.library.service.OrderService;
 import com.ecommerce.library.service.RecipeService;
 import com.ecommerce.library.service.impl.AdminServiceImpl;
@@ -20,6 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+
 @Controller
 public class LoginController {
     @Autowired
@@ -33,6 +38,9 @@ public class LoginController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/login")
     public String loginForm(Model model, HttpServletRequest request) {
@@ -63,7 +71,7 @@ public class LoginController {
 
         //pie chart
         int unSuccessfulOrder = orderService.numOfOrderByStatus("UNSUCCESSFUL");
-        int successfulOrder = orderService.numOfOrderByStatus("SHIPPING");
+        int successfulOrder = orderService.numOfOrderByStatus("SUCCESSFUL");
         int[] orderStatus = {unSuccessfulOrder, successfulOrder};
 
         //Area chart
@@ -72,8 +80,12 @@ public class LoginController {
         //Bar chart
         Double[] revenueByMonths = orderService.revenueByMonths();
 
+        List<Notification> notifications = notificationService.getAdminNotifications();
+
         model.addAttribute("recipeByMonths" , recipeByMonths);
         model.addAttribute("revenueByMonths", revenueByMonths);
+
+        model.addAttribute("notifications", notifications);
 
         model.addAttribute("unCheckedRecipe", unCheckedRecipe);
         model.addAttribute("unCheckedOrder", unCheckedOrder);

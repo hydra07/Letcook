@@ -1,5 +1,6 @@
 package com.ecommerce.customer.controller;
 
+import com.ecommerce.library.enums.NotificationType;
 import com.ecommerce.library.model.*;
 import com.ecommerce.library.service.*;
 import com.ecommerce.library.utils.ImageUpload;
@@ -41,6 +42,10 @@ public class RecipeController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/find-recipe/{id}")
     public String recipeDetail(@PathVariable("id") Long id, Model model, Principal principal){
 
@@ -224,6 +229,11 @@ public class RecipeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        NotificationType acceptOrder = NotificationType.NEW_RECIPE;
+        String message = "You have a new reipe to check";
+        String url = "/recipes/0";
+        notificationService.createNotification(acceptOrder.getTitle(), null, acceptOrder.getType(), message, url);
 
         return "redirect:/my-recipe";
     }

@@ -6,11 +6,17 @@ import com.ecommerce.library.model.ShoppingCart;
 import java.util.List;
 
 public interface OrderService {
-    void saveOrder(ShoppingCart cart , String shippingAddress, String paymentMethod);
+    void saveOrder(ShoppingCart cart , String shippingAddress, String paymentMethod, String transactionNo);
 
     void acceptOrder(Long id);
 
     void cancelOrder(Long id);
+
+    void rejectOrder(Long id);
+
+    void orderSuccess(Long id);
+
+    void orderUnsuccessful(Long id);
 
     Order getOrderById(Long id);
 

@@ -26,6 +26,9 @@ public class Order {
     private String orderStatus;
     private String notes;
 
+    @Column(nullable = true)
+    private String transactionId;
+
     @Column(columnDefinition = "NVARCHAR(100)")
     private String shippingAddress;
 
