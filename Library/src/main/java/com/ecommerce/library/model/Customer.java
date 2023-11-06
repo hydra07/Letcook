@@ -67,4 +67,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Notification> notifications;
+
+    @Column(nullable = true)
+    private boolean isVerified = false;
 }

@@ -31,10 +31,11 @@ public class CustomerConfiguration {
 
 //    public final String[]  PUBLIC = {"/assets/**","/*", "/js/**", "/css/**", "/images/**", "/webfonts/**","/find-product/**","/find-recipe/**","/api/**" ,"/search-product/**"};
 
-    public final String[]  PUBLIC = {"/assets/**","/recipe-home/**","/*","/refund/**","/products-in-category/**", "/products/**","/js/**","assets/js/**", "/css/**", "/images/**",
-                                    "/webfonts/**","/find-product/**","/find-recipe/**",
-                                    "/api/**" ,"/search-product/**" ,"/follow/**" ,"/unFollow/**",
-                                    "handle-notification/**","/add-comment/**","/recipe-search","/api/add-reaction"};
+    public final String[] PUBLIC = {"/assets/**", "/recipe-home/**", "/*", "/refund/**", "/products-in-category/**", "/products/**", "/js/**", "assets/js/**", "/css/**", "/images/**",
+            "/webfonts/**", "/find-product/**", "/find-recipe/**",
+            "/api/**", "/search-product/**", "/follow/**", "/unFollow/**",
+            "handle-notification/**", "/add-comment/**", "/recipe-search", "/api/add-reaction",
+            "/verification/**", "/verify/**"};
 
 
     @Bean
@@ -52,6 +53,7 @@ public class CustomerConfiguration {
             AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -76,28 +78,28 @@ public class CustomerConfiguration {
         http
                 .authorizeHttpRequests()
                 .requestMatchers(PUBLIC).permitAll()
-                .requestMatchers("/customer/**" , "/cancel-order/**" , "/accept-order/**").hasAuthority("CUSTOMER")
+                .requestMatchers("/customer/**", "/cancel-order/**", "/accept-order/**").hasAuthority("CUSTOMER")
 //                .requestMatchers("/add-comment/**").permitAll()
                 .and()
                 //remember me
-                    .rememberMe()
-                        .rememberMeParameter("remember-me")
-                        .tokenValiditySeconds(1209600)//14 days
-                        .key("remember-me-key")
-                        .userDetailsService(userDetailsService())
+                .rememberMe()
+                .rememberMeParameter("remember-me")
+                .tokenValiditySeconds(1209600)//14 days
+                .key("remember-me-key")
+                .userDetailsService(userDetailsService())
                 .and()
-                    .formLogin()
-                        .loginPage("/login")
-                        .loginProcessingUrl("/do-login")
-                        .defaultSuccessUrl("/index", true)
-                        .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/index", true)
+                .permitAll()
                 .and()
-                    .logout()
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()

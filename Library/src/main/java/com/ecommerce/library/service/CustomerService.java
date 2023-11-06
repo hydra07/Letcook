@@ -5,6 +5,7 @@ import com.ecommerce.library.model.Customer;
 import org.hibernate.id.uuid.CustomVersionOneStrategy;
 
 public interface CustomerService{
+    Customer save(Customer customer);
     Customer save(CustomerDto customerDto);
     Customer findByUsername(String username);
 

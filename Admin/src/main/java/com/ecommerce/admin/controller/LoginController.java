@@ -57,7 +57,7 @@ public class LoginController {
 
 
     @RequestMapping(value = {"/index","/"}, method = RequestMethod.GET)
-    public String home(Model model){
+    public String home(Model model,HttpSession session){
         model.addAttribute("title", "Home Page");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof  AnonymousAuthenticationToken){
@@ -85,7 +85,13 @@ public class LoginController {
         model.addAttribute("recipeByMonths" , recipeByMonths);
         model.addAttribute("revenueByMonths", revenueByMonths);
 
-        model.addAttribute("notifications", notifications);
+        if (notifications == null || notifications.size() == 0) {
+            session.setAttribute("checkNotify", "No notification");
+            session.removeAttribute("notifications");
+        } else {
+            session.setAttribute("notifications", notifications);
+            session.removeAttribute("checkNotify");
+        }
 
         model.addAttribute("unCheckedRecipe", unCheckedRecipe);
         model.addAttribute("unCheckedOrder", unCheckedOrder);
