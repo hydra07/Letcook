@@ -126,5 +126,9 @@ public class CustomerServiceImpl implements CustomerService {
         return false;
 
     }
+    @Override
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
 
 }

@@ -23,6 +23,8 @@ public class CustomerDto {
     private String phoneNumber;
     private String address;
 
+//    private boolean isVerified;
+
     private String getFullName() {
         return firstName + " " + lastName;
     }
