@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
             List<ImgProduct> imgProducts = new ArrayList<>();
             for (MultipartFile imageProduct : imageProducts) {
                 if (imageProduct != null && !imageProduct.isEmpty()) {
-                    String imageName = "images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
+                    String imageName = "api/images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
                     imageNames.add(imageName);
 
                     // Create an ImgProduct and set the imgPath
@@ -124,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
 
                 for (MultipartFile imageProduct : imageProducts) {
                     if (!imageProduct.isEmpty()) {
-                        String imageName = "images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
+                        String imageName = "api/images/image-product/" + imageUpload.uploadImage(imageProduct, directory);
 
                         // Create a new ImgProduct and set the imgPath
                         ImgProduct newImgProduct = new ImgProduct();

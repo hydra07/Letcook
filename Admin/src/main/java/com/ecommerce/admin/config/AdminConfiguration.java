@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class AdminConfiguration {
-    public final String[] PUBLIC = {"/static/**", "/images/**"};
+    public final String[] PUBLIC = {"/static/**", "/images/**","/register","/register-new","/login","/do-login","/logout","/handle-notification/**"};
     @Bean
     public UserDetailsService userDetailsService(){
         return new AdminServiceConfig();

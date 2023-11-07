@@ -4,6 +4,7 @@ import com.ecommerce.library.model.Customer;
 import com.ecommerce.library.model.Measurement;
 import com.ecommerce.library.model.Reaction;
 import com.ecommerce.library.service.*;
+import com.ecommerce.library.utils.ImageUpload;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 //import com.nimbusds.jose.shaded.gson.JsonObject;
 //import com.nimbusds.jose.shaded.gson.JsonParser;
@@ -12,9 +13,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +47,9 @@ public class ApiController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ImageUpload imageUpload;
 
     @GetMapping("/measurements")
     public ResponseEntity<List<String>> getMeasurements() {
@@ -138,6 +148,58 @@ public class ApiController {
         return check;
     }
 
+    @GetMapping("/images/{path:.+}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String path){
+//        System.out.println("path:" + path);
+        System.out.println("ok");
+        String pathImage = imageUpload.IMAGES_FOLDER + path;
+
+        pathImage = pathImage.replace("\\", "/");
+        System.out.println("pathImage:" + pathImage);
+        File imageFile = new File(pathImage);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        if (imageFile.exists()) {
+            try {
+                return new ResponseEntity<>(Files.readAllBytes(imageFile.toPath()), headers, HttpStatus.OK);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/images/{path1}/{path2:.+}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String path1,@PathVariable String path2){
+//        System.out.println("path:" + path);
+        System.out.println("ok");
+
+        String pathImage = imageUpload.IMAGES_FOLDER + path1 + "\\" + path2;
+
+        pathImage = pathImage.replace("\\", "/");
+        System.out.println("pathImage:" + pathImage);
+        File imageFile = new File(pathImage);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        if (imageFile.exists()) {
+            try {
+                return new ResponseEntity<>(Files.readAllBytes(imageFile.toPath()), headers, HttpStatus.OK);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/img/{path:.*}")
+    public String getImage2(@PathVariable String path){
+        String cleanedPath = path.replace("/", "\\"); // Thay thế dấu gạch chéo / bằng dấu gạch chéo ngược \
+        return imageUpload.IMAGES_FOLDER + cleanedPath;
+    }
 
 }
 

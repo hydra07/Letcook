@@ -198,7 +198,7 @@ public class RecipeController {
             if( images != null || images.size() > 0) {
                 for (MultipartFile image : images) {
                     System.out.println(image.getOriginalFilename());
-                    String imageName = "images/image-step/" + imageUpload.uploadImage(image, imgStepPath);
+                    String imageName = "api/images/image-step/" + imageUpload.uploadImage(image, imgStepPath);
                     ImgStep imgStep = new ImgStep();
 //                imgStep.setImgPath(imageUpload.getURL(imageUpload.uploadImage(image,"/recipe/"),"recipe"));;
                     imgStep.setImgPath(imageName);
@@ -212,7 +212,7 @@ public class RecipeController {
 
         }
         MultipartFile recipeImageFile = request.getFile("recipeImage");
-        String recipeImage = "images/recipe/" + imageUpload.uploadImage(recipeImageFile,"recipe");
+        String recipeImage = "api/images/recipe/" + imageUpload.uploadImage(recipeImageFile,"recipe");
         try {
             recipe.setName(recipeName);
             recipe.setDescription(recipeDescription);

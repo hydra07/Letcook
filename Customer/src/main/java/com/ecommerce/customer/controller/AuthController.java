@@ -113,4 +113,6 @@ public class AuthController {
         customerService.save(customer);
         return "redirect:/login";
     }
+
+
 }

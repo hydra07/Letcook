@@ -55,7 +55,7 @@ public class CommentController {
         for (MultipartFile image : commentImages){
             if(!image.isEmpty()){
                 ImgComment imgComment = new ImgComment();
-                String imageName = "images/image-comment/" + imageUpload.uploadImage(image, "image-comment");
+                String imageName = "api/images/image-comment/" + imageUpload.uploadImage(image, "image-comment");
                 imgComment.setImgUrl(imageName);
                 imgComment.setComment(comment);
                 imgComments.add(imgComment);
