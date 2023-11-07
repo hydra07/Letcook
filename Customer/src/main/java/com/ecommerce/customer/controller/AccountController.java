@@ -100,7 +100,7 @@ public class AccountController {
     public String updateAvatar(@RequestParam("image") MultipartFile image, Principal principal, Model model){
         ImageUpload imageUpload = new ImageUpload();
 //        String avatar = imageUpload.getURL(imageUpload.uploadImage(image, "avatar"), "avatar");
-        String avatar = "images/avatar/"+imageUpload.uploadImage(image, "avatar");
+        String avatar = "api/images/avatar/"+imageUpload.uploadImage(image, "avatar");
         Customer customer = customerService.updateAvatar(principal.getName(), avatar);
 //        String avatar = customerService.updateAvatar(image, principal.getName());
         model.addAttribute("customer", customer);
