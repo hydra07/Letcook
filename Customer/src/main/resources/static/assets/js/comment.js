@@ -29,7 +29,7 @@ async function reaction (commentId, userId, type) {
     console.log(typeof jsonData);
     // await postReaction(jsonData);
     console.log(typeof data);
-    await postReaction(data)
+    await postReaction(data);
     window.location.reload();
 }
 
