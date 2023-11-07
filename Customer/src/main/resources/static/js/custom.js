@@ -274,6 +274,50 @@ async function fetchSuggestions() {
 		}
 	}
 
+}
+function displaySuggestionsIngredient(suggestions, ingredientId) {
+	let suggestionRowId = 'suggest' + ingredientId; // Construct the ID for the suggestion row
+	let suggestionRow = document.getElementById(suggestionRowId);
+
+	suggestionRow.innerHTML = ""; // Clear the existing content
+
+	if (Array.isArray(suggestions)) {
+		suggestions.forEach((suggestion, index) => {
+			let item = document.createElement("div");
+			let divId = `suggestionItem${index}`;
+
+			item.textContent = suggestion;
+			item.id = divId;
+			item.className = "list-group-item";
+			item.addEventListener("click", () => {
+				document.getElementById(`${ingredientId}`).value = suggestion;
+				suggestionRow.innerHTML = ""; // Clear the suggestion list
+			});
+
+			suggestionRow.appendChild(item);
+		});
+	}
+}
+
+
+async function fetchSuggestionsIngredient(ingredientId) {
+	let query = document.getElementById(`${ingredientId}`).value;
+	let url = '/shop/api/suggest-products?query=' + query;
+
+	let response = await fetch(url);
+	let suggestions = await response.json();
+	// console.log(suggestions);
+	if (query.length > 2) {
+		displaySuggestionsIngredient(suggestions, ingredientId);
+		console.log(suggestions);
+	}
+
+	if (query.length == 0){
+		for (let i = 0; i < suggestions.length; i++) {
+			console.log("suggestionItem" + i);
+			document.getElementById("suggestionItem" + i).remove();
+		}
+	}
 
 }
 

@@ -33,9 +33,9 @@ public class CustomerConfiguration {
 
     public final String[] PUBLIC = {"/assets/**", "/recipe-home/**", "/*", "/refund/**", "/products-in-category/**", "/products/**", "/js/**", "assets/js/**", "/css/**", "/images/**",
             "/webfonts/**", "/find-product/**", "/find-recipe/**",
-            "/api/**", "/search-product/**", "/follow/**", "/unFollow/**",
+            "/api/**", "/search-product/**", "/follow/**", "/unFollow/**","cancel-order/**",
             "handle-notification/**", "/add-comment/**", "/recipe-search", "/api/add-reaction",
-            "/verification/**", "/verify/**"};
+            "/verification/**", "/verify/**","/images/**", "/images/image-comment/**"};
 
 
     @Bean

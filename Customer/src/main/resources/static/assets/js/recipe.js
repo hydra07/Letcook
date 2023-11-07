@@ -54,7 +54,8 @@ $('#addIngredient').click(function () {
             .attr('id', 'ingredient' + ingredientCount)
             .attr('placeholder', 'Nguyên liệu ' + ingredientCount)
             .attr('name', 'ingredient' + ingredientCount)
-            .attr('required', true),
+            .attr('required', true)
+            .attr('oninput', 'fetchSuggestionsIngredient(this.id)'),
     );
     ingredientRow.append(
         $('<input>')
@@ -65,6 +66,7 @@ $('#addIngredient').click(function () {
             .attr('name', 'amount' + ingredientCount)
             .attr('required', true),
     );
+
 
     // ingredientRow.append(
     //     $('<button>')
@@ -80,7 +82,12 @@ $('#addIngredient').click(function () {
     // );
     console.log(createMeasurementDropdown(ingredientCount));
     ingredientRow.append(createMeasurementDropdown(ingredientCount));
-
+    const suggestRowId = 'suggest' + 'ingredient' + ingredientCount;
+    ingredientRow.append(
+        $('<div>')
+            .addClass('suggestion-row row d-block')
+            .attr('id', suggestRowId)
+    );
     $('#ingredient').append(ingredientRow);
 });
 

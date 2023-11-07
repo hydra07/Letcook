@@ -61,8 +61,8 @@
                     <tbody>
                     <tr th:each="order : ${orders}">
                         <td th:text="${order.id}"></td>
-                        <td th:text="${order.deliveryDate}"></td>
-                        <td th:text="${order.orderDate}"></td>
+                        <td th:text="${#dates.format(order.deliveryDate, 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></td>
                         <td th:text="${order.totalPrice}"></td>
                         <td th:text="${order.orderStatus}"></td>
                         <td th:text="${order.customer.name}"></td>
@@ -71,8 +71,8 @@
                         <td>
 
                             <th:block th:if="${!order.accepted && order.orderStatus == 'PENDING'}">
-                                <a class="btn btn-primary" th:href="@{/accept-order/{id}(id = ${order.id})}"> Accept</a>
-                                <button class="btn btn-warning" data-toggle="modal" data-target="#rejectModal" id="rejectButton" th:value="${order.id}" onclick="handleRejectButtonClick(this.value)"> Reject
+                                <a style="width: 120px" class="btn btn-primary" th:href="@{/accept-order/{id}(id = ${order.id})}"> Accept</a>
+                                <button style="width: 120px" class="btn btn-warning" data-toggle="modal" data-target="#rejectModal" id="rejectButton" th:value="${order.id}" onclick="handleRejectButtonClick(this.value)"> Reject
                                 </button>
                             </th:block>
                             <th:block th:if="${order.orderStatus == 'SHIPPING'}">
@@ -84,6 +84,9 @@
                                    th:href="@{/order-unsuccess/{id}(id = ${order.id})}">UNSUCCESS
                                 </a>
                             </th:block>
+                            <a class="btn btn-success" style="width: 120px"
+                               th:href="@{/order-detail/{id}(id = ${order.id})}">Detail
+                            </a>
                             <!--                            <a th:if="${order.orderStatus == 'CANCELED'}" class="btn btn-danger"-->
                             <!--                               th:href="@{/resolve-order/{id}(id = ${order.id})}"> Resolve</a>-->
 

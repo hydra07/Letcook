@@ -195,7 +195,7 @@ public class RecipeController {
             step.setDescription(request.getParameter("step" + i));
             step.setRecipe(recipe);
 
-            if( images != null || images.size() > 0) {
+            if( images != null && images.size() > 0) {
                 for (MultipartFile image : images) {
                     System.out.println(image.getOriginalFilename());
                     String imageName = "images/image-step/" + imageUpload.uploadImage(image, imgStepPath);

@@ -60,7 +60,7 @@
                         <tbody>
                         <tr th:each="order: ${orders}">
                             <td>
-                                <strong th:text="${order.orderDate}"></strong>
+                                <strong th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy')}"></strong>
                             </td>
                             <td th:if="${order.deliveryDate != null}">
                                 <p th:text="${#dates.format(order.deliveryDate, 'dd-MM-yyyy')}"></p>
@@ -82,7 +82,6 @@
                                 <a th:if="${order.paymentMethod == 'COD'}" th:href="@{/cancel-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
 <!--                                <a th:if="${!order.accepted}" th:href="@{/accept-order/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Accept</a>-->
                                     <a th:if="${order.paymentMethod == 'VNPAY'}" th:href="@{/refund/{id}(id=${order.id})}" class="button-cancel btn btn-primary">Cancel</a>
-
                                 </th:block>
                             </td>
                         </tr>

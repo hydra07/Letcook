@@ -36,9 +36,8 @@ public class OrderController {
 
     @GetMapping("/check-out")
     public String checkout(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
+
+
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
         if (customer.getPhoneNumber().trim().isEmpty() || customer.getAddress() == null || customer.getAddress().trim().isEmpty()) {
@@ -95,14 +94,23 @@ public class OrderController {
                             @RequestParam("district") String district,
                             @RequestParam("ward") String ward,
                             @RequestParam("paymentMethod") String paymentMethod,
+                            @RequestParam("addressChoice") String addressChoice,
+                            @RequestParam("newAddress") String newAddress,
                             HttpServletRequest request, HttpSession session) {
         if (principal == null) {
             return "redirect:/login";
         }
+
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
+        String specificAddress = "";
+        if(addressChoice.equals("default")){
+            specificAddress = customer.getAddress();
+        }else{
+            specificAddress = newAddress;
+        }
         ShoppingCart cart = customer.getShoppingCart();
-        String shippingAddress = province + ", " + district + ", " + ward + "," + customer.getAddress();
+        String shippingAddress = province + ", " + district + ", " + ward + "," + specificAddress;
         System.out.println("diachi:" + shippingAddress);
         if (paymentMethod.equals("VNPAY")) {
             String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/shop";
