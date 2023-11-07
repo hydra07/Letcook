@@ -113,10 +113,12 @@ public class RecipeController {
         List<Recipe> lowCaloRecipes = new ArrayList<>();
         for(Recipe recipe :recipes){
             double calories = 0;
-            for(Ingredient ingredient  : recipe.getIngredients()){
-                calories += ingredientService.getNutrition(ingredient).get("calories");
+            if (recipe.is_verified()) {
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    calories += ingredientService.getNutrition(ingredient).get("calories");
+                }
             }
-            if(calories < 100){
+            if(calories < 100 && recipe.is_verified()){
                 lowCaloRecipes.add(recipe);
             }
         }
