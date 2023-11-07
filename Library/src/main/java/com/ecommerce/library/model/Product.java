@@ -55,5 +55,8 @@ public class Product {
     private double sodium;
     private double carbs;
     private double fiber;
+    @Column(columnDefinition = "NVARCHAR(200)")
+    private String tags;
+
 
 }

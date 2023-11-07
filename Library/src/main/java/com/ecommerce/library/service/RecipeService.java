@@ -29,7 +29,10 @@ public interface RecipeService {
 
     Recipe update(RecipeDto recipeDto);
 
+    Recipe update(Recipe recipe);
     Recipe reject(RecipeDto recipeDto);
+
+    Recipe reject(Recipe recipe);
 
     List<Recipe> searchRecipes(String keyword);
 

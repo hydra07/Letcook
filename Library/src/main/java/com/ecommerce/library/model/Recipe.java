@@ -57,4 +57,7 @@ public class Recipe {
     private Date createAt;
 
     private String image;
+
+    @Column(nullable = true )
+    private boolean is_verified;
 }

@@ -40,14 +40,14 @@
                                 <!-- Text input for Recipe Name -->
                                 <div class="form-group">
                                     <label class="control-label" for="product_name">RECIPE NAME</label>
-                                    <input id="product_name" th:field="*{recipeName}" name="product_name"
+                                    <input id="product_name" th:field="*{name}" name="product_name"
                                            class="form-control" required="" type="text">
                                 </div>
 
                                 <!-- Text input for Recipe Description -->
                                 <div class="form-group">
                                     <label class="control-label" for="description">RECIPE DESCRIPTION</label>
-                                    <input id="description" th:field="*{recipeDescription}" name="description"
+                                    <input id="description" th:field="*{description}" name="description"
                                            class="form-control" required="" type="text">
                                 </div>
 
@@ -99,8 +99,8 @@
 
                                         <div class="col-md-3">
                                             <!-- Label for Ingredient Amount (if applicable) -->
-                                            <label class="control-label" th:text="${'Product Id'}"></label>
-                                            <input type="number" name="productId" class="form-control" required>
+                                            <label class="control-label" th:text="${'Product name'}"></label>
+                                            <input type="text" th:if="${recipeDto.ingredients[__${ingredientStat.index}__].product} != null" th:value="${recipeDto.ingredients[__${ingredientStat.index}__].product.name}" name="productId" class="form-control" required>
                                         </div>
 
                                     </div>

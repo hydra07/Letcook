@@ -45,7 +45,7 @@ public interface ProductService {
 
     public List<Product> getProductsInCategory(Long categoryId);
 
-
+    public Product getProductByName(String name);
 
     List<Product> searchProducts(String keyword);
 

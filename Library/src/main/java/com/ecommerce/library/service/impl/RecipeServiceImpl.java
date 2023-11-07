@@ -116,6 +116,20 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe reject(Recipe recipe) {
+        recipe.set_checked(true);
+        recipe.set_confirmed(true);
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public Recipe update(Recipe recipe) {
+        recipe.set_checked(true);
+        recipe.set_confirmed(true);
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
     public List<Recipe> findAllByCustomer(String username) {
         return null;
     }

@@ -30,6 +30,7 @@ async function reaction (commentId, userId, type) {
     // await postReaction(jsonData);
     console.log(typeof data);
     await postReaction(data)
+    window.location.reload();
 }
 
 //get number for reaction

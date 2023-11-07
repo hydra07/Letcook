@@ -94,7 +94,7 @@
                         <p th:text="'Số lượng '+ ${ingredient.amount} + ' ' + ${ingredient.measurement.name}">Số lượng:
                             1 cây</p>
                     </div>
-                    <div class="col-sm-2"  th:if="${ingredient.product._activated}">
+                    <div class="col-sm-2"  th:if="${ingredient.product != null && ingredient.product._activated}">
                         <form th:action="@{/add-to-cart}" method="post">
                             <input type="hidden" th:value="${ingredient.product.id}" name="id" class="form-control">
                             <button type="submit" class="btn bg-secondary rounded-circle" style="width: 24px; height: 24px; font-size: 12px; padding: 0;">+</button>
@@ -142,7 +142,7 @@
                         <button class="btn btn-block bg-light text-dark btn-outline-secondary"><i class="fas fa-flag mr-2"></i>Báo cáo</button>
                     </div>
                 </div>
-                <div class="row rounded shadow mt-5">
+                <div class="row rounded shadow mt-5" th:if="${recipe._verified}">
                     <div class="col-lg-12">
                         <h5 class="text-center">Thành phần dinh dưỡng</h5>
                     </div>

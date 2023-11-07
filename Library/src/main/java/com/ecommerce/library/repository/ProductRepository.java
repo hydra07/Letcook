@@ -85,4 +85,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT p.* FROM products p LEFT JOIN ( SELECT product_id, SUM(quantity) AS total_quantity_sold FROM order_detail GROUP BY product_id ) AS quantities ON p.product_id = quantities.product_id ORDER BY COALESCE(quantities.total_quantity_sold, 0) DESC;", nativeQuery = true)
     List<Product> sortByQuantitySell();
+
+    @Query(value = "SELECT TOP 1 * FROM ( " +
+            "  SELECT *, LEN(name) as name_length, 0 as tag_length FROM products WHERE name LIKE %:name% " +
+            "  UNION ALL " +
+            "  SELECT *, 0 as name_length, LEN(tags) as tag_length FROM products WHERE tags LIKE %:name% " +
+            ") result " +
+            "ORDER BY name_length, tag_length", nativeQuery = true)
+    Product findByName(@Param("name") String name);
+
+
 }

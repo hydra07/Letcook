@@ -44,6 +44,9 @@ public class RecipeController {
     private CommentService commentService;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private NotificationService notificationService;
 
     @GetMapping("/find-recipe/{id}")
@@ -80,15 +83,18 @@ public class RecipeController {
         double carbs = 0;
         double fiber = 0;
 
-        for(Ingredient ingredient  : recipe.getIngredients()){
-            Map<String, Double> nutritions =  ingredientService.getNutrition(ingredient);
-            calories += nutritions.get("calories");
-            sugar += nutritions.get("sugar");
-            fat += nutritions.get("fat");
-            sodium += nutritions.get("sodium");
-            carbs += nutritions.get("carbs");
-            fiber += nutritions.get("fiber");
+        if(recipe.is_verified()) {
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                Map<String, Double> nutritions = ingredientService.getNutrition(ingredient);
+                calories += nutritions.get("calories");
+                sugar += nutritions.get("sugar");
+                fat += nutritions.get("fat");
+                sodium += nutritions.get("sodium");
+                carbs += nutritions.get("carbs");
+                fiber += nutritions.get("fiber");
+            }
         }
+
         model.addAttribute("calories", calories);
         model.addAttribute("sugar", sugar);
         model.addAttribute("fat", fat);
@@ -155,6 +161,7 @@ public class RecipeController {
 
         //recipe
         Recipe recipe = new Recipe();
+        boolean isVerified = true;
         List<Ingredient> ingredients = new ArrayList<>();
         List<Step> steps = new ArrayList<>();
         ImageUpload imageUpload = new ImageUpload();
@@ -177,10 +184,17 @@ public class RecipeController {
         for (int i = 1; i <= ingredientCount; i++) {
             System.out.println(request.getParameter("ingredient" + i) + " " + request.getParameter("measurements" + i) + " " + request.getParameter("amount" + i));
             Ingredient ingredient = new Ingredient();
-            ingredient.setName(request.getParameter("ingredient" + i));
+            String ingredientName = request.getParameter("ingredient" + i);
+            ingredient.setName(ingredientName);
             ingredient.setAmount(Double.parseDouble(request.getParameter("amount" + i)));
             ingredient.setMeasurement(measurementService.findByName(request.getParameter("measurements" + i)));
             ingredient.setRecipe(recipe);
+            Product product = productService.getProductByName(ingredientName);
+            if(product != null){
+                ingredient.setProduct(product);
+            }else{
+                isVerified = false;
+            }
             ingredients.add(ingredient);
 
         }
@@ -206,6 +220,8 @@ public class RecipeController {
                     imgSteps.add(imgStep);
                 }
                 step.setImages(imgSteps);
+            }else {
+                step.setImages(null); // Set the images field to null if there are no images.
             }
 
             steps.add(step);
@@ -225,6 +241,7 @@ public class RecipeController {
             recipe.setCustomer(customerService.findByUsername(principal.getName()));
             recipe.setCreateAt(new Date());
             recipe.setImage(recipeImage);
+            recipe.set_verified(isVerified);
             recipeService.save(recipe);
         } catch (Exception e) {
             e.printStackTrace();
